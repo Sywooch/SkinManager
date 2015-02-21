@@ -29,8 +29,17 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
+			[
+				'attribute' => 'file',
+				'label' => 'Фото',
+				'value' => \Yii::$app->params['frontendUrl'] . '/uploads/cloaks/' . $model->id . '.png',
+				'format' => ['image', ['width' => '300']],
+			],
             'name',
-            'date',
+            [
+				'attribute' => 'date',
+				'format' => ['date', 'dd.MM.Y H:m'],
+			],
             'rate',
             'views',
             'downloads',

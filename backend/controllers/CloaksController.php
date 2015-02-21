@@ -84,15 +84,7 @@ class CloaksController extends Controller
 				$model->save();
 
 				// Save file
-				$dir = Yii::getAlias('@frontend/web/uploads/cloaks/');
-
-				$file = $dir . $model->name . '.png';
-				$name = $model->name;
-
-				exit($name . '-' . $_POST['Cloaks']['name']);
-				$model->file->saveAs($file);
-			} else {
-				exit('1');
+				$model->file->saveAs(Yii::getAlias('@frontend/web/uploads/cloaks/' . $model->id . '.png'));
 			}
 
 			return $this->redirect(['view', 'id' => $model->id]);
@@ -113,7 +105,13 @@ class CloaksController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->save()) {
+			$model->file = UploadedFile::getInstance($model, 'file');
+
+			if ($model->file) {
+				$model->file->saveAs(Yii::getAlias('@frontend/web/uploads/cloaks/' . $model->id . '.png'));
+			}
+
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
@@ -130,7 +128,12 @@ class CloaksController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+
+		// Delete cloak file
+		@unlink(Yii::getAlias('@frontend/web/uploads/cloaks/' . $model->id . '.jpg'));
+
+		$model->delete();
 
         return $this->redirect(['index']);
     }

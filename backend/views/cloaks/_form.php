@@ -24,7 +24,7 @@ use kartik\file\FileInput;
 			'removeLabel' => 'Удалить',
 			'removeClass' => 'btn btn-danger',
 			'initialPreview' => $model->isNewRecord ? false : [
-				Html::img(\Yii::$app->params['frontendUrl'] . '/uploads/cloaks/' . $model->name . '.jpg', ['class' => 'file-preview-image'])
+				Html::img(\Yii::$app->params['frontendUrl'] . '/uploads/cloaks/' . $model->id . '.png', ['class' => 'file-preview-image'])
 			],
 		]
 	]) ?>
