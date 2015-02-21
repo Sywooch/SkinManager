@@ -1,5 +1,5 @@
 {
-    "name": "alexmserser21/skinmanager",
+    "name": "alexmerser21/skinmanager",
     "description": "MineCraft Skin Manager built on Yii2",
     "keywords": ["yii2", "framework", "advanced", "application template", "Skin manager", "minecraft"],
     "homepage": "http://skins.solomaha.me/",
@@ -16,7 +16,8 @@
         "yiisoft/yii2-codeception": "*",
         "yiisoft/yii2-debug": "*",
         "yiisoft/yii2-gii": "*",
-        "yiisoft/yii2-faker": "*"
+        "yiisoft/yii2-faker": "*",
+        "kartik-v/yii2-widget-fileinput": "*"
     },
     "config": {
         "process-timeout": 1800

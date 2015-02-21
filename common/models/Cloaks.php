@@ -16,6 +16,13 @@ use Yii;
  */
 class Cloaks extends \yii\db\ActiveRecord
 {
+	/**
+	 * Cloak file
+	 *
+	 * @var file input
+	 */
+	public $file;
+
     /**
      * @inheritdoc
      */
@@ -30,9 +37,10 @@ class Cloaks extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'date'], 'required'],
+            [['name'], 'required'],
             [['date', 'rate', 'views', 'downloads'], 'integer'],
-            [['name'], 'string', 'max' => 255]
+            [['name'], 'string', 'max' => 255],
+			[['file'], 'file', 'mimeTypes' => 'image/png'],
         ];
     }
 
@@ -43,11 +51,12 @@ class Cloaks extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'date' => 'Date',
-            'rate' => 'Rate',
-            'views' => 'Views',
-            'downloads' => 'Downloads',
+            'name' => 'Название',
+            'file' => 'Файл плаща',
+            'date' => 'Дата',
+            'rate' => 'Рейтинг',
+            'views' => 'Просмторов',
+            'downloads' => 'Скачиваний',
         ];
     }
 }
