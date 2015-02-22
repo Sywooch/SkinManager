@@ -3,20 +3,32 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\HDSkins;
-use common\models\HDSkinsSearch;
+use common\models\Hdskins;
+use common\models\HdskinsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\UploadedFile;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
- * HDSkinsController implements the CRUD actions for HDSkins model.
+ * HdskinsController implements the CRUD actions for Hdskins model.
  */
-class HDSkinsController extends Controller
+class HdskinsController extends Controller
 {
     public function behaviors()
     {
         return [
+			'access' => [
+				'class' => AccessControl::className(),
+				'rules' => [
+					[
+						'actions' => ['index', 'view', 'create', 'update', 'delete'],
+						'allow' => true,
+						'roles' => ['@'],
+					],
+				],
+			],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -27,12 +39,12 @@ class HDSkinsController extends Controller
     }
 
     /**
-     * Lists all HDSkins models.
+     * Lists all Hdskins models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new HDSkinsSearch();
+        $searchModel = new HdskinsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -42,7 +54,7 @@ class HDSkinsController extends Controller
     }
 
     /**
-     * Displays a single HDSkins model.
+     * Displays a single Hdskins model.
      * @param integer $id
      * @return mixed
      */
@@ -54,16 +66,27 @@ class HDSkinsController extends Controller
     }
 
     /**
-     * Creates a new HDSkins model.
+     * Creates a new Hdskins model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new HDSkins();
+        $model = new Hdskins();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+			$model->file = UploadedFile::getInstance($model, 'file');
+
+			if ($model->file && $model->validate()) {
+				// Save model to DB
+				$model->date = time();
+				$model->save();
+
+				// Save file
+				$model->file->saveAs($model->getPath($model->id));
+			}
+
+			return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -72,7 +95,7 @@ class HDSkinsController extends Controller
     }
 
     /**
-     * Updates an existing HDSkins model.
+     * Updates an existing Hdskins model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -81,7 +104,13 @@ class HDSkinsController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->save()) {
+			$model->file = UploadedFile::getInstance($model, 'file');
+
+			if ($model->file) {
+				$model->file->saveAs($model->getPath($model->id));
+			}
+
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
@@ -91,31 +120,36 @@ class HDSkinsController extends Controller
     }
 
     /**
-     * Deletes an existing HDSkins model.
+     * Deletes an existing Hdskins model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+
+		// Delete file
+		@unlink($model->getPath($model->id));
+
+		$model->delete();
 
         return $this->redirect(['index']);
     }
 
     /**
-     * Finds the HDSkins model based on its primary key value.
+     * Finds the Hdskins model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return HDSkins the loaded model
+     * @return Hdskins the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = HDSkins::findOne($id)) !== null) {
+        if (($model = Hdskins::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException('Запрашиваемая страница не существует');
         }
     }
 }

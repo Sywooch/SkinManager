@@ -16,7 +16,7 @@ use yii\filters\AccessControl;
  */
 class CloaksController extends Controller
 {
-    public function behaviors()
+	public function behaviors()
     {
         return [
 			'access' => [
@@ -80,11 +80,10 @@ class CloaksController extends Controller
 			if ($model->file && $model->validate()) {
 				// Save model to DB
 				$model->date = time();
-
 				$model->save();
 
 				// Save file
-				$model->file->saveAs(Yii::getAlias('@frontend/web/uploads/cloaks/' . $model->id . '.png'));
+				$model->file->saveAs($model->getPath($model->id));
 			}
 
 			return $this->redirect(['view', 'id' => $model->id]);
@@ -109,7 +108,7 @@ class CloaksController extends Controller
 			$model->file = UploadedFile::getInstance($model, 'file');
 
 			if ($model->file) {
-				$model->file->saveAs(Yii::getAlias('@frontend/web/uploads/cloaks/' . $model->id . '.png'));
+				$model->file->saveAs($model->getPath($model->id));
 			}
 
             return $this->redirect(['view', 'id' => $model->id]);
@@ -130,8 +129,8 @@ class CloaksController extends Controller
     {
         $model = $this->findModel($id);
 
-		// Delete cloak file
-		@unlink(Yii::getAlias('@frontend/web/uploads/cloaks/' . $model->id . '.jpg'));
+		// Delete file
+		@unlink($model->getPath($model->id));
 
 		$model->delete();
 
@@ -150,7 +149,7 @@ class CloaksController extends Controller
         if (($model = Cloaks::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException('Запрашиваемая страница не существует');
         }
     }
 }

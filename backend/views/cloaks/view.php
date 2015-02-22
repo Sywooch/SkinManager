@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			[
 				'attribute' => 'file',
 				'label' => 'Фото',
-				'value' => \Yii::$app->params['frontendUrl'] . '/uploads/cloaks/' . $model->id . '.png',
+				'value' => $model->getUrl($model->id),
 				'format' => ['image', ['width' => '300']],
 			],
             'name',

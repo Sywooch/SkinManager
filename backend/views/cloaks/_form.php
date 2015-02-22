@@ -24,16 +24,16 @@ use kartik\file\FileInput;
 			'removeLabel' => 'Удалить',
 			'removeClass' => 'btn btn-danger',
 			'initialPreview' => $model->isNewRecord ? false : [
-				Html::img(\Yii::$app->params['frontendUrl'] . '/uploads/cloaks/' . $model->id . '.png', ['class' => 'file-preview-image'])
+				Html::img($model->getUrl($model->id), ['class' => 'file-preview-image'])
 			],
 		]
 	]) ?>
 
-    <?= $form->field($model, 'rate')->textInput(['value' => 0]) ?>
+    <?= $form->field($model, 'rate')->textInput(['value' => $model->isNewRecord ? 0 : $model->rate]) ?>
 
-    <?= $form->field($model, 'views')->textInput(['value' => 0]) ?>
+    <?= $form->field($model, 'views')->textInput(['value' => $model->isNewRecord ? 0 : $model->views]) ?>
 
-    <?= $form->field($model, 'downloads')->textInput(['value' => 0]) ?>
+    <?= $form->field($model, 'downloads')->textInput(['value' => $model->isNewRecord ? 0 : $model->downloads]) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

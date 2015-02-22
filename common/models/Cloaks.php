@@ -17,11 +17,27 @@ use Yii;
 class Cloaks extends \yii\db\ActiveRecord
 {
 	/**
+	 * Path and URL to uploaded cloak file
+	 *
+	 * @vars string
+	 */
+	public $uploadUrl;
+	public $uploadPath;
+	
+	/**
 	 * Cloak file
 	 *
 	 * @var file input
 	 */
 	public $file;
+
+	public function init()
+	{
+		parent::init();
+		
+		$this->uploadUrl = Yii::$app->params['frontendUrl'] . '/uploads/cloaks/';
+		$this->uploadPath = Yii::getAlias('@frontend/web/uploads/cloaks/');
+	}
 
     /**
      * @inheritdoc
@@ -52,11 +68,21 @@ class Cloaks extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Название',
-            'file' => 'Файл плаща',
+            'file' => 'Файл',
             'date' => 'Дата',
             'rate' => 'Рейтинг',
             'views' => 'Просмторов',
             'downloads' => 'Скачиваний',
         ];
     }
+
+	public function getUrl($id)
+	{
+		return $this->uploadUrl . $id . '.png';
+	}
+
+	public function getPath($id)
+	{
+		return $this->uploadPath . $id . '.png';
+	}
 }

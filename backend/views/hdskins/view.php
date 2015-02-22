@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model common\models\HDSkins */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Hdskins', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'HD Скины', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="hdskins-view">
@@ -15,8 +15,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
@@ -29,8 +29,17 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
+			[
+				'attribute' => 'file',
+				'label' => 'Фото',
+				'value' => $model->getUrl($model->id),
+				'format' => ['image', ['width' => '300']],
+			],
             'name',
-            'date',
+            [
+				'attribute' => 'date',
+				'format' => ['date', 'dd.MM.Y H:m'],
+			],
             'rate',
             'views',
             'downloads',
