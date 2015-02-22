@@ -16,6 +16,29 @@ use Yii;
  */
 class Skins extends \yii\db\ActiveRecord
 {
+	/**
+	 * Path and URL to uploaded cloak file
+	 *
+	 * @vars string
+	 */
+	public $uploadUrl;
+	public $uploadPath;
+
+	/**
+	 * HD skin file
+	 *
+	 * @var file input
+	 */
+	public $file;
+
+	public function init()
+	{
+		parent::init();
+
+		$this->uploadUrl = Yii::$app->params['frontendUrl'] . '/uploads/skins/';
+		$this->uploadPath = Yii::getAlias('@frontend/web/uploads/skins/');
+	}
+
     /**
      * @inheritdoc
      */
@@ -30,9 +53,10 @@ class Skins extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'date'], 'required'],
+            [['name'], 'required'],
             [['date', 'rate', 'views', 'downloads'], 'integer'],
-            [['name'], 'string', 'max' => 255]
+            [['name'], 'string', 'max' => 255],
+			[['file'], 'file', 'mimeTypes' => 'image/png'],
         ];
     }
 
@@ -43,11 +67,34 @@ class Skins extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'date' => 'Date',
-            'rate' => 'Rate',
-            'views' => 'Views',
-            'downloads' => 'Downloads',
+            'name' => 'Название',
+            'file' => 'Файл',
+            'date' => 'Дата',
+            'rate' => 'Рейтинг',
+            'views' => 'Просмторов',
+            'downloads' => 'Скачиваний',
         ];
     }
+
+	/**
+	 * Get url of file
+	 *
+	 * @param int $id
+	 * @return string
+	 */
+	public function getUrl($id)
+	{
+		return $this->uploadUrl . $id . '.png';
+	}
+
+	/**
+	 * Get path of file
+	 *
+	 * @param int $id
+	 * @return string
+	 */
+	public function getPath($id)
+	{
+		return $this->uploadPath . $id . '.png';
+	}
 }

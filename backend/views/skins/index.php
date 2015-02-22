@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel common\models\SkinsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Skins';
+$this->title = 'Скины';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="skins-index">
@@ -16,21 +16,33 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Skins', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Создать Скин', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
+            [
+				'attribute' => 'id',
+				'contentOptions' => ['style' => 'width: 8%']
+			],
+			[
+				'attribute' => 'file',
+				'label' => 'Файл',
+				'value' => function ($model) {
+					return $model->getUrl($model->id);
+				},
+				'format' => ['image', ['width' => '150']],
+			],
             'name',
-            'date',
+            [
+				'attribute' => 'date',
+				'format' => ['date', 'dd.MM.Y H:m'],
+			],
             'rate',
             'views',
-            // 'downloads',
+//            'downloads',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

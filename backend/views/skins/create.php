@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\Skins */
 
-$this->title = 'Create Skins';
-$this->params['breadcrumbs'][] = ['label' => 'Skins', 'url' => ['index']];
+$this->title = 'Создать Скин';
+$this->params['breadcrumbs'][] = ['label' => 'Скины', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="skins-create">

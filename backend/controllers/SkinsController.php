@@ -7,7 +7,9 @@ use common\models\Skins;
 use common\models\SkinsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\UploadedFile;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * SkinsController implements the CRUD actions for Skins model.
@@ -17,6 +19,16 @@ class SkinsController extends Controller
     public function behaviors()
     {
         return [
+			'access' => [
+				'class' => AccessControl::className(),
+				'rules' => [
+					[
+						'actions' => ['index', 'view', 'create', 'update', 'delete'],
+						'allow' => true,
+						'roles' => ['@'],
+					],
+				],
+			],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -62,8 +74,21 @@ class SkinsController extends Controller
     {
         $model = new Skins();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+			$model->file = UploadedFile::getInstance($model, 'file');
+
+			if ($model->file && $model->validate()) {
+				// Save model to DB
+				$model->date = time();
+				$model->save();
+
+				// Save file
+				$model->file->saveAs($model->getPath($model->id));
+			} else {
+				exit('1');
+			}
+
+			return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -81,7 +106,13 @@ class SkinsController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->save()) {
+			$model->file = UploadedFile::getInstance($model, 'file');
+
+			if ($model->file) {
+				$model->file->saveAs($model->getPath($model->id));
+			}
+
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
@@ -98,7 +129,12 @@ class SkinsController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+
+		// Delete file
+		@unlink($model->getPath($model->id));
+
+		$model->delete();
 
         return $this->redirect(['index']);
     }
@@ -115,7 +151,7 @@ class SkinsController extends Controller
         if (($model = Skins::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException('Запрашиваемая страница не существует');
         }
     }
 }

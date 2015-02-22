@@ -8,7 +8,7 @@ use yii\helpers\Html;
 $this->title = 'Редактировать HD Скин: ' . $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'HD Скины', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'Редактировать';
 ?>
 <div class="hdskins-update">
 
