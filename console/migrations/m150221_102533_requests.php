@@ -19,6 +19,7 @@ class m150221_102533_requests extends Migration
 			'date' => Schema::TYPE_INTEGER . ' NOT NULL',
 
             'name' => Schema::TYPE_STRING . '(255) NOT NULL',
+            'type' => "enum('Скин','HD Скин','Плащ') NOT NULL",
         ], $tableOptions);
     }
 

@@ -30,5 +30,6 @@ return [
             'errorAction' => 'site/error',
         ],
     ],
+	'defaultRoute' => 'skins/index',
     'params' => $params,
 ];

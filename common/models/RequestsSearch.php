@@ -19,7 +19,7 @@ class RequestsSearch extends Requests
     {
         return [
             [['id', 'user_id', 'date'], 'integer'],
-            [['name'], 'safe'],
+            [['name', 'type'], 'safe'],
         ];
     }
 
@@ -61,7 +61,8 @@ class RequestsSearch extends Requests
             'date' => $this->date,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'type', $this->type]);
 
         return $dataProvider;
     }

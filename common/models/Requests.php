@@ -11,6 +11,7 @@ use Yii;
  * @property integer $user_id
  * @property integer $date
  * @property string $name
+ * @property string $type
  */
 class Requests extends \yii\db\ActiveRecord
 {
@@ -28,8 +29,9 @@ class Requests extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'date', 'name'], 'required'],
+            [['user_id', 'name', 'type'], 'required'],
             [['user_id', 'date'], 'integer'],
+            [['type'], 'string'],
             [['name'], 'string', 'max' => 255]
         ];
     }
@@ -41,9 +43,11 @@ class Requests extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'user_id' => 'User ID',
-            'date' => 'Date',
-            'name' => 'Name',
+            'file' => 'Файл',
+            'user_id' => 'ID Пользователя',
+            'name' => 'Название',
+            'type' => 'Тип',
+            'date' => 'Дата',
         ];
     }
 }
