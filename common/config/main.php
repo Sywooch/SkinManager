@@ -2,6 +2,7 @@
 return [
 	'language' => 'ru',
 	'sourceLanguage' => 'ru',
+	'timeZone' => 'Europe/Kiev',
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'components' => [
 		'db' => [
@@ -14,5 +15,8 @@ return [
 			'enablePrettyUrl' => true,
 			'showScriptName' => false,
 		],
+		'showskin' => [
+			'class' => 'common\components\ShowSkin',
+		]
     ],
 ];
