@@ -5,6 +5,7 @@ namespace backend\controllers;
 use Yii;
 use common\models\Skins;
 use common\models\SkinsSearch;
+use common\components\skins\Skins as SkinManager;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
@@ -83,6 +84,7 @@ class SkinsController extends Controller
 				$model->save();
 
 				// Save file
+				SkinManager::save($model->file->tempName, $model->id, 'skins');
 				$model->file->saveAs($model->getPath($model->id));
 			} else {
 				exit('1');
