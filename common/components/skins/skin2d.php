@@ -70,6 +70,31 @@ class Skin2d extends Component
 		return $wrapper;
 	}
 
+	public function cloakImage($cloak_file)
+	{
+		$cloak = imagecreatefrompng($cloak_file);
+
+		$wrapper = imagecreatetruecolor(16 * $this->ratio(), 32 * $this->ratio());
+		$background = imagecolorallocatealpha($wrapper, 255, 255, 255, 127);
+		imagefill($wrapper, 0, 0, $background);
+
+		imagecopy($wrapper, $this->image, 4 * $this->ratio(), 8 * $this->ratio(), 32 * $this->ratio(), 20 * $this->ratio(), 8 * $this->ratio(), 12 * $this->ratio());
+		// Head back
+		imagecopy($wrapper, $this->image, 4 * $this->ratio(), 0 * $this->ratio(), 24 * $this->ratio(), 8 * $this->ratio(), 8 * $this->ratio(), 8 * $this->ratio());
+		// Arms back
+		$this->imageflip($wrapper, $this->image, 0 * $this->ratio(), 8 * $this->ratio(), 52 * $this->ratio(), 20 * $this->ratio(), 4 * $this->ratio(), 12 * $this->ratio());
+		imagecopy($wrapper, $this->image, 12 * $this->ratio(), 8 * $this->ratio(), 52 * $this->ratio(), 20 * $this->ratio(), 4 * $this->ratio(), 12 * $this->ratio());
+		// Legs back
+		$this->imageflip($wrapper, $this->image, 4 * $this->ratio(), 20 * $this->ratio(), 12 * $this->ratio(), 20 * $this->ratio(), 4 * $this->ratio(), 12 * $this->ratio());
+		imagecopy($wrapper, $this->image, 8 * $this->ratio(), 20 * $this->ratio(), 12 * $this->ratio(), 20 * $this->ratio(), 4 * $this->ratio(), 12 * $this->ratio());
+		// Hat back
+		imagecopy($wrapper, $this->image, 4 * $this->ratio(), 0 * $this->ratio(), 56 * $this->ratio(), 8 * $this->ratio(), 8 * $this->ratio(), 8 * $this->ratio());
+
+		imagecopy($wrapper, $cloak, 3 * $this->ratio(), 8 * $this->ratio(), 1 * $this->ratio(), 1 * $this->ratio(), 10 * $this->ratio(), 16 * $this->ratio());
+
+		return $wrapper;
+	}
+
 	public function fullWrapper($width, $height)
 	{
 		$wrapper = imagecreatetruecolor($width, $height);

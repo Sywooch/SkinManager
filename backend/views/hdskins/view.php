@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Удалить скин?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -32,8 +32,9 @@ $this->params['breadcrumbs'][] = $this->title;
 			[
 				'attribute' => 'file',
 				'label' => 'Фото',
-				'value' => $model->getUrl($model->id),
-				'format' => ['image', ['width' => '300']],
+				'format' => 'raw',
+				'value' => Yii::$app->skins->skinImage($model->id, 'hdskins', 'front') .
+						   Yii::$app->skins->skinImage($model->id, 'hdskins', 'back'),
 			],
             'name',
             [

@@ -4,6 +4,7 @@ namespace common\components\skins;
 
 use Yii;
 use yii\base\Component;
+use yii\helpers\Html;
 
 class Skins extends Component
 {
@@ -61,6 +62,52 @@ class Skins extends Component
 		imagedestroy($back_dest_200);
 		imagedestroy($backside);
 		// End BACKSIDE
+	}
+
+	public function saveCloak($src, $id)
+	{
+		if (!file_exists($src)) {
+			return false;
+		}
+
+		$skins = new Skin2d();
+
+		$skins->setFile(Yii::getAlias('@frontend/web/uploads/cloaks/char.png'));
+
+		$skin = $skins->cloakImage($src);
+
+		// Preview
+		$preview = $skins->fullWrapper(90, 180);
+		imagecopyresized($preview, $skin, 0, 0, 0, 0, imagesx($preview), imagesy($preview), imagesx($skin), imagesy($skin));
+		imagepng($preview, Yii::getAlias('@frontend/web/uploads/cloaks/' . $id . '_preview.png'));
+		imagedestroy($preview);
+
+		// Full
+		$full = $skins->fullWrapper(200, 400);
+		imagecopyresized($full, $skin, 0, 0, 0, 0, imagesx($full), imagesy($full), imagesx($skin), imagesy($skin));
+		imagepng($full, Yii::getAlias('@frontend/web/uploads/cloaks/' . $id . '_full.png'));
+
+		imagedestroy($full);
+		imagedestroy($skin);
+	}
+
+	public function cloakUrl($id, $full = false)
+	{
+		$mode = $full ? 'full' : 'preview';
+		return Yii::$app->params['frontendUrl'] . '/uploads/cloaks/' . $id . '_' . $mode . '.png';
+	}
+
+	public function skinUrl($id, $folder = 'skins', $mode = 'front', $width = 90)
+	{
+		return Yii::$app->params['frontendUrl'] . '/uploads/' . $folder .  '/' . $id . '_' . $mode . '_' . $width . '.png';
+	}
+
+	public function skinImage($id, $folder = 'skins', $mode = 'front', $width = 90, $options = [])
+	{
+		return Html::img(
+			$this->skinUrl($id, $folder, $mode, $width),
+			$options
+		);
 	}
 
 }

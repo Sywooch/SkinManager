@@ -8,6 +8,40 @@ main {
 
 .skin-card {
     text-align: center;
+    overflow: hidden;
+}
+
+.skin-card h4 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.skin-details {
+    border: none;
+    border-radius: 2px;
+    -webkit-box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+
+.badge {
+    color: #666666;
+    background: #f6f6f6;
+    border: 1px solid #eeeeee;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.btn-rate {
+    margin: 0 10px;
+}
+
+.skin-images {
+    text-align: center;
+    max-height: 430px;
+}
+
+.skin-details h2 {
+    margin: 0 0 0 0;
 }
 
 /* add sorting icons to gridview sort links */

@@ -5,6 +5,7 @@ use Yii;
 use common\models\LoginForm;
 use common\models\Skins;
 use common\models\Hdskins;
+use common\models\Cloaks;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
@@ -69,8 +70,9 @@ class SiteController extends Controller
     public function actionIndex()
     {
         return $this->render('index', [
-			'skins' => Skins::find()->orderBy('id')->limit(12)->all(),
-			'hdskins' => Hdskins::find()->orderBy('id')->limit(12)->all(),
+			'skins' => Skins::find()->orderBy('date')->limit(12)->all(),
+			'hdskins' => Hdskins::find()->orderBy('date')->limit(12)->all(),
+			'cloaks' => Cloaks::find()->orderBy('date')->limit(12)->all(),
 		]);
     }
 

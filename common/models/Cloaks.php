@@ -71,7 +71,7 @@ class Cloaks extends \yii\db\ActiveRecord
             'file' => 'Файл',
             'date' => 'Дата',
             'rate' => 'Рейтинг',
-            'views' => 'Просмторов',
+            'views' => 'Просмотров',
             'downloads' => 'Скачиваний',
         ];
     }

@@ -83,6 +83,7 @@ class CloaksController extends Controller
 				$model->save();
 
 				// Save file
+				Yii::$app->skins->saveCloak($model->file->tempName, $model->id);
 				$model->file->saveAs($model->getPath($model->id));
 			}
 
@@ -108,6 +109,7 @@ class CloaksController extends Controller
 			$model->file = UploadedFile::getInstance($model, 'file');
 
 			if ($model->file) {
+				Yii::$app->skins->saveCloak($model->file->tempName, $model->id);
 				$model->file->saveAs($model->getPath($model->id));
 			}
 

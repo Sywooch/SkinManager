@@ -5,7 +5,6 @@ namespace backend\controllers;
 use Yii;
 use common\models\Skins;
 use common\models\SkinsSearch;
-use common\components\skins\Skins as SkinManager;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
@@ -84,7 +83,8 @@ class SkinsController extends Controller
 				$model->save();
 
 				// Save file
-				SkinManager::save($model->file->tempName, $model->id, 'skins');
+				Yii::$app->skins->save($model->file->tempName, $model->id, 'skins');
+				// Save original file
 				$model->file->saveAs($model->getPath($model->id));
 			} else {
 				exit('1');
@@ -112,6 +112,7 @@ class SkinsController extends Controller
 			$model->file = UploadedFile::getInstance($model, 'file');
 
 			if ($model->file) {
+				Yii::$app->skins->save($model->file->tempName, $model->id, 'skins');
 				$model->file->saveAs($model->getPath($model->id));
 			}
 
@@ -135,6 +136,10 @@ class SkinsController extends Controller
 
 		// Delete file
 		@unlink($model->getPath($model->id));
+		@unlink(Yii::getAlias('@frontend/web/uploads/skins/' . $model->id . '_front_90.png'));
+		@unlink(Yii::getAlias('@frontend/web/uploads/skins/' . $model->id . '_front_200.png'));
+		@unlink(Yii::getAlias('@frontend/web/uploads/skins/' . $model->id . '_back_90.png'));
+		@unlink(Yii::getAlias('@frontend/web/uploads/skins/' . $model->id . '_back_200.png'));
 
 		$model->delete();
 

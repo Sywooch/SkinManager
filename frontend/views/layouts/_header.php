@@ -18,8 +18,8 @@ use yii\bootstrap\NavBar;
 		$leftItems = [
 			['label' => 'Главная', 'url' => ['/site/index']],
 			['label' => 'Скины', 'url' => ['/skins/index']],
-			['label' => 'HD Скины', 'url' => ['/hdskins/about']],
-			['label' => 'Плащи', 'url' => ['/cloaks/about']],
+			['label' => 'HD Скины', 'url' => ['/hdskins/index']],
+			['label' => 'Плащи', 'url' => ['/cloaks/index']],
 		];
 		echo Nav::widget([
 			'options' => ['class' => 'navbar-nav'],
@@ -34,7 +34,7 @@ use yii\bootstrap\NavBar;
 			$rightItems = [
 				['label' => 'Добавить скин', 'url' => ['/request/index']],
 				[
-					'label' => 'Выйти (' . Yii::$app->user->identity->username . ')',
+					'label' => 'Выйти',
 					'url' => ['/site/logout'],
 					'linkOptions' => ['data-method' => 'post']
 				],

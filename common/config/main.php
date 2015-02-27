@@ -15,8 +15,8 @@ return [
 			'enablePrettyUrl' => true,
 			'showScriptName' => false,
 		],
-		'showskin' => [
-			'class' => 'common\components\ShowSkin',
+		'skins' => [
+			'class' => 'common\components\skins\Skins',
 		]
     ],
 ];

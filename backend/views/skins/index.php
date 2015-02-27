@@ -28,12 +28,11 @@ $this->params['breadcrumbs'][] = $this->title;
 				'contentOptions' => ['style' => 'width: 8%']
 			],
 			[
-				'attribute' => 'file',
-				'label' => 'Файл',
+				'label' => 'Скин',
+				'format' => 'raw',
 				'value' => function ($model) {
-					return $model->getUrl($model->id);
+					return Yii::$app->skins->skinImage($model->id);
 				},
-				'format' => ['image', ['width' => '150']],
 			],
             'name',
             [

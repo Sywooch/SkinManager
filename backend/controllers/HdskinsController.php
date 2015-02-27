@@ -83,6 +83,7 @@ class HdskinsController extends Controller
 				$model->save();
 
 				// Save file
+				Yii::$app->skins->save($model->file->tempName, $model->id, 'hdskins');
 				$model->file->saveAs($model->getPath($model->id));
 			}
 
@@ -108,6 +109,7 @@ class HdskinsController extends Controller
 			$model->file = UploadedFile::getInstance($model, 'file');
 
 			if ($model->file) {
+				Yii::$app->skins->save($model->file->tempName, $model->id, 'hdskins');
 				$model->file->saveAs($model->getPath($model->id));
 			}
 
@@ -131,6 +133,10 @@ class HdskinsController extends Controller
 
 		// Delete file
 		@unlink($model->getPath($model->id));
+		@unlink(Yii::getAlias('@frontend/web/uploads/hdskins/' . $model->id . '_front_90.png'));
+		@unlink(Yii::getAlias('@frontend/web/uploads/hdskins/' . $model->id . '_front_200.png'));
+		@unlink(Yii::getAlias('@frontend/web/uploads/hdskins/' . $model->id . '_back_90.png'));
+		@unlink(Yii::getAlias('@frontend/web/uploads/hdskins/' . $model->id . '_back_200.png'));
 
 		$model->delete();
 
