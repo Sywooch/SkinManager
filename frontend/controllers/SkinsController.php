@@ -4,11 +4,20 @@ namespace frontend\controllers;
 
 use Yii;
 use yii\web\Controller;
+use yii\web\NotFoundHttpException;
 use yii\data\Pagination;
 use common\models\Skins;
 
+/**
+ * SkinsController for rendering skins
+ */
 class SkinsController extends Controller
 {
+	/**
+	 * Shows all the skins with pages
+	 *
+	 * @return mixed
+	 */
     public function actionIndex()
     {
 		$query = Skins::find();
@@ -29,6 +38,12 @@ class SkinsController extends Controller
         ]);
     }
 
+	/**
+	 * Renders single skin and +1 view for it
+	 *
+	 * @param int $id
+	 * @return mixed
+	 */
 	public function actionView($id)
 	{
 		$model = $this->findModel($id);
@@ -40,24 +55,48 @@ class SkinsController extends Controller
         ]);
 	}
 
-	public function actionRate($id, $type = 'up')
+	/**
+	 * Adds +1 to the skin rate
+	 *
+	 * @param int $id
+	 * @param bool $up
+	 * @return mixed
+	 */
+	public function actionRate($id, $up = true)
 	{
 		$session = Yii::$app->session;
+		$session->open();
+
 		$model = $this->findModel($id);
 
-		$voted = $session->get('voted_id');
-
-		if ($voted) {
-			$session->setFlash('alerts', 'Вы уже голосовали. Больше нельзя :(');
+		if ($_SESSION['voted'][$model->id] == $model->id) {
+			$session->setFlash('danger', 'Вы уже голосовали за этот скин. Больше нельзя :(');
 		} else {
-			$model->rate = ($type == 'up') ? ($model->rate + 1) : ($model->rate - 1);
+			$model->rate = ($up) ? ($model->rate + 1) : ($model->rate - 1);
 			$model->save();
 
-			$session->set('voted_id', $model->id);
-			$session->setFlash('alerts', 'Вы успешно проголосовали.');
+			$_SESSION['voted'][$model->id] = $model->id;
+			$session->setFlash('success', 'Вы успешно проголосовали.');
 		}
 
 		return $this->redirect(['view', 'id' => $model->id]);
+	}
+
+	/**
+	 * Download skin file
+	 *
+	 * @param int $id ID of skin
+	 * @return image/png
+	 */
+	public function actionDownload($id)
+	{
+		$model = $this->findModel($id);
+		$model->downloads = $model->downloads + 1;
+		$model->save();
+
+		$file = Yii::getAlias('@frontend/web/uploads/skins/' . $model->id . '.png');
+
+		return Yii::$app->response->sendFile($file, $model->name . '.png');
 	}
 
 	/**
@@ -72,7 +111,7 @@ class SkinsController extends Controller
         if (($model = Skins::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('Такой скин не существует.');
+            throw new NotFoundHttpException('Скин с таким ID не существует. Проверьте запрошенный адрес');
         }
     }
 

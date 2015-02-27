@@ -3,40 +3,32 @@
 namespace common\models;
 
 use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "skins".
  *
  * @property integer $id
  * @property string $name
+ * @property source $file
  * @property integer $date
  * @property integer $rate
  * @property integer $views
  * @property integer $downloads
  */
-class Skins extends \yii\db\ActiveRecord
+class Skins extends ActiveRecord
 {
-	/**
-	 * Path and URL to uploaded cloak file
-	 *
-	 * @vars string
-	 */
-	public $uploadUrl;
-	public $uploadPath;
-
-	/**
-	 * HD skin file
-	 *
-	 * @var file input
-	 */
+	public $baseUrl;
+	public $basePath;
 	public $file;
 
 	public function init()
 	{
 		parent::init();
 
-		$this->uploadUrl = Yii::$app->params['frontendUrl'] . '/uploads/skins/';
-		$this->uploadPath = Yii::getAlias('@frontend/web/uploads/skins/');
+		// Set base paths and urls
+		$this->baseUrl = Yii::$app->params['frontendUrl'] . '/uploads/skins/';
+		$this->basePath = Yii::getAlias('@frontend/web/uploads/skins/');
 	}
 
     /**
@@ -56,7 +48,7 @@ class Skins extends \yii\db\ActiveRecord
             [['name'], 'required'],
             [['date', 'rate', 'views', 'downloads'], 'integer'],
             [['name'], 'string', 'max' => 255],
-			[['file'], 'file', 'mimeTypes' => 'image/png'],
+			[['file'], 'image', 'mimeTypes' => 'image/png', 'maxHeight' => 64, 'maxWidth' => 64],
         ];
     }
 
@@ -68,7 +60,7 @@ class Skins extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Название',
-            'file' => 'Файл',
+            'file' => 'Скин',
             'date' => 'Дата',
             'rate' => 'Рейтинг',
             'views' => 'Просмотров',
@@ -77,24 +69,24 @@ class Skins extends \yii\db\ActiveRecord
     }
 
 	/**
-	 * Get url of file
+	 * Get url of skin by id
 	 *
 	 * @param int $id
 	 * @return string
 	 */
 	public function getUrl($id)
 	{
-		return $this->uploadUrl . $id . '.png';
+		return $this->baseUrl . $id . '.png';
 	}
 
 	/**
-	 * Get path of file
+	 * Get path of skin by id
 	 *
 	 * @param int $id
 	 * @return string
 	 */
 	public function getPath($id)
 	{
-		return $this->uploadPath . $id . '.png';
+		return $this->basePath . $id . '.png';
 	}
 }

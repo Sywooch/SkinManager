@@ -7,7 +7,8 @@ use yii\widgets\LinkPager;
 /* @var $this yii\web\View */
 /* @var $cloaks common\models\Cloaks */
 
-$this->title = 'Плащи';
+$this->title = 'Скины';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="skins-index">
 	<div class="page-header">
