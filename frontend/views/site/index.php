@@ -45,7 +45,7 @@ $this->title = 'Главная';
 			<div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
 				<div class="panel panel-default skin-card">
 					<div class="panel-body">
-						<a href="<?= Url::to(['/skins/view', 'id' => $model->id]) ?>">
+						<a href="<?= Url::to(['/hdskins/view', 'id' => $model->id]) ?>">
 							<img src="<?= Yii::$app->skins->url($model) ?>"
 								 data-to="<?= Yii::$app->skins->url($model, 'back') ?>"
 								 data-from="<?= Yii::$app->skins->url($model) ?>"
@@ -55,7 +55,7 @@ $this->title = 'Главная';
 
 						<h4><?= $model->name ?></h4>
 
-						<?= Html::a('Подробнее', ['/skins/view', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+						<?= Html::a('Подробнее', ['/hdskins/view', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
 					</div>
 				</div>
 			</div>
@@ -72,7 +72,7 @@ $this->title = 'Главная';
 			<div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
 				<div class="panel panel-default skin-card">
 					<div class="panel-body">
-						<a href="<?= Url::to(['/skins/view', 'id' => $model->id]) ?>">
+						<a href="<?= Url::to(['/cloaks/view', 'id' => $model->id]) ?>">
 							<img src="<?= Yii::$app->cloaks->url($model) ?>"
 								 class="skin-preview"
 								 alt="<?= $model->name ?>">
@@ -80,7 +80,7 @@ $this->title = 'Главная';
 
 						<h4><?= $model->name ?></h4>
 
-						<?= Html::a('Подробнее', ['/skins/view', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+						<?= Html::a('Подробнее', ['/cloaks/view', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
 					</div>
 				</div>
 			</div>

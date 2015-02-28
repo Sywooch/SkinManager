@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Скины', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <?php Modal::begin([
-	'header' => '<h4 class="modal-title">Ссылки</h4>',
+	'header' => '<h4 class="modal-title">Поделиться</h4>',
 	'id' => 'links',
 ]) ?>
 <div class="form-group">
