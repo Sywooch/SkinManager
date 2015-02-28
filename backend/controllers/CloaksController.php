@@ -83,11 +83,20 @@ class CloaksController extends Controller
 				$model->save();
 
 				// Save file
-				Yii::$app->skins->saveCloak($model->file->tempName, $model->id);
 				$model->file->saveAs($model->getPath($model->id));
-			}
+				Yii::$app->cloaks->save($model);
 
-			return $this->redirect(['view', 'id' => $model->id]);
+				// Set success flash
+				Yii::$app->session->setFlash('success', 'Вы успешно создали новый плащ.');
+
+				return $this->redirect(['view', 'id' => $model->id]);
+			} else {
+				Yii::$app->session->setFlash('danger', 'Перепроверьте введенные данные.');
+
+				return $this->render('create', [
+					'model' => $model,
+				]);
+			}
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -109,9 +118,11 @@ class CloaksController extends Controller
 			$model->file = UploadedFile::getInstance($model, 'file');
 
 			if ($model->file) {
-				Yii::$app->skins->saveCloak($model->file->tempName, $model->id);
 				$model->file->saveAs($model->getPath($model->id));
+				Yii::$app->cloaks->save($model);
 			}
+
+			Yii::$app->session->setFlash('success', 'Вы успешно сохранили изменения.');
 
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
@@ -129,11 +140,12 @@ class CloaksController extends Controller
      */
     public function actionDelete($id)
     {
+		// Get model
         $model = $this->findModel($id);
-
-		// Delete file
+		// Delete files
 		@unlink($model->getPath($model->id));
-
+		Yii::$app->cloaks->delete($model);
+		// Delete model
 		$model->delete();
 
         return $this->redirect(['index']);
@@ -151,7 +163,7 @@ class CloaksController extends Controller
         if (($model = Cloaks::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('Запрашиваемая страница не существует');
+            throw new NotFoundHttpException('Такой плащ не существует');
         }
     }
 }

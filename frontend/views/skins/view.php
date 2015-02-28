@@ -33,8 +33,8 @@ $this->params['breadcrumbs'][] = $this->title;
 		<div class="col-md-6 sol-sm-6">
 			<div class="panel panel-default">
 				<div class="panel-body skin-images">
-					<img src="<?= Yii::$app->skins->skinUrl($model->id, 'skins', 'front', 200) ?>" class="skin-full">
-					<img src="<?= Yii::$app->skins->skinUrl($model->id, 'skins', 'back', 200) ?>" class="skin-full">
+					<img src="<?= Yii::$app->skins->url($model, 'front', true) ?>" class="skin-full">
+					<img src="<?= Yii::$app->skins->url($model, 'back', true) ?>" class="skin-full">
 				</div>
 			</div>
 		</div>

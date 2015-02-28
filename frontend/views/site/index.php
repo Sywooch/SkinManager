@@ -19,9 +19,9 @@ $this->title = 'Главная';
 				<div class="panel panel-default skin-card">
 					<div class="panel-body">
 						<a href="<?= Url::to(['/skins/view', 'id' => $model->id]) ?>">
-							<img src="<?= Yii::$app->skins->skinUrl($model->id, 'skins', 'front') ?>"
-								 data-to="<?= Yii::$app->skins->skinUrl($model->id, 'skins', 'back') ?>"
-								 data-from="<?= Yii::$app->skins->skinUrl($model->id, 'skins', 'front') ?>"
+							<img src="<?= Yii::$app->skins->url($model) ?>"
+								 data-to="<?= Yii::$app->skins->url($model, 'back') ?>"
+								 data-from="<?= Yii::$app->skins->url($model) ?>"
 								 class="skin-preview"
 								 alt="<?= $model->name ?>">
 						</a>
@@ -46,9 +46,9 @@ $this->title = 'Главная';
 				<div class="panel panel-default skin-card">
 					<div class="panel-body">
 						<a href="<?= Url::to(['/skins/view', 'id' => $model->id]) ?>">
-							<img src="<?= Yii::$app->skins->skinUrl($model->id, 'hdskins', 'front') ?>"
-								 data-to="<?= Yii::$app->skins->skinUrl($model->id, 'hdskins', 'back') ?>"
-								 data-from="<?= Yii::$app->skins->skinUrl($model->id, 'hdskins', 'front') ?>"
+							<img src="<?= Yii::$app->skins->url($model) ?>"
+								 data-to="<?= Yii::$app->skins->url($model, 'back') ?>"
+								 data-from="<?= Yii::$app->skins->url($model) ?>"
 								 class="skin-preview"
 								 alt="<?= $model->name ?>">
 						</a>
@@ -73,9 +73,7 @@ $this->title = 'Главная';
 				<div class="panel panel-default skin-card">
 					<div class="panel-body">
 						<a href="<?= Url::to(['/cloaks/view', 'id' => $model->id]) ?>">
-							<img src="<?= Yii::$app->skins->cloakUrl($model->id) ?>"
-								 data-to="<?= Yii::$app->skins->cloakUrl($model->id) ?>"
-								 data-from="<?= Yii::$app->skins->cloakUrl($model->id) ?>"
+							<img src="<?= Yii::$app->cloaks->url($model) ?>"
 								 class="skin-preview"
 								 alt="<?= $model->name ?>">
 						</a>

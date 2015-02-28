@@ -30,9 +30,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
 			[
-				'label' => 'Плащ',
-				'value' => Yii::$app->skins->cloakUrl($model->id),
-				'format' => ['image'],
+				'attribute' => 'file',
+				'format' => 'raw',
+				'value' => Yii::$app->cloaks->image($model),
 			],
             'name',
             [

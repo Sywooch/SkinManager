@@ -8,106 +8,193 @@ use yii\helpers\Html;
 
 class Skins extends Component
 {
+	/**
+	 * Skin2d library to cut&crop skins
+	 *
+	 * @var object common\components\skins\Skin2d
+	 */
+	public $skin2d = null;
 
-	public function save($src, $id, $folder)
+	/**
+	 * Save files from original skin
+	 *
+	 * @param mixed $model
+	 */
+	public function save($model)
 	{
-		if (!file_exists($src)) {
-			return false;
-		}
-
-		$skins = new Skin2d();
-
-		if (!$skins->setFile($src)) {
-			throw new Exception('No SRC');
-		}
-
-		// FRONTSIDE
-		$frontside = $skins->frontImage();
-
-		// Save with 90px width
-		$front_dest_90 = $skins->fullWrapper(90, 180);
-
-		imagecopyresized($front_dest_90, $frontside, 0, 0, 0, 0, imagesx($front_dest_90), imagesy($front_dest_90), imagesx($frontside), imagesy($frontside));
-		imagepng($front_dest_90, Yii::getAlias('@frontend/web/uploads/' . $folder . '/' . $id . '_front_90.png'));
-
-		imagedestroy($front_dest_90);
-
-		// Save with 200px width
-		$front_dest_200 = $skins->fullWrapper(200, 400);
-
-		imagecopyresized($front_dest_200, $frontside, 0, 0, 0, 0, imagesx($front_dest_200), imagesy($front_dest_200), imagesx($frontside), imagesy($frontside));
-		imagepng($front_dest_200, Yii::getAlias('@frontend/web/uploads/' . $folder . '/' . $id . '_front_200.png'));
-
-		imagedestroy($front_dest_200);
-		imagedestroy($frontside);
-		// End FRONTSIDE
-		
-		// BACKSIDE
-		$backside = $skins->backImage();
-
-		// Save with 90px width
-		$back_dest_90 = $skins->fullWrapper(90, 180);
-
-		imagecopyresized($back_dest_90, $backside, 0, 0, 0, 0, imagesx($back_dest_90), imagesy($back_dest_90), imagesx($backside), imagesy($backside));
-		imagepng($back_dest_90, Yii::getAlias('@frontend/web/uploads/' . $folder . '/' . $id . '_back_90.png'));
-
-		imagedestroy($back_dest_90);
-
-		// Save with 200px width
-		$back_dest_200 = $skins->fullWrapper(200, 400);
-
-		imagecopyresized($back_dest_200, $backside, 0, 0, 0, 0, imagesx($back_dest_200), imagesy($back_dest_200), imagesx($backside), imagesy($backside));
-		imagepng($back_dest_200, Yii::getAlias('@frontend/web/uploads/' . $folder . '/' . $id . '_back_200.png'));
-
-		imagedestroy($back_dest_200);
-		imagedestroy($backside);
-		// End BACKSIDE
+		$this->check($model, true);
 	}
 
-	public function saveCloak($src, $id)
+	/**
+	 * Delete files from original skin
+	 * 
+	 * @param mixed $model
+	 */
+	public function delete($model)
 	{
-		if (!file_exists($src)) {
-			return false;
+		@unlink($model->basePath . $model->id . '_full_front.png');
+		@unlink($model->basePath . $model->id . '_mini_front.png');
+		@unlink($model->basePath . $model->id . '_full_back.png');
+		@unlink($model->basePath . $model->id . '_mini_back.png');
+	}
+
+	/**
+	 * Get url of the skin with requested ID, render Mode and image size
+	 *
+	 * @param mixed $model
+	 * @param string $mode
+	 * @param bool $full
+	 * @return string
+	 */
+	public function url($model, $mode = 'front', $full = false)
+	{
+		$this->check($model);
+		
+		$full_name = $full ? 'full' : 'mini';
+		$mode_name = ($mode == 'front') ? 'front' : 'back';
+		
+		return $model->baseUrl . $model->id . '_' . $full_name . '_' . $mode_name . '.png';
+	}
+
+	public function image($model, $mode = 'front', $full = false, $options = [])
+	{
+		$src = $this->url($model, $mode, $full);
+
+		return Html::img($src, $options);
+	}
+
+	/**
+	 * Check if images of the skin exists. If no - generetes it.
+	 *
+	 * @param mixed $model Model with required inforamtion
+	 * @param bool $overwrite If files exists - will overwrite them
+	 */
+	public function check($model, $overwrite = false)
+	{
+		// File paths
+		$skin = $model->basePath . $model->id . '.png';
+		$full_front = $model->basePath . $model->id . '_full_front.png';
+		$mini_front = $model->basePath . $model->id . '_mini_front.png';
+		$full_back = $model->basePath . $model->id . '_full_back.png';
+		$mini_back = $model->basePath . $model->id . '_mini_back.png';
+
+		// Set original skin image to the Skin2d library
+		$this->skin2d = new Skin2d();
+		$this->skin2d->setFile($skin);
+
+		if ($overwrite) {
+			// Overwrite files
+			$this->saveFullFront($full_front);
+			$this->saveMiniFront($mini_front);
+			$this->saveFullBack($full_back);
+			$this->saveMiniBack($mini_back);
+		} else {
+			// Generete files if not exist
+			if (!file_exists($full_front)) {
+				$this->saveFullFront($full_front);
+			}
+			if (!file_exists($mini_front)) {
+				$this->saveMiniFront($mini_front);
+			}
+			if (!file_exists($full_back)) {
+				$this->saveFullBack($full_back);
+			}
+			if (!file_exists($mini_back)) {
+				$this->saveMiniBack($mini_back);
+			}
 		}
+	}
 
-		$skins = new Skin2d();
+	/**
+	 * Save frontside of skin in full mode
+	 *
+	 * @param str $dest Path to result image
+	 */
+	public function saveFullFront($dest)
+	{
+		// Skin image
+		$skin = $this->skin2d->frontImage();
+		// Result resized image with skin
+		$result = $this->skin2d->fullWrapper(200, 400);
 
-		$skins->setFile(Yii::getAlias('@frontend/web/uploads/cloaks/char.png'));
+		// Copy skin image on the result
+		imagecopyresized($result, $skin, 0, 0, 0, 0, imagesx($result), imagesy($result), imagesx($skin), imagesy($skin));
 
-		$skin = $skins->cloakImage($src);
+		// Save result image to the destination folder
+		imagepng($result, $dest);
 
-		// Preview
-		$preview = $skins->fullWrapper(90, 180);
-		imagecopyresized($preview, $skin, 0, 0, 0, 0, imagesx($preview), imagesy($preview), imagesx($skin), imagesy($skin));
-		imagepng($preview, Yii::getAlias('@frontend/web/uploads/cloaks/' . $id . '_preview.png'));
-		imagedestroy($preview);
-
-		// Full
-		$full = $skins->fullWrapper(200, 400);
-		imagecopyresized($full, $skin, 0, 0, 0, 0, imagesx($full), imagesy($full), imagesx($skin), imagesy($skin));
-		imagepng($full, Yii::getAlias('@frontend/web/uploads/cloaks/' . $id . '_full.png'));
-
-		imagedestroy($full);
+		// Free memory
+		imagedestroy($result);
 		imagedestroy($skin);
 	}
 
-	public function cloakUrl($id, $full = false)
+	/**
+	 * Save frontside of skin in mini mode
+	 *
+	 * @param str $dest Path to result image
+	 */
+	public function saveMiniFront($dest)
 	{
-		$mode = $full ? 'full' : 'preview';
-		return Yii::$app->params['frontendUrl'] . '/uploads/cloaks/' . $id . '_' . $mode . '.png';
+		// Skin image
+		$skin = $this->skin2d->frontImage();
+		// Result resized image with skin
+		$result = $this->skin2d->fullWrapper(90, 180);
+
+		// Copy skin image on the result
+		imagecopyresized($result, $skin, 0, 0, 0, 0, imagesx($result), imagesy($result), imagesx($skin), imagesy($skin));
+
+		// Save result image to the destination folder
+		imagepng($result, $dest);
+
+		// Free memory
+		imagedestroy($result);
+		imagedestroy($skin);
 	}
 
-	public function skinUrl($id, $folder = 'skins', $mode = 'front', $width = 90)
+	/**
+	 * Save backside of skin in full mode
+	 *
+	 * @param str $dest Path to result image
+	 */
+	public function saveFullBack($dest)
 	{
-		return Yii::$app->params['frontendUrl'] . '/uploads/' . $folder .  '/' . $id . '_' . $mode . '_' . $width . '.png';
+		// Skin image
+		$skin = $this->skin2d->backImage();
+		// Result resized image with skin
+		$result = $this->skin2d->fullWrapper(200, 400);
+
+		// Copy skin image on the result
+		imagecopyresized($result, $skin, 0, 0, 0, 0, imagesx($result), imagesy($result), imagesx($skin), imagesy($skin));
+
+		// Save result image to the destination folder
+		imagepng($result, $dest);
+
+		// Free memory
+		imagedestroy($result);
+		imagedestroy($skin);
 	}
 
-	public function skinImage($id, $folder = 'skins', $mode = 'front', $width = 90, $options = [])
+	/**
+	 * Save backside of skin in mini mode
+	 *
+	 * @param str $dest Path to result image
+	 */
+	public function saveMiniBack($dest)
 	{
-		return Html::img(
-			$this->skinUrl($id, $folder, $mode, $width),
-			$options
-		);
+		// Skin image
+		$skin = $this->skin2d->backImage();
+		// Result resized image with skin
+		$result = $this->skin2d->fullWrapper(90, 180);
+
+		// Copy skin image on the result
+		imagecopyresized($result, $skin, 0, 0, 0, 0, imagesx($result), imagesy($result), imagesx($skin), imagesy($skin));
+
+		// Save result image to the destination folder
+		imagepng($result, $dest);
+
+		// Free memory
+		imagedestroy($result);
+		imagedestroy($skin);
 	}
 
 }

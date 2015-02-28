@@ -82,12 +82,21 @@ class HdskinsController extends Controller
 				$model->date = time();
 				$model->save();
 
-				// Save file
-				Yii::$app->skins->save($model->file->tempName, $model->id, 'hdskins');
+				// Save skin
 				$model->file->saveAs($model->getPath($model->id));
-			}
+				Yii::$app->skins->save($model);
 
-			return $this->redirect(['view', 'id' => $model->id]);
+				// Set success flash
+				Yii::$app->session->setFlash('success', 'Вы успешно создали новый скин.');
+
+				return $this->redirect(['view', 'id' => $model->id]);
+			} else {
+				Yii::$app->session->setFlash('danger', 'Перепроверьте введенные данные.');
+
+				return $this->render('create', [
+					'model' => $model,
+				]);
+			}
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -109,9 +118,13 @@ class HdskinsController extends Controller
 			$model->file = UploadedFile::getInstance($model, 'file');
 
 			if ($model->file) {
-				Yii::$app->skins->save($model->file->tempName, $model->id, 'hdskins');
+				// Save original skin
 				$model->file->saveAs($model->getPath($model->id));
+				// Save cropped skin images
+				Yii::$app->skins->save($model);
 			}
+
+			Yii::$app->session->setFlash('success', 'Вы успешно сохранили изменения.');
 
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
@@ -130,15 +143,13 @@ class HdskinsController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-
-		// Delete file
+		// Delete files
 		@unlink($model->getPath($model->id));
-		@unlink(Yii::getAlias('@frontend/web/uploads/hdskins/' . $model->id . '_front_90.png'));
-		@unlink(Yii::getAlias('@frontend/web/uploads/hdskins/' . $model->id . '_front_200.png'));
-		@unlink(Yii::getAlias('@frontend/web/uploads/hdskins/' . $model->id . '_back_90.png'));
-		@unlink(Yii::getAlias('@frontend/web/uploads/hdskins/' . $model->id . '_back_200.png'));
-
+		Yii::$app->skins->delete($model);
+		// Delete model
 		$model->delete();
+
+		Yii::$app->session->setFlash('success', 'Вы успешно удалили скин.');
 
         return $this->redirect(['index']);
     }
@@ -155,7 +166,7 @@ class HdskinsController extends Controller
         if (($model = Hdskins::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('Запрашиваемая страница не существует');
+            throw new NotFoundHttpException('Такой скин не существует');
         }
     }
 }

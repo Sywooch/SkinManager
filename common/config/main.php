@@ -17,6 +17,9 @@ return [
 		],
 		'skins' => [
 			'class' => 'common\components\skins\Skins',
+		],
+		'cloaks' => [
+			'class' => 'common\components\cloaks\Cloaks',
 		]
     ],
 ];

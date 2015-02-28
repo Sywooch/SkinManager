@@ -29,11 +29,10 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
 			[
 				'attribute' => 'file',
-				'label' => 'Файл',
+				'format' => 'raw',
 				'value' => function ($model) {
-					return $model->getUrl($model->id);
+					return Yii::$app->cloaks->image($model);
 				},
-				'format' => ['image', ['width' => '150']],
 			],
             'name',
             [

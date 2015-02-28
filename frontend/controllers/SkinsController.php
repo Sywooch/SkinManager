@@ -21,10 +21,11 @@ class SkinsController extends Controller
     public function actionIndex()
     {
 		$query = Skins::find();
+		$count = $query->count();
 
         $pagination = new Pagination([
             'defaultPageSize' => 24,
-            'totalCount' => $query->count(),
+            'totalCount' => $count,
         ]);
 
         $skins = $query->orderBy('date')
@@ -35,6 +36,7 @@ class SkinsController extends Controller
         return $this->render('index', [
             'skins' => $skins,
             'pagination' => $pagination,
+            'count' => $count,
         ]);
     }
 

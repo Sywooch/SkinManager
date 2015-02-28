@@ -3,31 +3,31 @@
 namespace common\models;
 
 use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "cloaks".
  *
  * @property integer $id
  * @property string $name
+ * @property source $file
  * @property integer $date
  * @property integer $rate
  * @property integer $views
  * @property integer $downloads
  */
-class Cloaks extends \yii\db\ActiveRecord
+class Cloaks extends ActiveRecord
 {
 	/**
-	 * Path and URL to uploaded cloak file
-	 *
-	 * @vars string
+	 * @var string Url to cloaks
 	 */
-	public $uploadUrl;
-	public $uploadPath;
-	
+	public $baseUrl;
 	/**
-	 * Cloak file
-	 *
-	 * @var file input
+	 * @var string Path to cloaks
+	 */
+	public $basePath;
+	/**
+	 * @var resource Cloak image
 	 */
 	public $file;
 
@@ -35,8 +35,8 @@ class Cloaks extends \yii\db\ActiveRecord
 	{
 		parent::init();
 		
-		$this->uploadUrl = Yii::$app->params['frontendUrl'] . '/uploads/cloaks/';
-		$this->uploadPath = Yii::getAlias('@frontend/web/uploads/cloaks/');
+		$this->baseUrl = Yii::$app->params['frontendUrl'] . '/uploads/cloaks/';
+		$this->basePath = Yii::getAlias('@frontend/web/uploads/cloaks/');
 	}
 
     /**
@@ -53,10 +53,12 @@ class Cloaks extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name'], 'required'],
             [['date', 'rate', 'views', 'downloads'], 'integer'],
+
+            [['name'], 'required'],
             [['name'], 'string', 'max' => 255],
-			[['file'], 'file', 'mimeTypes' => 'image/png'],
+
+			[['file'], 'image', 'mimeTypes' => 'image/png'],
         ];
     }
 
@@ -68,7 +70,7 @@ class Cloaks extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Название',
-            'file' => 'Файл',
+            'file' => 'Плащ',
             'date' => 'Дата',
             'rate' => 'Рейтинг',
             'views' => 'Просмотров',
@@ -76,13 +78,25 @@ class Cloaks extends \yii\db\ActiveRecord
         ];
     }
 
+	/**
+	 * Get url of skin with cloak by id
+	 *
+	 * @param int $id
+	 * @return string
+	 */
 	public function getUrl($id)
 	{
-		return $this->uploadUrl . $id . '.png';
+		return $this->baseUrl . $id . '.png';
 	}
 
+	/**
+	 * Get path of skin with cloak by id
+	 *
+	 * @param int $id
+	 * @return string
+	 */
 	public function getPath($id)
 	{
-		return $this->uploadPath . $id . '.png';
+		return $this->basePath . $id . '.png';
 	}
 }

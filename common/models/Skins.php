@@ -18,10 +18,22 @@ use yii\db\ActiveRecord;
  */
 class Skins extends ActiveRecord
 {
+	/**
+	 * @var string Url to skins
+	 */
 	public $baseUrl;
+	/**
+	 * @var string Path to skins
+	 */
 	public $basePath;
+	/**
+	 * @var resource Skin image
+	 */
 	public $file;
 
+	/**
+	 * Set path and url
+	 */
 	public function init()
 	{
 		parent::init();
@@ -45,9 +57,11 @@ class Skins extends ActiveRecord
     public function rules()
     {
         return [
-            [['name'], 'required'],
             [['date', 'rate', 'views', 'downloads'], 'integer'],
+
+            [['name'], 'required'],
             [['name'], 'string', 'max' => 255],
+
 			[['file'], 'image', 'mimeTypes' => 'image/png', 'maxHeight' => 64, 'maxWidth' => 64],
         ];
     }

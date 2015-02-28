@@ -25,6 +25,15 @@ return [
                 ],
             ],
         ],
+		'urlManager' => [
+			'rules' => [
+				'/' => 'site/index',
+				'/skins' => 'skins/index',
+				'/skins/<id:\d+>' => 'skins/view',
+				'/skins/download/<id:\d+>' => 'skins/download',
+				'/skins/rate/<id:\d+>' => 'skins/rate',
+			],
+		],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],

@@ -2,7 +2,6 @@
 
 namespace common\components\skins;
 
-use Yii;
 use yii\base\Component;
 
 class Skin2d extends Component
@@ -12,20 +11,13 @@ class Skin2d extends Component
 	public function setFile($file)
 	{
 		if (!file_exists($file)) {
-			return false;
+			throw new \yii\base\Exception('Original skin image doesn\'t exist (' . $file . ')');
 		}
-
 		if ($this->image) {
 			$this->__destruct();
 		}
 
-		$this->image = imagecreatefrompng($file);
-
-		if ($this->image) {
-			return true;
-		}
-
-		return false;
+		return $this->image = imagecreatefrompng($file);
 	}
 
 	public function frontImage()

@@ -9,6 +9,7 @@ use Yii;
  *
  * @property integer $id
  * @property string $name
+ * @property source $file
  * @property integer $date
  * @property integer $rate
  * @property integer $views
@@ -17,26 +18,27 @@ use Yii;
 class Hdskins extends \yii\db\ActiveRecord
 {
 	/**
-	 * Path and URL to uploaded cloak file
-	 *
-	 * @vars string
+	 * @var string Url to hdskins
 	 */
-	public $uploadUrl;
-	public $uploadPath;
-
+	public $baseUrl;
 	/**
-	 * HD skin file
-	 *
-	 * @var file input
+	 * @var string Path to hdskins
+	 */
+	public $basePath;
+	/**
+	 * @var resource Skin image
 	 */
 	public $file;
 
+	/**
+	 * Set path and url
+	 */
 	public function init()
 	{
 		parent::init();
 
-		$this->uploadUrl = Yii::$app->params['frontendUrl'] . '/uploads/hdskins/';
-		$this->uploadPath = Yii::getAlias('@frontend/web/uploads/hdskins/');
+		$this->baseUrl = Yii::$app->params['frontendUrl'] . '/uploads/hdskins/';
+		$this->basePath = Yii::getAlias('@frontend/web/uploads/hdskins/');
 	}
 	
     /**
@@ -53,10 +55,12 @@ class Hdskins extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name'], 'required'],
             [['date', 'rate', 'views', 'downloads'], 'integer'],
+
+            [['name'], 'required'],
             [['name'], 'string', 'max' => 255],
-			[['file'], 'file', 'mimeTypes' => 'image/png'],
+
+			[['file'], 'image', 'mimeTypes' => 'image/png'],
         ];
     }
 
@@ -68,7 +72,7 @@ class Hdskins extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Название',
-            'file' => 'Файл',
+            'file' => 'Скин',
             'date' => 'Дата',
             'rate' => 'Рейтинг',
             'views' => 'Просмотров',
@@ -84,7 +88,7 @@ class Hdskins extends \yii\db\ActiveRecord
 	 */
 	public function getUrl($id)
 	{
-		return $this->uploadUrl . $id . '.png';
+		return $this->baseUrl . $id . '.png';
 	}
 
 	/**
@@ -95,6 +99,6 @@ class Hdskins extends \yii\db\ActiveRecord
 	 */
 	public function getPath($id)
 	{
-		return $this->uploadPath . $id . '.png';
+		return $this->basePath . $id . '.png';
 	}
 }

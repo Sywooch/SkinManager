@@ -34,8 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'attribute' => 'file',
 				'label' => 'Фото',
 				'format' => 'raw',
-				'value' => Yii::$app->skins->skinImage($model->id, 'skins', 'front') .
-						   Yii::$app->skins->skinImage($model->id, 'skins', 'back'),
+				'value' => Yii::$app->skins->image($model) . Yii::$app->skins->image($model, 'back'),
 			],
             'name',
             [
