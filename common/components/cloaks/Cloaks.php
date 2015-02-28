@@ -2,6 +2,7 @@
 
 namespace common\components\cloaks;
 
+use Yii;
 use yii\base\Component;
 use yii\helpers\Html;
 
@@ -15,12 +16,12 @@ class Cloaks extends Component
 	 *
 	 * @var object common\components\skins\Skin2d
 	 */
-	public $cloak2d = null;
+	public $skin2d = null;
 
 	/**
 	 * Save files from original skin
 	 *
-	 * @param type $model
+	 * @param mixed $model
 	 */
 	public function save($model)
 	{
@@ -34,8 +35,8 @@ class Cloaks extends Component
 	 */
 	public function delete($model)
 	{
-		@unlink($model->basePath . $model->id . '_full_back.png');
-		@unlink($model->basePath . $model->id . '_mini_back.png');
+		@unlink($model->basePath . $model->id . '_full.png');
+		@unlink($model->basePath . $model->id . '_mini.png');
 	}
 
 	/**
@@ -55,6 +56,15 @@ class Cloaks extends Component
 		return $model->baseUrl . $model->id . '_' . $full_name . '.png';
 	}
 
+	/**
+	 * Get html image with skin
+	 *
+	 * @param mixed $model
+	 * @param string $mode ('front'|'back')
+	 * @param boolean $full Full mode(true) or mini(false)
+	 * @param array $options Html->image options
+	 * @return string Html image
+	 */
 	public function image($model, $full = false, $options = [])
 	{
 		$src = $this->url($model, $full);
@@ -71,55 +81,41 @@ class Cloaks extends Component
 	public function check($model, $overwrite = false)
 	{
 		// File paths
-		$base_skin_full = $model->basePath . 'char_full.png';
-		$base_skin_mini = $model->basePath . 'char_mini.png';
-
-		$cloak = $model->basePath . $model->id . '.png';
-
+		$skin = $model->basePath . 'char.png';
 		$full_back = $model->basePath . $model->id . '_full.png';
 		$mini_back = $model->basePath . $model->id . '_mini.png';
-
-		// Check existing
-		if (!file_exists($base_skin_full) or !file_exists($base_skin_mini)) {
-			throw new \yii\base\Exception('Base skin images for cloak don\'t exist (' . $base_skin_full . ') + (' . $base_skin_mini . ')');
-		}
-		if (!file_exists($cloak)) {
-			throw new \yii\base\Exception('Original skin image doesn\'t exist (' . $cloak . ')');
-		}
+		$cloak_path = $model->basePath . $model->id . '.png';
 
 		// Set original skin image to the Skin2d library
-		$this->cloak2d = new Cloak2d();
-		$this->cloak2d->setCloak($cloak);
+		$this->skin2d = new Skin2d();
+		$this->skin2d->setFile($skin);
 
 		if ($overwrite) {
 			// Overwrite files
-			$this->saveFull($full_back, $base_skin_full);
-			$this->saveMini($mini_back, $base_skin_mini);
+			$this->saveFullBack($full_back, $cloak_path);
+			$this->saveMiniBack($mini_back, $cloak_path);
 		} else {
 			// Generete files if not exist
 			if (!file_exists($full_back)) {
-				$this->saveFull($full_back, $base_skin_full);
+				$this->saveFullBack($full_back, $cloak_path);
 			}
 			if (!file_exists($mini_back)) {
-				$this->saveMini($mini_back, $base_skin_mini);
+				$this->saveMiniBack($mini_back, $cloak_path);
 			}
 		}
 	}
 
 	/**
-	 * Save full version of skin with cloak
+	 * Save backside of skin in full mode
 	 *
-	 * @param string $dest
-	 * @param string $baseSkin
+	 * @param str $dest Path to result image
 	 */
-	public function saveFull($dest, $baseSkin)
+	public function saveFullBack($dest, $cloak_path)
 	{
-		// Set base skin
-		$this->cloak2d->setSkin($baseSkin);
-		// Get skin image
-		$skin = $this->cloak2d->image();
+		// Skin image
+		$skin = $this->skin2d->cloakImage($cloak_path);
 		// Result resized image with skin
-		$result = $this->cloak2d->wrapper(200, 400);
+		$result = $this->skin2d->wrapper(200, 400);
 
 		// Copy skin image on the result
 		imagecopyresized($result, $skin, 0, 0, 0, 0, imagesx($result), imagesy($result), imagesx($skin), imagesy($skin));
@@ -131,21 +127,18 @@ class Cloaks extends Component
 		imagedestroy($result);
 		imagedestroy($skin);
 	}
-	
+
 	/**
-	 * Save mini version of skin with cloak
+	 * Save backside of skin in mini mode
 	 *
-	 * @param string $dest
-	 * @param string $baseSkin
+	 * @param str $dest Path to result image
 	 */
-	public function saveMini($dest, $baseSkin)
+	public function saveMiniBack($dest, $cloak_path)
 	{
-		// Set base skin
-		$this->cloak2d->setSkin($baseSkin);
-		// Get skin image
-		$skin = $this->cloak2d->image();
+		// Skin image
+		$skin = $this->skin2d->cloakImage($cloak_path);
 		// Result resized image with skin
-		$result = $this->cloak2d->wrapper(90, 180);
+		$result = $this->skin2d->wrapper(90, 180);
 
 		// Copy skin image on the result
 		imagecopyresized($result, $skin, 0, 0, 0, 0, imagesx($result), imagesy($result), imagesx($skin), imagesy($skin));

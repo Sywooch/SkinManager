@@ -56,6 +56,15 @@ class Skins extends Component
 		return $model->baseUrl . $model->id . '_' . $full_name . '_' . $mode_name . '.png';
 	}
 
+	/**
+	 * Get html image with skin
+	 *
+	 * @param mixed $model
+	 * @param string $mode ('front'|'back')
+	 * @param boolean $full
+	 * @param array $options
+	 * @return string Html image
+	 */
 	public function image($model, $mode = 'front', $full = false, $options = [])
 	{
 		$src = $this->url($model, $mode, $full);
@@ -115,7 +124,7 @@ class Skins extends Component
 		// Skin image
 		$skin = $this->skin2d->frontImage();
 		// Result resized image with skin
-		$result = $this->skin2d->fullWrapper(200, 400);
+		$result = $this->skin2d->wrapper(200, 400);
 
 		// Copy skin image on the result
 		imagecopyresized($result, $skin, 0, 0, 0, 0, imagesx($result), imagesy($result), imagesx($skin), imagesy($skin));
@@ -138,7 +147,7 @@ class Skins extends Component
 		// Skin image
 		$skin = $this->skin2d->frontImage();
 		// Result resized image with skin
-		$result = $this->skin2d->fullWrapper(90, 180);
+		$result = $this->skin2d->wrapper(90, 180);
 
 		// Copy skin image on the result
 		imagecopyresized($result, $skin, 0, 0, 0, 0, imagesx($result), imagesy($result), imagesx($skin), imagesy($skin));
@@ -161,7 +170,7 @@ class Skins extends Component
 		// Skin image
 		$skin = $this->skin2d->backImage();
 		// Result resized image with skin
-		$result = $this->skin2d->fullWrapper(200, 400);
+		$result = $this->skin2d->wrapper(200, 400);
 
 		// Copy skin image on the result
 		imagecopyresized($result, $skin, 0, 0, 0, 0, imagesx($result), imagesy($result), imagesx($skin), imagesy($skin));
@@ -184,7 +193,7 @@ class Skins extends Component
 		// Skin image
 		$skin = $this->skin2d->backImage();
 		// Result resized image with skin
-		$result = $this->skin2d->fullWrapper(90, 180);
+		$result = $this->skin2d->wrapper(90, 180);
 
 		// Copy skin image on the result
 		imagecopyresized($result, $skin, 0, 0, 0, 0, imagesx($result), imagesy($result), imagesx($skin), imagesy($skin));
