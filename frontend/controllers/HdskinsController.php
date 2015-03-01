@@ -71,13 +71,13 @@ class HdskinsController extends Controller
 
 		$model = $this->findModel($id);
 
-		if ($_SESSION['voted'][$model->id] == $model->id) {
+		if ($_SESSION['voted']['hdskins'][$model->id] == $model->id) {
 			$session->setFlash('danger', 'Вы уже голосовали за этот скин. Больше нельзя :(');
 		} else {
 			$model->rate = ($up) ? ($model->rate + 1) : ($model->rate - 1);
 			$model->save();
 
-			$_SESSION['voted'][$model->id] = $model->id;
+			$_SESSION['voted']['hdskins'][$model->id] = $model->id;
 			$session->setFlash('success', 'Вы успешно проголосовали.');
 		}
 
@@ -110,7 +110,7 @@ class HdskinsController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Skins::findOne($id)) !== null) {
+        if (($model = Hdskins::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('HD Скин с таким ID не существует. Проверьте запрошенный адрес');

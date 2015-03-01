@@ -1,6 +1,6 @@
 <?php
 
-namespace common\components\cloaks;
+namespace common\components\skins;
 
 /**
  * Exception class
@@ -9,9 +9,7 @@ use yii\base\Exception;
 
 /**
  * Class for cropping/cutting original skin images
- * for render it in normal for human mode. This version
- * includes only rendering back side of the skin with cloak
- * in different sizes
+ * for render it in normal for human mode
  *
  * @author Alex Solomaha <cyanofresh@gmail.com>
  */
@@ -58,23 +56,42 @@ class Skin2d
 	}
 
 	/**
-	 * Render back side of the skin with cloak
+	 * Render front side of skin
 	 *
-	 * @param string $cloak_file Path to cloak
-	 * @return string Resource with skin and cloak built in
-	 * @throws Exception If cloak file doesn't exist
+	 * @return string Resource with built skin on it
 	 */
-	public function cloakImage($cloak_file)
+	public function frontImage()
 	{
-		if (!file_exists($cloak_file)) {
-			throw new Exception('Cloak file doesn\'t exist (' . $cloak_file . ')');
-		}
-
-		$cloak = imagecreatefrompng($cloak_file);
 		$wrapper = imagecreatetruecolor(16 * $this->ratio(), 32 * $this->ratio());
 		$background = imagecolorallocatealpha($wrapper, 255, 255, 255, 127);
-
 		imagefill($wrapper, 0, 0, $background);
+
+		imagecopy($wrapper, $this->image, 4 * $this->ratio(), 0 * $this->ratio(), 8 * $this->ratio(), 8 * $this->ratio(), 8 * $this->ratio(), 8 * $this->ratio());
+		//arms
+		imagecopy($wrapper, $this->image, 0 * $this->ratio(), 8 * $this->ratio(), 44 * $this->ratio(), 20 * $this->ratio(), 4 * $this->ratio(), 12 * $this->ratio());
+		$this->imageflip($wrapper, $this->image, 12 * $this->ratio(), 8 * $this->ratio(), 44 * $this->ratio(), 20 * $this->ratio(), 4 * $this->ratio(), 12 * $this->ratio());
+		//chest
+		imagecopy($wrapper, $this->image, 4 * $this->ratio(), 8 * $this->ratio(), 20 * $this->ratio(), 20 * $this->ratio(), 8 * $this->ratio(), 12 * $this->ratio());
+		//legs
+		imagecopy($wrapper, $this->image, 4 * $this->ratio(), 20 * $this->ratio(), 4 * $this->ratio(), 20 * $this->ratio(), 4 * $this->ratio(), 12 * $this->ratio());
+		$this->imageflip($wrapper, $this->image, 8 * $this->ratio(), 20 * $this->ratio(), 4 * $this->ratio(), 20 * $this->ratio(), 4 * $this->ratio(), 12 * $this->ratio());
+		//hat
+		imagecopy($wrapper, $this->image, 4 * $this->ratio(), 0 * $this->ratio(), 40 * $this->ratio(), 8 * $this->ratio(), 8 * $this->ratio(), 8 * $this->ratio());
+
+		return $wrapper;
+	}
+
+	/**
+	 * Render back side of skin
+	 *
+	 * @return string Resource with built skin on it
+	 */
+	public function backImage()
+	{
+		$wrapper = imagecreatetruecolor(16 * $this->ratio(), 32 * $this->ratio());
+		$background = imagecolorallocatealpha($wrapper, 255, 255, 255, 127);
+		imagefill($wrapper, 0, 0, $background);
+
 		imagecopy($wrapper, $this->image, 4 * $this->ratio(), 8 * $this->ratio(), 32 * $this->ratio(), 20 * $this->ratio(), 8 * $this->ratio(), 12 * $this->ratio());
 		// Head back
 		imagecopy($wrapper, $this->image, 4 * $this->ratio(), 0 * $this->ratio(), 24 * $this->ratio(), 8 * $this->ratio(), 8 * $this->ratio(), 8 * $this->ratio());
@@ -86,7 +103,6 @@ class Skin2d
 		imagecopy($wrapper, $this->image, 8 * $this->ratio(), 20 * $this->ratio(), 12 * $this->ratio(), 20 * $this->ratio(), 4 * $this->ratio(), 12 * $this->ratio());
 		// Hat back
 		imagecopy($wrapper, $this->image, 4 * $this->ratio(), 0 * $this->ratio(), 56 * $this->ratio(), 8 * $this->ratio(), 8 * $this->ratio(), 8 * $this->ratio());
-		imagecopy($wrapper, $cloak, 3 * $this->ratio(), 8 * $this->ratio(), 1 * $this->ratio(), 1 * $this->ratio(), 10 * $this->ratio(), 16 * $this->ratio());
 
 		return $wrapper;
 	}
@@ -162,5 +178,4 @@ class Skin2d
 
 		imagecopyresampled($result, $img, $rx, $ry, ($x + $size_x - 1), $y, $size_x, $size_y, 0 - $size_x, $size_y);
 	}
-
 }

@@ -28,13 +28,13 @@ class SkinsController extends Controller
             'totalCount' => $count,
         ]);
 
-        $skins = $query->orderBy('date')
+        $models = $query->orderBy('date')
             ->offset($pagination->offset)
             ->limit($pagination->limit)
             ->all();
 
         return $this->render('index', [
-            'skins' => $skins,
+            'models' => $models,
             'pagination' => $pagination,
             'count' => $count,
         ]);
@@ -71,13 +71,13 @@ class SkinsController extends Controller
 
 		$model = $this->findModel($id);
 
-		if ($_SESSION['voted'][$model->id] == $model->id) {
+		if ($_SESSION['voted']['skins'][$model->id] == $model->id) {
 			$session->setFlash('danger', 'Вы уже голосовали за этот скин. Больше нельзя :(');
 		} else {
 			$model->rate = ($up) ? ($model->rate + 1) : ($model->rate - 1);
 			$model->save();
 
-			$_SESSION['voted'][$model->id] = $model->id;
+			$_SESSION['voted']['skins'][$model->id] = $model->id;
 			$session->setFlash('success', 'Вы успешно проголосовали.');
 		}
 

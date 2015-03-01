@@ -71,13 +71,13 @@ class CloaksController extends Controller
 
 		$model = $this->findModel($id);
 
-		if ($_SESSION['voted'][$model->id] == $model->id) {
+		if ($_SESSION['voted']['cloaks'][$model->id] == $model->id) {
 			$session->setFlash('danger', 'Вы уже голосовали за этот плаш. Больше нельзя :(');
 		} else {
 			$model->rate = ($up) ? ($model->rate + 1) : ($model->rate - 1);
 			$model->save();
 
-			$_SESSION['voted'][$model->id] = $model->id;
+			$_SESSION['voted']['cloaks'][$model->id] = $model->id;
 			$session->setFlash('success', 'Вы успешно проголосовали.');
 		}
 
