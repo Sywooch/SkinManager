@@ -3,9 +3,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\bootstrap\Modal;
-use kartik\icons\Icon;
-
-Icon::map($this, Icon::FA);
+use rmrevin\yii\fontawesome\FA;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Skins */
@@ -60,15 +58,15 @@ $this->params['breadcrumbs'][] = $this->title;
 				</li>
 				<li class="list-group-item">
 					<div class="pull-right rate-bar">
-						<?= Html::a(Icon::show('thumbs-up'), ['rate', 'id' => $model->id, 'type' => 'up'], ['class' => 'btn btn-success btn-xs btn-rate']) ?>
+						<?= Html::a(FA::icon('thumbs-up'), ['rate', 'id' => $model->id, 'type' => 'up'], ['class' => 'btn btn-success btn-xs btn-rate']) ?>
 						<div class="badge"><?= $model->rate ?></div>
-						<?= Html::a(Icon::show('thumbs-down'), ['rate', 'id' => $model->id, 'type' => 'down'], ['class' => 'btn btn-danger btn-xs btn-rate']) ?>
+						<?= Html::a(FA::icon('thumbs-down'), ['rate', 'id' => $model->id, 'type' => 'down'], ['class' => 'btn btn-danger btn-xs btn-rate']) ?>
 					</div>
 					Рейтинг
 				</li>
 				<li class="list-group-item">
-					<?= Html::a(Icon::show('cloud-download') . 'Скачать', ['download', 'id' => $model->id], ['class' => 'btn btn-primary btn-block']) ?>
-					<?= Html::button(Icon::show('share-alt') . 'Поделиться', [
+					<?= Html::a(FA::icon('cloud-download') . ' Скачать', ['download', 'id' => $model->id], ['class' => 'btn btn-primary btn-block']) ?>
+					<?= Html::button(FA::icon('share-alt') . ' Поделиться', [
 						'data-toggle' => 'modal',
 						'data-target' => '#links',
 						'class' => 'btn btn-info btn-block',
