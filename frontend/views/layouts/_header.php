@@ -32,7 +32,7 @@ use yii\bootstrap\NavBar;
 			$rightItems[] = ['label' => 'Войти', 'url' => ['/site/login']];
 		} else {
 			$rightItems = [
-				['label' => 'Добавить скин', 'url' => ['/request/index']],
+				['label' => 'Добавить скин', 'url' => ['/requests/index']],
 				[
 					'label' => 'Выйти',
 					'url' => ['/site/logout'],
