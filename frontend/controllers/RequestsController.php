@@ -2,7 +2,10 @@
 
 namespace frontend\controllers;
 
-class RequestsController extends \yii\web\Controller
+use Yii;
+use yii\web\Controller;
+
+class RequestsController extends Controller
 {
     public function actionIndex()
     {

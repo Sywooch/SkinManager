@@ -6,6 +6,7 @@ use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\data\Pagination;
+use yii\data\Sort;
 use common\models\Hdskins;
 
 /**
@@ -20,6 +21,30 @@ class HdskinsController extends Controller
 	 */
     public function actionIndex()
     {
+		$sort = new Sort([
+			'attributes' => [
+				'name',
+				'date' => [
+					'asc' => ['date' => SORT_ASC],
+					'desc' => ['date' => SORT_DESC],
+					'default' => SORT_DESC,
+				],
+				'rate' => [
+					'asc' => ['rate' => SORT_ASC],
+					'desc' => ['rate' => SORT_DESC],
+					'default' => SORT_DESC,
+				],
+				'downloads' => [
+					'asc' => ['rate' => SORT_ASC],
+					'desc' => ['rate' => SORT_DESC],
+					'default' => SORT_DESC,
+				],
+			],
+			'defaultOrder' => [
+				'date' => SORT_DESC,
+			],
+		]);
+
 		$query = Hdskins::find();
 		$count = $query->count();
 
@@ -37,6 +62,7 @@ class HdskinsController extends Controller
             'models' => $models,
             'pagination' => $pagination,
             'count' => $count,
+            'sort' => $sort,
         ]);
     }
 

@@ -13,6 +13,30 @@ $this->params['breadcrumbs'][] = $this->title;
 		<h1>HD Скины</h1>
 	</div>
 
+	<div class="panel panel-default">
+		<div class="panel-body">
+			Сортировать по:
+			<div class="btn-group btn-group-sm">
+				<?= $sort->link('date', [
+					'label' => 'дате',
+					'class' => 'btn btn-primary',
+				]) ?>
+				<?= $sort->link('name', [
+					'label' => 'названию',
+					'class' => 'btn btn-primary',
+				]) ?>
+				<?= $sort->link('rate', [
+					'label' => 'рейтингу',
+					'class' => 'btn btn-primary',
+				]) ?>
+				<?= $sort->link('downloads', [
+					'label' => 'загрузкам',
+					'class' => 'btn btn-primary',
+				]) ?>
+			</div>
+		</div>
+	</div>
+
 	<?php if ($count != 0): ?>
 		<div class="row">
 			<?php foreach ($models as $model): ?>
