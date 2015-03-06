@@ -13,7 +13,10 @@ return [
     'controllerNamespace' => 'console\controllers',
     'modules' => [
         'gii' => 'yii\gii\Module',
-    ],
+		'user' => [
+			'class' => 'common\modules\user\Module',
+		],
+	],
     'components' => [
         'log' => [
             'targets' => [

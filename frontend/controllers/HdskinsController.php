@@ -49,7 +49,7 @@ class HdskinsController extends Controller
 		$count = $query->count();
 
         $pagination = new Pagination([
-            'defaultPageSize' => 24,
+            'defaultPageSize' => Yii::$app->params['per_page'],
             'totalCount' => $count,
         ]);
 

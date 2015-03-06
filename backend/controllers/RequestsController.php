@@ -5,6 +5,9 @@ namespace backend\controllers;
 use Yii;
 use common\models\Requests;
 use common\models\RequestsSearch;
+use common\models\Skins;
+use common\models\Hdskins;
+use common\models\Cloaks;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -22,7 +25,7 @@ class RequestsController extends Controller
 				'class' => AccessControl::className(),
 				'rules' => [
 					[
-						'actions' => ['index', 'view', 'create', 'update', 'delete'],
+						'actions' => ['index', 'view', 'accept', 'update', 'delete'],
 						'allow' => true,
 						'roles' => ['@'],
 					],
@@ -65,24 +68,6 @@ class RequestsController extends Controller
     }
 
     /**
-     * Creates a new Requests model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new Requests();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    /**
      * Updates an existing Requests model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
@@ -101,6 +86,53 @@ class RequestsController extends Controller
         }
     }
 
+	public function actionAccept($id)
+	{
+		$model = $this->findModel($id);
+
+		if ($model->type === 'Скин') {
+			$skinModel = new Skins();
+			$skinModel->name = $model->name;
+			$skinModel->date = $model->date;
+			$skinModel->save();
+
+			// Move original skin file
+			rename($model->getPath($model->id), $skinModel->getPath($skinModel->id));
+			// Save skin images
+			Yii::$app->skins->save($skinModel);
+			// Delete old images
+			Yii::$app->skins->delete($model);
+		} elseif ($model->type === 'HD Скин') {
+			$hdskinModel = new Hdskins();
+			$hdskinModel->name = $model->name;
+			$hdskinModel->date = $model->date;
+			$hdskinModel->save();
+
+			// Move original skin file
+			rename($model->getPath($model->id), $hdskinModel->getPath($hdskinModel->id));
+			// Save skin images
+			Yii::$app->skins->save($hdskinModel);
+			// Delete old images
+			Yii::$app->skins->delete($model);
+		} elseif ($model->type === 'Плащ') {
+			$cloakModel = new Cloaks();
+			$cloakModel->name = $model->name;
+			$cloakModel->date = $model->date;
+			$cloakModel->save();
+
+			// Move original skin file
+			rename($model->getPath($model->id), $cloakModel->getPath($cloakModel->id));
+			// Save skin images
+			Yii::$app->cloaks->save($cloakModel);
+			// Delete old images
+			Yii::$app->cloaks->delete($model);
+		}
+
+		$model->delete();
+		
+		return $this->redirect(['index']);
+	}
+
     /**
      * Deletes an existing Requests model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -109,7 +141,17 @@ class RequestsController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+
+		unlink($model->getPath($model->id));
+
+		if ($model->type === 'Скин' or $model->type === 'HD Скин') {
+			Yii::$app->skins->delete($model);
+		} elseif ($model->type === 'Плащ') {
+			Yii::$app->cloaks->delete($model);
+		}
+
+		$model->delete();
 
         return $this->redirect(['index']);
     }

@@ -8,4 +8,5 @@ return [
 	'project_name' => 'Каталог Скинов',
 	'title_prepend' => '',
 	'title_append' => ' - skins.mmods.ru',
+	'per_page' => 1,
 ];

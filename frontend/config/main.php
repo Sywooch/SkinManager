@@ -12,10 +12,10 @@ return [
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
-        'user' => [
-            'identityClass' => 'common\models\User',
-            'enableAutoLogin' => true,
-        ],
+//        'user' => [
+//            'identityClass' => 'common\models\User',
+//            'enableAutoLogin' => true,
+//        ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
@@ -29,14 +29,22 @@ return [
 			'rules' => [
 				'/' => 'site/index',
 				'/skins' => 'skins/index',
+				'/skins/page/<page:\d+>' => 'skins/index',
 				'/skins/<id:\d+>' => 'skins/view',
 				'/skins/download/<id:\d+>' => 'skins/download',
 				'/hdskins' => 'hdskins/index',
+				'/hdskins/page/<page:\d+>' => 'hdskins/index',
 				'/hdskins/<id:\d+>' => 'hdskins/view',
 				'/hdskins/download/<id:\d+>' => 'hdskins/download',
 				'/cloaks' => 'cloaks/index',
+				'/cloaks/page/<page:\d+>' => 'cloaks/index',
 				'/cloaks/<id:\d+>' => 'cloaks/view',
 				'/cloaks/download/<id:\d+>' => 'cloaks/download',
+				[
+					'pattern' => 'sitemap',
+					'route' => 'sitemap/default/index',
+					'suffix' => '.xml'
+				],
 			],
 		],
         'errorHandler' => [

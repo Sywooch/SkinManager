@@ -28,14 +28,14 @@ use yii\bootstrap\NavBar;
 
 		// Right menu items
 		if (Yii::$app->user->isGuest) {
-			$rightItems[] = ['label' => 'Регистрация', 'url' => ['/site/signup']];
-			$rightItems[] = ['label' => 'Войти', 'url' => ['/site/login']];
+			$rightItems[] = ['label' => 'Регистрация', 'url' => ['/user/register']];
+			$rightItems[] = ['label' => 'Войти', 'url' => ['/user/login']];
 		} else {
 			$rightItems = [
 				['label' => 'Добавить скин', 'url' => ['/requests/index']],
 				[
 					'label' => 'Выйти',
-					'url' => ['/site/logout'],
+					'url' => ['/user/logout'],
 					'linkOptions' => ['data-method' => 'post']
 				],
 			];
