@@ -5,6 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $skins common\models\Skins */
 /* @var $hdskins common\models\Hdskins */
+/* @var $cloaks common\models\Cloaks */
 
 $this->title = 'Главная';
 ?>
