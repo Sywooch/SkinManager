@@ -18,15 +18,15 @@ AppAsset::register($this);
     <?php $this->head() ?>
 </head>
 <body>
-    <?php $this->beginBody() ?>
+<?php $this->beginBody() ?>
 
-	<?= $this->render('_header') ?>
+<?= $this->render('_header') ?>
 
-	<?= $this->render('_main', ['content' => $content]) ?>
+<?= $this->render('_main', ['content' => $content]) ?>
 
-	<?= $this->render('_footer') ?>
+<?= $this->render('_footer') ?>
 
-    <?php $this->endBody() ?>
+<?php $this->endBody() ?>
 </body>
 </html>
 <?php $this->endPage() ?>

@@ -71,10 +71,10 @@ class SiteController extends Controller
     public function actionIndex()
     {
         return $this->render('index', [
-			'skins' => Skins::find()->orderBy('date')->limit(12)->all(),
-			'hdskins' => Hdskins::find()->orderBy('date')->limit(12)->all(),
-			'cloaks' => Cloaks::find()->orderBy('date')->limit(12)->all(),
-		]);
+            'skins' => Skins::find()->orderBy('date')->limit(12)->all(),
+            'hdskins' => Hdskins::find()->orderBy('date')->limit(12)->all(),
+            'cloaks' => Cloaks::find()->orderBy('date')->limit(12)->all(),
+        ]);
     }
 
     public function actionLogin()
@@ -121,7 +121,8 @@ class SiteController extends Controller
         $model = new PasswordResetRequestForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail()) {
-                Yii::$app->getSession()->setFlash('success', 'Проверьте Ваш email. Там Вы найдете дальнейшие инструкции');
+                Yii::$app->getSession()->setFlash('success',
+                    'Проверьте Ваш email. Там Вы найдете дальнейшие инструкции');
 
                 return $this->goHome();
             } else {

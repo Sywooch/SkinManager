@@ -56,9 +56,10 @@ class ForgotForm extends Model
     {
         // get and store user
         if ($this->_user === false) {
-            $user        = Yii::$app->getModule("user")->model("User");
+            $user = Yii::$app->getModule("user")->model("User");
             $this->_user = $user::findOne(["email" => $this->email]);
         }
+
         return $this->_user;
     }
 
@@ -94,17 +95,17 @@ class ForgotForm extends Model
             $expireTime = $expireTime !== null ? date("Y-m-d H:i:s", strtotime("+" . $expireTime)) : null;
 
             // create userKey
-            $userKey    = Yii::$app->getModule("user")->model("UserKey");
-            $userKey    = $userKey::generate($user->id, $userKey::TYPE_PASSWORD_RESET, $expireTime);
+            $userKey = Yii::$app->getModule("user")->model("UserKey");
+            $userKey = $userKey::generate($user->id, $userKey::TYPE_PASSWORD_RESET, $expireTime);
 
             // modify view path to module views
-            $mailer           = Yii::$app->mailer;
-            $oldViewPath      = $mailer->viewPath;
+            $mailer = Yii::$app->mailer;
+            $oldViewPath = $mailer->viewPath;
             $mailer->viewPath = Yii::$app->getModule("user")->emailViewPath;
 
             // send email
             $subject = Yii::$app->id . " - " . Yii::t("user", "Forgot password");
-            $message  = $mailer->compose('forgotPassword', compact("subject", "user", "userKey"))
+            $message = $mailer->compose('forgotPassword', compact("subject", "user", "userKey"))
                 ->setTo($user->email)
                 ->setSubject($subject);
 
@@ -116,6 +117,7 @@ class ForgotForm extends Model
 
             // restore view path and return result
             $mailer->viewPath = $oldViewPath;
+
             return $result;
         }
 

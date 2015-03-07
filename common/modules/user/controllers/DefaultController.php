@@ -25,18 +25,18 @@ class DefaultController extends Controller
                 'rules' => [
                     [
                         'actions' => ['index', 'confirm', 'resend'],
-                        'allow'   => true,
-                        'roles'   => ['?', '@'],
+                        'allow' => true,
+                        'roles' => ['?', '@'],
                     ],
                     [
                         'actions' => ['account', 'profile', 'resend-change', 'cancel', 'logout'],
-                        'allow'   => true,
-                        'roles'   => ['@'],
+                        'allow' => true,
+                        'roles' => ['@'],
                     ],
                     [
                         'actions' => ['login', 'register', 'forgot', 'reset'],
-                        'allow'   => true,
-                        'roles'   => ['?'],
+                        'allow' => true,
+                        'roles' => ['?'],
                     ],
                 ],
             ],
@@ -56,6 +56,7 @@ class DefaultController extends Controller
     {
         if (defined('YII_DEBUG') && YII_DEBUG) {
             $actions = Yii::$app->getModule("user")->getActions();
+
             return $this->render('index', ["actions" => $actions]);
         } elseif (Yii::$app->user->isGuest) {
             return $this->redirect(["/user/login"]);
@@ -94,8 +95,7 @@ class DefaultController extends Controller
         $logoutRedirect = Yii::$app->getModule("user")->logoutRedirect;
         if ($logoutRedirect === null) {
             return $this->goHome();
-        }
-        else {
+        } else {
             return $this->redirect($logoutRedirect);
         }
     }
@@ -105,12 +105,12 @@ class DefaultController extends Controller
      */
     public function actionRegister()
     {
-        /** @var \common\modules\user\models\User    $user */
+        /** @var \common\modules\user\models\User $user */
         /** @var \common\modules\user\models\Profile $profile */
-        /** @var \common\modules\user\models\Role    $role */
+        /** @var \common\modules\user\models\Role $role */
 
         // set up new user/profile objects
-        $user    = Yii::$app->getModule("user")->model("User", ["scenario" => "register"]);
+        $user = Yii::$app->getModule("user")->model("User", ["scenario" => "register"]);
         $profile = Yii::$app->getModule("user")->model("Profile");
 
         // load post data
@@ -123,6 +123,7 @@ class DefaultController extends Controller
             // validate for ajax request
             if (Yii::$app->request->isAjax) {
                 Yii::$app->response->format = Response::FORMAT_JSON;
+
                 return ActiveForm::validate($user, $profile);
             }
 
@@ -137,7 +138,8 @@ class DefaultController extends Controller
 
                 // set flash
                 // don't use $this->refresh() because user may automatically be logged in and get 403 forbidden
-                $successText = Yii::t("user", "Successfully registered [ {displayName} ]", ["displayName" => $user->getDisplayName()]);
+                $successText = Yii::t("user", "Successfully registered [ {displayName} ]",
+                    ["displayName" => $user->getDisplayName()]);
                 $guestText = "";
                 if (Yii::$app->user->isGuest) {
                     $guestText = Yii::t("user", " - Please check your email to confirm your account");
@@ -148,7 +150,7 @@ class DefaultController extends Controller
 
         // render
         return $this->render("register", [
-            'user'    => $user,
+            'user' => $user,
             'profile' => $profile,
         ]);
     }
@@ -234,6 +236,7 @@ class DefaultController extends Controller
         // validate for ajax request
         if ($loadedPost && Yii::$app->request->isAjax) {
             Yii::$app->response->format = Response::FORMAT_JSON;
+
             return ActiveForm::validate($user);
         }
 
@@ -255,6 +258,7 @@ class DefaultController extends Controller
             // save, set flash, and refresh page
             $user->save(false);
             Yii::$app->session->setFlash("Account-success", Yii::t("user", "Account updated"));
+
             return $this->refresh();
         }
 
@@ -278,6 +282,7 @@ class DefaultController extends Controller
         // validate for ajax request
         if ($loadedPost && Yii::$app->request->isAjax) {
             Yii::$app->response->format = Response::FORMAT_JSON;
+
             return ActiveForm::validate($profile);
         }
 
@@ -285,6 +290,7 @@ class DefaultController extends Controller
         if ($loadedPost && $profile->validate()) {
             $profile->save(false);
             Yii::$app->session->setFlash("Profile-success", Yii::t("user", "Profile updated"));
+
             return $this->refresh();
         }
 
@@ -320,11 +326,11 @@ class DefaultController extends Controller
      */
     public function actionResendChange()
     {
-        /** @var \common\modules\user\models\User    $user */
+        /** @var \common\modules\user\models\User $user */
         /** @var \common\modules\user\models\UserKey $userKey */
 
         // find userKey of type email change
-        $user    = Yii::$app->user->identity;
+        $user = Yii::$app->user->identity;
         $userKey = Yii::$app->getModule("user")->model("UserKey");
         $userKey = $userKey::findActiveByUser($user->id, $userKey::TYPE_EMAIL_CHANGE);
         if ($userKey) {
@@ -343,11 +349,11 @@ class DefaultController extends Controller
      */
     public function actionCancel()
     {
-        /** @var \common\modules\user\models\User    $user */
+        /** @var \common\modules\user\models\User $user */
         /** @var \common\modules\user\models\UserKey $userKey */
 
         // find userKey of type email change
-        $user    = Yii::$app->user->identity;
+        $user = Yii::$app->user->identity;
         $userKey = Yii::$app->getModule("user")->model("UserKey");
         $userKey = $userKey::findActiveByUser($user->id, $userKey::TYPE_EMAIL_CHANGE);
         if ($userKey) {
@@ -377,7 +383,8 @@ class DefaultController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->sendForgotEmail()) {
 
             // set flash (which will show on the current page)
-            Yii::$app->session->setFlash("Forgot-success", Yii::t("user", "Instructions to reset your password have been sent"));
+            Yii::$app->session->setFlash("Forgot-success",
+                Yii::t("user", "Instructions to reset your password have been sent"));
         }
 
         // render
@@ -391,7 +398,7 @@ class DefaultController extends Controller
      */
     public function actionReset($key)
     {
-        /** @var \common\modules\user\models\User    $user */
+        /** @var \common\modules\user\models\User $user */
         /** @var \common\modules\user\models\UserKey $userKey */
 
         // check for valid userKey

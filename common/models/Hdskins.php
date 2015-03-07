@@ -17,30 +17,30 @@ use Yii;
  */
 class Hdskins extends \yii\db\ActiveRecord
 {
-	/**
-	 * @var string Url to hdskins
-	 */
-	public $baseUrl;
-	/**
-	 * @var string Path to hdskins
-	 */
-	public $basePath;
-	/**
-	 * @var resource Skin image
-	 */
-	public $file;
+    /**
+     * @var string Url to hdskins
+     */
+    public $baseUrl;
+    /**
+     * @var string Path to hdskins
+     */
+    public $basePath;
+    /**
+     * @var resource Skin image
+     */
+    public $file;
 
-	/**
-	 * Set path and url
-	 */
-	public function init()
-	{
-		parent::init();
+    /**
+     * Set path and url
+     */
+    public function init()
+    {
+        parent::init();
 
-		$this->baseUrl = Yii::$app->params['frontendUrl'] . '/uploads/hdskins/';
-		$this->basePath = Yii::getAlias('@frontend/web/uploads/hdskins/');
-	}
-	
+        $this->baseUrl = Yii::$app->params['frontendUrl'] . '/uploads/hdskins/';
+        $this->basePath = Yii::getAlias('@frontend/web/uploads/hdskins/');
+    }
+
     /**
      * @inheritdoc
      */
@@ -56,11 +56,9 @@ class Hdskins extends \yii\db\ActiveRecord
     {
         return [
             [['date', 'rate', 'views', 'downloads'], 'integer'],
-
             [['name'], 'required'],
             [['name'], 'string', 'max' => 255],
-
-			[['file'], 'image', 'mimeTypes' => 'image/png'],
+            [['file'], 'image', 'mimeTypes' => 'image/png'],
         ];
     }
 
@@ -80,25 +78,25 @@ class Hdskins extends \yii\db\ActiveRecord
         ];
     }
 
-	/**
-	 * Get url of file
-	 *
-	 * @param int $id
-	 * @return string
-	 */
-	public function getUrl($id)
-	{
-		return $this->baseUrl . $id . '.png';
-	}
+    /**
+     * Get url of file
+     *
+     * @param int $id
+     * @return string
+     */
+    public function getUrl($id)
+    {
+        return $this->baseUrl . $id . '.png';
+    }
 
-	/**
-	 * Get path of file
-	 *
-	 * @param int $id
-	 * @return string
-	 */
-	public function getPath($id)
-	{
-		return $this->basePath . $id . '.png';
-	}
+    /**
+     * Get path of file
+     *
+     * @param int $id
+     * @return string
+     */
+    public function getPath($id)
+    {
+        return $this->basePath . $id . '.png';
+    }
 }

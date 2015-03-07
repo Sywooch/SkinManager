@@ -29,16 +29,16 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-			[
-				'attribute' => 'file',
-				'format' => 'raw',
-				'value' => Yii::$app->cloaks->image($model),
-			],
+            [
+                'attribute' => 'file',
+                'format' => 'raw',
+                'value' => Yii::$app->cloaks->image($model),
+            ],
             'name',
             [
-				'attribute' => 'date',
-				'format' => ['date', 'dd.MM.Y H:m'],
-			],
+                'attribute' => 'date',
+                'format' => ['date', 'dd.MM.Y H:m'],
+            ],
             'rate',
             'views',
             'downloads',

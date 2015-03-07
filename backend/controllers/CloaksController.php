@@ -16,20 +16,20 @@ use yii\filters\AccessControl;
  */
 class CloaksController extends Controller
 {
-	public function behaviors()
+    public function behaviors()
     {
         return [
-			'access' => [
-				'class' => AccessControl::className(),
-				'rules' => [
-					[
-						'actions' => ['index', 'view', 'create', 'update', 'delete'],
-						'allow' => true,
-						'roles' => ['@'],
-					],
-				],
-			],
-			'verbs' => [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['index', 'view', 'create', 'update', 'delete'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+            'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
@@ -75,28 +75,28 @@ class CloaksController extends Controller
         $model = new Cloaks();
 
         if ($model->load(Yii::$app->request->post())) {
-			$model->file = UploadedFile::getInstance($model, 'file');
+            $model->file = UploadedFile::getInstance($model, 'file');
 
-			if ($model->file && $model->validate()) {
-				// Save model to DB
-				$model->date = time();
-				$model->save();
+            if ($model->file && $model->validate()) {
+                // Save model to DB
+                $model->date = time();
+                $model->save();
 
-				// Save file
-				$model->file->saveAs($model->getPath($model->id));
-				Yii::$app->cloaks->save($model);
+                // Save file
+                $model->file->saveAs($model->getPath($model->id));
+                Yii::$app->cloaks->save($model);
 
-				// Set success flash
-				Yii::$app->session->setFlash('success', 'Вы успешно создали новый плащ.');
+                // Set success flash
+                Yii::$app->session->setFlash('success', 'Вы успешно создали новый плащ.');
 
-				return $this->redirect(['view', 'id' => $model->id]);
-			} else {
-				Yii::$app->session->setFlash('danger', 'Перепроверьте введенные данные.');
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                Yii::$app->session->setFlash('danger', 'Перепроверьте введенные данные.');
 
-				return $this->render('create', [
-					'model' => $model,
-				]);
-			}
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
+            }
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -115,14 +115,14 @@ class CloaksController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->save()) {
-			$model->file = UploadedFile::getInstance($model, 'file');
+            $model->file = UploadedFile::getInstance($model, 'file');
 
-			if ($model->file) {
-				$model->file->saveAs($model->getPath($model->id));
-				Yii::$app->cloaks->save($model);
-			}
+            if ($model->file) {
+                $model->file->saveAs($model->getPath($model->id));
+                Yii::$app->cloaks->save($model);
+            }
 
-			Yii::$app->session->setFlash('success', 'Вы успешно сохранили изменения.');
+            Yii::$app->session->setFlash('success', 'Вы успешно сохранили изменения.');
 
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
@@ -140,13 +140,13 @@ class CloaksController extends Controller
      */
     public function actionDelete($id)
     {
-		// Get model
+        // Get model
         $model = $this->findModel($id);
-		// Delete files
-		@unlink($model->getPath($model->id));
-		Yii::$app->cloaks->delete($model);
-		// Delete model
-		$model->delete();
+        // Delete files
+        @unlink($model->getPath($model->id));
+        Yii::$app->cloaks->delete($model);
+        // Delete model
+        $model->delete();
 
         return $this->redirect(['index']);
     }

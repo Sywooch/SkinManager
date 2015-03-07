@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="cloaks-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-	<?php //$this->render('_search', ['model' => $searchModel]) ?>
+    <?php //$this->render('_search', ['model' => $searchModel]) ?>
 
     <p>
         <?= Html::a('Создать Плащ', ['create'], ['class' => 'btn btn-success']) ?>
@@ -24,21 +24,21 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             [
-				'attribute' => 'id',
-				'contentOptions' => ['style' => 'width: 8%']
-			],
-			[
-				'attribute' => 'file',
-				'format' => 'raw',
-				'value' => function ($model) {
-					return Yii::$app->cloaks->image($model);
-				},
-			],
+                'attribute' => 'id',
+                'contentOptions' => ['style' => 'width: 8%']
+            ],
+            [
+                'attribute' => 'file',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return Yii::$app->cloaks->image($model);
+                },
+            ],
             'name',
             [
-				'attribute' => 'date',
-				'format' => ['date', 'dd.MM.Y H:m'],
-			],
+                'attribute' => 'date',
+                'format' => ['date', 'dd.MM.Y H:m'],
+            ],
             'rate',
             'views',
 //            'downloads',

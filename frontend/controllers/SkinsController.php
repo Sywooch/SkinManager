@@ -14,39 +14,39 @@ use common\models\Skins;
  */
 class SkinsController extends Controller
 {
-	/**
-	 * Shows all the skins with pages
-	 *
-	 * @return mixed
-	 */
+    /**
+     * Shows all the skins with pages
+     *
+     * @return mixed
+     */
     public function actionIndex()
     {
-		$sort = new Sort([
-			'attributes' => [
-				'name',
-				'date' => [
-					'asc' => ['date' => SORT_ASC],
-					'desc' => ['date' => SORT_DESC],
-					'default' => SORT_DESC,
-				],
-				'rate' => [
-					'asc' => ['rate' => SORT_ASC],
-					'desc' => ['rate' => SORT_DESC],
-					'default' => SORT_DESC,
-				],
-				'downloads' => [
-					'asc' => ['rate' => SORT_ASC],
-					'desc' => ['rate' => SORT_DESC],
-					'default' => SORT_DESC,
-				],
-			],
-			'defaultOrder' => [
-				'date' => SORT_DESC,
-			],
-		]);
+        $sort = new Sort([
+            'attributes' => [
+                'name',
+                'date' => [
+                    'asc' => ['date' => SORT_ASC],
+                    'desc' => ['date' => SORT_DESC],
+                    'default' => SORT_DESC,
+                ],
+                'rate' => [
+                    'asc' => ['rate' => SORT_ASC],
+                    'desc' => ['rate' => SORT_DESC],
+                    'default' => SORT_DESC,
+                ],
+                'downloads' => [
+                    'asc' => ['rate' => SORT_ASC],
+                    'desc' => ['rate' => SORT_DESC],
+                    'default' => SORT_DESC,
+                ],
+            ],
+            'defaultOrder' => [
+                'date' => SORT_DESC,
+            ],
+        ]);
 
-		$query = Skins::find();
-		$count = $query->count();
+        $query = Skins::find();
+        $count = $query->count();
 
         $pagination = new Pagination([
             'defaultPageSize' => Yii::$app->params['per_page'],
@@ -66,68 +66,68 @@ class SkinsController extends Controller
         ]);
     }
 
-	/**
-	 * Renders single skin and +1 view for it
-	 *
-	 * @param int $id
-	 * @return mixed
-	 */
-	public function actionView($id)
-	{
-		$model = $this->findModel($id);
-		$model->views = $model->views + 1;
-		$model->save();
+    /**
+     * Renders single skin and +1 view for it
+     *
+     * @param int $id
+     * @return mixed
+     */
+    public function actionView($id)
+    {
+        $model = $this->findModel($id);
+        $model->views = $model->views + 1;
+        $model->save();
 
-		return $this->render('view', [
+        return $this->render('view', [
             'model' => $model,
         ]);
-	}
+    }
 
-	/**
-	 * Adds +1 to the skin rate
-	 *
-	 * @param int $id
-	 * @param bool $up
-	 * @return mixed
-	 */
-	public function actionRate($id, $up = true)
-	{
-		$session = Yii::$app->session;
-		$session->open();
+    /**
+     * Adds +1 to the skin rate
+     *
+     * @param int $id
+     * @param bool $up
+     * @return mixed
+     */
+    public function actionRate($id, $up = true)
+    {
+        $session = Yii::$app->session;
+        $session->open();
 
-		$model = $this->findModel($id);
+        $model = $this->findModel($id);
 
-		if ($_SESSION['voted']['skins'][$model->id] == $model->id) {
-			$session->setFlash('danger', 'Вы уже голосовали за этот скин. Больше нельзя :(');
-		} else {
-			$model->rate = ($up) ? ($model->rate + 1) : ($model->rate - 1);
-			$model->save();
+        if ($_SESSION['voted']['skins'][$model->id] == $model->id) {
+            $session->setFlash('danger', 'Вы уже голосовали за этот скин. Больше нельзя :(');
+        } else {
+            $model->rate = ($up) ? ($model->rate + 1) : ($model->rate - 1);
+            $model->save();
 
-			$_SESSION['voted']['skins'][$model->id] = $model->id;
-			$session->setFlash('success', 'Вы успешно проголосовали.');
-		}
+            $_SESSION['voted']['skins'][$model->id] = $model->id;
+            $session->setFlash('success', 'Вы успешно проголосовали.');
+        }
 
-		return $this->redirect(['view', 'id' => $model->id]);
-	}
+        return $this->redirect(['view', 'id' => $model->id]);
+    }
 
-	/**
-	 * Download skin file
-	 *
-	 * @param int $id ID of skin
-	 * @return image/png
-	 */
-	public function actionDownload($id)
-	{
-		$model = $this->findModel($id);
-		$model->downloads = $model->downloads + 1;
-		$model->save();
+    /**
+     * Download skin file
+     *
+     * @param int $id
+     * @return mixed
+     */
+    public function actionDownload($id)
+    {
+        $model = $this->findModel($id);
+        $model->downloads = $model->downloads + 1;
+        $model->save();
 
-		$file = Yii::getAlias('@frontend/web/uploads/skins/' . $model->id . '.png');
+        $file = Yii::getAlias('@frontend/web/uploads/skins/' . $model->id . '.png');
 
-		return Yii::$app->response->sendFile($file, $model->name . '.png');
-	}
+        return Yii::$app->response->sendFile($file, $model->name . '.png');
+    }
 
-	/**
+    /**
      * Finds the Skins model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id

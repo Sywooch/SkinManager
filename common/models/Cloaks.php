@@ -18,26 +18,26 @@ use yii\db\ActiveRecord;
  */
 class Cloaks extends ActiveRecord
 {
-	/**
-	 * @var string Url to cloaks
-	 */
-	public $baseUrl;
-	/**
-	 * @var string Path to cloaks
-	 */
-	public $basePath;
-	/**
-	 * @var resource Cloak image
-	 */
-	public $file;
+    /**
+     * @var string Url to cloaks
+     */
+    public $baseUrl;
+    /**
+     * @var string Path to cloaks
+     */
+    public $basePath;
+    /**
+     * @var resource Cloak image
+     */
+    public $file;
 
-	public function init()
-	{
-		parent::init();
-		
-		$this->baseUrl = Yii::$app->params['frontendUrl'] . '/uploads/cloaks/';
-		$this->basePath = Yii::getAlias('@frontend/web/uploads/cloaks/');
-	}
+    public function init()
+    {
+        parent::init();
+
+        $this->baseUrl = Yii::$app->params['frontendUrl'] . '/uploads/cloaks/';
+        $this->basePath = Yii::getAlias('@frontend/web/uploads/cloaks/');
+    }
 
     /**
      * @inheritdoc
@@ -54,11 +54,9 @@ class Cloaks extends ActiveRecord
     {
         return [
             [['date', 'rate', 'views', 'downloads'], 'integer'],
-
             [['name'], 'required'],
             [['name'], 'string', 'max' => 255],
-
-			[['file'], 'image', 'mimeTypes' => 'image/png'],
+            [['file'], 'image', 'mimeTypes' => 'image/png'],
         ];
     }
 
@@ -78,25 +76,25 @@ class Cloaks extends ActiveRecord
         ];
     }
 
-	/**
-	 * Get url of skin with cloak by id
-	 *
-	 * @param int $id
-	 * @return string
-	 */
-	public function getUrl($id)
-	{
-		return $this->baseUrl . $id . '.png';
-	}
+    /**
+     * Get url of skin with cloak by id
+     *
+     * @param int $id
+     * @return string
+     */
+    public function getUrl($id)
+    {
+        return $this->baseUrl . $id . '.png';
+    }
 
-	/**
-	 * Get path of skin with cloak by id
-	 *
-	 * @param int $id
-	 * @return string
-	 */
-	public function getPath($id)
-	{
-		return $this->basePath . $id . '.png';
-	}
+    /**
+     * Get path of skin with cloak by id
+     *
+     * @param int $id
+     * @return string
+     */
+    public function getPath($id)
+    {
+        return $this->basePath . $id . '.png';
+    }
 }

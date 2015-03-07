@@ -71,7 +71,7 @@ class User extends ActiveRecord implements IdentityInterface
      * @var array Permission cache array
      */
     protected $_access = [];
-    
+
     /**
      * @inheritdoc
      */
@@ -92,19 +92,26 @@ class User extends ActiveRecord implements IdentityInterface
             [['email', 'username'], 'unique'],
             [['email', 'username'], 'filter', 'filter' => 'trim'],
             [['email'], 'email'],
-            [['username'], 'match', 'pattern' => '/^[A-Za-z0-9_]+$/u', 'message' => Yii::t('user', '{attribute} can contain only letters, numbers, and "_"')],
-
+            [
+                ['username'],
+                'match',
+                'pattern' => '/^[A-Za-z0-9_]+$/u',
+                'message' => Yii::t('user', '{attribute} can contain only letters, numbers, and "_"')
+            ],
             // password rules
             [['newPassword'], 'string', 'min' => 3],
             [['newPassword'], 'filter', 'filter' => 'trim'],
             [['newPassword'], 'required', 'on' => ['register', 'reset']],
             [['newPasswordConfirm'], 'required', 'on' => ['reset']],
-            [['newPasswordConfirm'], 'compare', 'compareAttribute' => 'newPassword', 'message' => Yii::t('user','Passwords do not match')],
-
+            [
+                ['newPasswordConfirm'],
+                'compare',
+                'compareAttribute' => 'newPassword',
+                'message' => Yii::t('user', 'Passwords do not match')
+            ],
             // account page
             [['currentPassword'], 'required', 'on' => ['account']],
             [['currentPassword'], 'validateCurrentPassword', 'on' => ['account']],
-
             // admin crud rules
             [['role_id', 'status'], 'required', 'on' => ['admin']],
             [['role_id', 'status'], 'integer', 'on' => ['admin']],
@@ -117,7 +124,7 @@ class User extends ActiveRecord implements IdentityInterface
         foreach ($requireFields as $requireField) {
             if (Yii::$app->getModule("user")->$requireField) {
                 $attribute = strtolower(substr($requireField, 7)); // "email" or "username"
-                $rules[]   = [$attribute, "required"];
+                $rules[] = [$attribute, "required"];
             }
         }
 
@@ -140,25 +147,24 @@ class User extends ActiveRecord implements IdentityInterface
     public function attributeLabels()
     {
         return [
-            'id'          => Yii::t('user', 'ID'),
-            'role_id'     => Yii::t('user', 'Role ID'),
-            'status'      => Yii::t('user', 'Status'),
-            'email'       => Yii::t('user', 'Email'),
-            'new_email'   => Yii::t('user', 'New Email'),
-            'username'    => Yii::t('user', 'Username'),
-            'password'    => Yii::t('user', 'Password'),
-            'auth_key'    => Yii::t('user', 'Auth Key'),
-            'api_key'     => Yii::t('user', 'Api Key'),
-            'login_ip'    => Yii::t('user', 'Login Ip'),
-            'login_time'  => Yii::t('user', 'Login Time'),
-            'create_ip'   => Yii::t('user', 'Create Ip'),
+            'id' => Yii::t('user', 'ID'),
+            'role_id' => Yii::t('user', 'Role ID'),
+            'status' => Yii::t('user', 'Status'),
+            'email' => Yii::t('user', 'Email'),
+            'new_email' => Yii::t('user', 'New Email'),
+            'username' => Yii::t('user', 'Username'),
+            'password' => Yii::t('user', 'Password'),
+            'auth_key' => Yii::t('user', 'Auth Key'),
+            'api_key' => Yii::t('user', 'Api Key'),
+            'login_ip' => Yii::t('user', 'Login Ip'),
+            'login_time' => Yii::t('user', 'Login Time'),
+            'create_ip' => Yii::t('user', 'Create Ip'),
             'create_time' => Yii::t('user', 'Create Time'),
             'update_time' => Yii::t('user', 'Update Time'),
-            'ban_time'    => Yii::t('user', 'Ban Time'),
-            'ban_reason'  => Yii::t('user', 'Ban Reason'),
-
+            'ban_time' => Yii::t('user', 'Ban Time'),
+            'ban_reason' => Yii::t('user', 'Ban Reason'),
             'currentPassword' => Yii::t('user', 'Current Password'),
-            'newPassword'     => Yii::t('user', 'New Password'),
+            'newPassword' => Yii::t('user', 'New Password'),
             'newPasswordConfirm' => Yii::t('user', 'New Password Confirm'),
 
         ];
@@ -171,8 +177,10 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             'timestamp' => [
-                'class'      => 'yii\behaviors\TimestampBehavior',
-                'value'      => function () { return date("Y-m-d H:i:s"); },
+                'class' => 'yii\behaviors\TimestampBehavior',
+                'value' => function () {
+                    return date("Y-m-d H:i:s");
+                },
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => 'create_time',
                     ActiveRecord::EVENT_BEFORE_UPDATE => 'update_time',
@@ -199,6 +207,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function getProfile()
     {
         $profile = Yii::$app->getModule("user")->model("Profile");
+
         return $this->hasOne($profile::className(), ['user_id' => 'id']);
     }
 
@@ -208,6 +217,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function getRole()
     {
         $role = Yii::$app->getModule("user")->model("Role");
+
         return $this->hasOne($role::className(), ['id' => 'role_id']);
     }
 
@@ -217,6 +227,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function getUserKeys()
     {
         $userKey = Yii::$app->getModule("user")->model("UserKey");
+
         return $this->hasMany($userKey::className(), ['user_id' => 'id']);
     }
 
@@ -306,7 +317,7 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * Set attributes for registration
      *
-     * @param int    $roleId
+     * @param int $roleId
      * @param string $userIp
      * @param string $status
      * @return static
@@ -315,29 +326,28 @@ class User extends ActiveRecord implements IdentityInterface
     {
         // set default attributes
         $attributes = [
-            "role_id"   => $roleId,
+            "role_id" => $roleId,
             "create_ip" => $userIp,
-            "auth_key"  => Yii::$app->security->generateRandomString(),
-            "api_key"   => Yii::$app->security->generateRandomString(),
-            "status"    => static::STATUS_ACTIVE,
+            "auth_key" => Yii::$app->security->generateRandomString(),
+            "api_key" => Yii::$app->security->generateRandomString(),
+            "status" => static::STATUS_ACTIVE,
         ];
 
         // determine if we need to change status based on module properties
         $emailConfirmation = Yii::$app->getModule("user")->emailConfirmation;
-        $requireEmail      = Yii::$app->getModule("user")->requireEmail;
-        $useEmail          = Yii::$app->getModule("user")->useEmail;
+        $requireEmail = Yii::$app->getModule("user")->requireEmail;
+        $useEmail = Yii::$app->getModule("user")->useEmail;
         if ($status) {
             $attributes["status"] = $status;
-        }
-        elseif ($emailConfirmation && $requireEmail) {
+        } elseif ($emailConfirmation && $requireEmail) {
             $attributes["status"] = static::STATUS_INACTIVE;
-        }
-        elseif ($emailConfirmation && $useEmail && $this->email) {
+        } elseif ($emailConfirmation && $useEmail && $this->email) {
             $attributes["status"] = static::STATUS_UNCONFIRMED_EMAIL;
         }
 
         // set attributes and return
         $this->setAttributes($attributes, false);
+
         return $this;
     }
 
@@ -361,7 +371,7 @@ class User extends ActiveRecord implements IdentityInterface
 
             // set `new_email` attribute and restore old one
             $this->new_email = $this->email;
-            $this->email     = $this->getOldAttribute("email");
+            $this->email = $this->getOldAttribute("email");
 
             return true;
         }
@@ -377,7 +387,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function updateLoginMeta()
     {
         // set data
-        $this->login_ip   = Yii::$app->getRequest()->getUserIP();
+        $this->login_ip = Yii::$app->getRequest()->getUserIP();
         $this->login_time = date("Y-m-d H:i:s");
 
         // save and return
@@ -396,7 +406,7 @@ class User extends ActiveRecord implements IdentityInterface
 
         // update new_email if set
         if ($this->new_email) {
-            $this->email     = $this->new_email;
+            $this->email = $this->new_email;
             $this->new_email = null;
         }
 
@@ -407,14 +417,14 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * Check if user can do specified $permission
      *
-     * @param string    $permissionName
-     * @param array     $params
-     * @param bool      $allowCaching
+     * @param string $permissionName
+     * @param array $params
+     * @param bool $allowCaching
      * @return bool
      */
     public function can($permissionName, $params = [], $allowCaching = true)
     {
-         // check for auth manager rbac
+        // check for auth manager rbac
         $auth = Yii::$app->getAuthManager();
         if ($auth) {
             if ($allowCaching && empty($params) && isset($this->_access[$permissionName])) {
@@ -469,16 +479,16 @@ class User extends ActiveRecord implements IdentityInterface
         /** @var Message $message */
 
         // modify view path to module views
-        $mailer           = Yii::$app->mailer;
-        $oldViewPath      = $mailer->viewPath;
+        $mailer = Yii::$app->mailer;
+        $oldViewPath = $mailer->viewPath;
         $mailer->viewPath = Yii::$app->getModule("user")->emailViewPath;
 
         // send email
-        $user    = $this;
+        $user = $this;
         $profile = $user->profile;
-        $email   = $user->new_email !== null ? $user->new_email : $user->email;
+        $email = $user->new_email !== null ? $user->new_email : $user->email;
         $subject = Yii::$app->id . " - " . Yii::t("user", "Email Confirmation");
-        $message  = $mailer->compose('confirmEmail', compact("subject", "user", "profile", "userKey"))
+        $message = $mailer->compose('confirmEmail', compact("subject", "user", "profile", "userKey"))
             ->setTo($email)
             ->setSubject($subject);
 
@@ -490,6 +500,7 @@ class User extends ActiveRecord implements IdentityInterface
 
         // restore view path and return result
         $mailer->viewPath = $oldViewPath;
+
         return $result;
     }
 
@@ -513,8 +524,8 @@ class User extends ActiveRecord implements IdentityInterface
 
                 // add prettified name to dropdown
                 if (strpos($constantName, "STATUS_") === 0) {
-                    $prettyName               = str_replace("STATUS_", "", $constantName);
-                    $prettyName               = Inflector::humanize(strtolower($prettyName));
+                    $prettyName = str_replace("STATUS_", "", $constantName);
+                    $prettyName = Inflector::humanize(strtolower($prettyName));
                     $dropdown[$constantValue] = $prettyName;
                 }
             }

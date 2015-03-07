@@ -19,16 +19,16 @@ class SkinsController extends Controller
     public function behaviors()
     {
         return [
-			'access' => [
-				'class' => AccessControl::className(),
-				'rules' => [
-					[
-						'actions' => ['index', 'view', 'create', 'update', 'delete'],
-						'allow' => true,
-						'roles' => ['@'],
-					],
-				],
-			],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['index', 'view', 'create', 'update', 'delete'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -75,28 +75,28 @@ class SkinsController extends Controller
         $model = new Skins();
 
         if ($model->load(Yii::$app->request->post())) {
-			$model->file = UploadedFile::getInstance($model, 'file');
+            $model->file = UploadedFile::getInstance($model, 'file');
 
-			if ($model->file && $model->validate()) {
-				// Save model to DB
-				$model->date = time();
-				$model->save();
+            if ($model->file && $model->validate()) {
+                // Save model to DB
+                $model->date = time();
+                $model->save();
 
-				// Save skin
-				$model->file->saveAs($model->getPath($model->id));
-				Yii::$app->skins->save($model);
+                // Save skin
+                $model->file->saveAs($model->getPath($model->id));
+                Yii::$app->skins->save($model);
 
-				// Set success flash
-				Yii::$app->session->setFlash('success', 'Вы успешно создали новый скин.');
+                // Set success flash
+                Yii::$app->session->setFlash('success', 'Вы успешно создали новый скин.');
 
-				return $this->redirect(['view', 'id' => $model->id]);
-			} else {
-				Yii::$app->session->setFlash('danger', 'Перепроверьте введенные данные.');
-				
-				return $this->render('create', [
-					'model' => $model,
-				]);
-			}
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                Yii::$app->session->setFlash('danger', 'Перепроверьте введенные данные.');
+
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
+            }
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -115,16 +115,16 @@ class SkinsController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->save()) {
-			$model->file = UploadedFile::getInstance($model, 'file');
+            $model->file = UploadedFile::getInstance($model, 'file');
 
-			if ($model->file) {
-				// Save original skin
-				$model->file->saveAs($model->getPath($model->id));
-				// Save cropped skin images
-				Yii::$app->skins->save($model);
-			}
+            if ($model->file) {
+                // Save original skin
+                $model->file->saveAs($model->getPath($model->id));
+                // Save cropped skin images
+                Yii::$app->skins->save($model);
+            }
 
-			Yii::$app->session->setFlash('success', 'Вы успешно сохранили изменения.');
+            Yii::$app->session->setFlash('success', 'Вы успешно сохранили изменения.');
 
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
@@ -143,13 +143,13 @@ class SkinsController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-		// Delete files
-		@unlink($model->getPath($model->id));
-		Yii::$app->skins->delete($model);
-		// Delete model
-		$model->delete();
+        // Delete files
+        @unlink($model->getPath($model->id));
+        Yii::$app->skins->delete($model);
+        // Delete model
+        $model->delete();
 
-		Yii::$app->session->setFlash('success', 'Вы успешно удалили скин.');
+        Yii::$app->session->setFlash('success', 'Вы успешно удалили скин.');
 
         return $this->redirect(['index']);
     }

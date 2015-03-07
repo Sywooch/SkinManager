@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+
 $user = Yii::$app->getModule("user")->model("User");
 $role = Yii::$app->getModule("user")->model("Role");
 
@@ -24,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a(Yii::t('user', 'Create {modelClass}', [
-          'modelClass' => 'User',
+            'modelClass' => 'User',
         ]), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
@@ -37,8 +38,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'role_id',
                 'label' => Yii::t('user', 'Role'),
                 'filter' => $role::dropdown(),
-                'value' => function($model, $index, $dataColumn) use ($role) {
+                'value' => function ($model, $index, $dataColumn) use ($role) {
                     $roleDropdown = $role::dropdown();
+
                     return $roleDropdown[$model->role_id];
                 },
             ],
@@ -46,8 +48,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'status',
                 'label' => Yii::t('user', 'Status'),
                 'filter' => $user::statusDropdown(),
-                'value' => function($model, $index, $dataColumn) use ($user) {
+                'value' => function ($model, $index, $dataColumn) use ($user) {
                     $statusDropdown = $user::statusDropdown();
+
                     return $statusDropdown[$model->status];
                 },
             ],

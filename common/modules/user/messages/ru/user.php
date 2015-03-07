@@ -8,10 +8,8 @@ return [
     'Create Time' => 'Дата создания',
     'Update Time' => 'Дата обновления',
     'Full Name' => 'Полное имя',
-
     'Name' => 'Имя',
     'Can Admin' => 'Имеет права админа',
-
     'Role' => 'Роль',
     'Role ID' => 'Номер роли',
     'Status' => 'Статус',
@@ -30,16 +28,13 @@ return [
     'New Password' => 'Новый пароль',
 //    'New Password Confirm' => '',
     'Email Confirmation' => 'Email подтверждение',
-
     'Provider' => 'Пригласивший',
     'Provider ID' => 'ID пользователя который пригласил',
     'Provider Attributes' => 'Атрибуты приглашения',
-
     'Type' => 'Тип',
     'Key' => 'Ключ',
     'Consume Time' => 'Дата получения',
     'Expire Time' => 'Срок действия',
-
     // models/forms
     'Email not found' => 'Email не найден',
     'Email / Username' => 'Логин/email',
@@ -60,11 +55,9 @@ return [
     'Confirmation email resent' => 'Подтверждение по email отправлено заново',
     'Email change cancelled' => 'Изменение email отменено',
     'Instructions to reset your password have been sent' => 'Инструкции по изменению вашего пароля, были отправлены вам на email',
-
     // mail
     'Please confirm your email address by clicking the link below:' => 'Пожалуйста, подтвердите свой ​​email, нажав на ссылку ниже:',
     'Please use this link to reset your password:' => 'Пожалуйста, воспользуйтесь этой ссылкой для восстановления пароля:',
-
     // admin views
     'Users' => 'Пользователи',
     'Banned' => 'Забанено',
@@ -76,7 +69,6 @@ return [
     'Create {modelClass}' => 'Создать пользователя',
     'Update {modelClass}: ' => 'Изменить пользователя: ',
     'Are you sure you want to delete this item?' => 'Вы уверены, что хотите удалить аккаунт?',
-
     // default views
     'Account' => 'Аккаунт',
     'Pending email confirmation: {newEmail}' => 'В ожидании подтверждения по электронной почте: {newEmail}',

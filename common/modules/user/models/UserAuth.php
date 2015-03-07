@@ -52,13 +52,13 @@ class UserAuth extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'                  => Yii::t('user', 'ID'),
-            'user_id'             => Yii::t('user', 'User ID'),
-            'provider'            => Yii::t('user', 'Provider'),
-            'provider_id'         => Yii::t('user', 'Provider ID'),
+            'id' => Yii::t('user', 'ID'),
+            'user_id' => Yii::t('user', 'User ID'),
+            'provider' => Yii::t('user', 'Provider'),
+            'provider_id' => Yii::t('user', 'Provider ID'),
             'provider_attributes' => Yii::t('user', 'Provider Attributes'),
-            'create_time'         => Yii::t('user', 'Create Time'),
-            'update_time'         => Yii::t('user', 'Update Time'),
+            'create_time' => Yii::t('user', 'Create Time'),
+            'update_time' => Yii::t('user', 'Update Time'),
         ];
     }
 
@@ -69,8 +69,10 @@ class UserAuth extends \yii\db\ActiveRecord
     {
         return [
             'timestamp' => [
-                'class'      => 'yii\behaviors\TimestampBehavior',
-                'value'      => function () { return date("Y-m-d H:i:s"); },
+                'class' => 'yii\behaviors\TimestampBehavior',
+                'value' => function () {
+                    return date("Y-m-d H:i:s");
+                },
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => 'create_time',
                     ActiveRecord::EVENT_BEFORE_UPDATE => 'update_time',
@@ -96,6 +98,7 @@ class UserAuth extends \yii\db\ActiveRecord
     public function setUser($userId)
     {
         $this->user_id = $userId;
+
         return $this;
     }
 
@@ -108,6 +111,7 @@ class UserAuth extends \yii\db\ActiveRecord
     public function setProviderAttributes($attributes)
     {
         $this->provider_attributes = json_encode($attributes);
+
         return $this;
     }
 

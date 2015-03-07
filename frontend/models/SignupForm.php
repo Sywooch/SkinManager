@@ -24,12 +24,15 @@ class SignupForm extends Model
             ['username', 'required'],
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Такой логин уже занят.'],
             ['username', 'string', 'min' => 2, 'max' => 255],
-
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
             ['email', 'email'],
-            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Такой email уже был использован.'],
-
+            [
+                'email',
+                'unique',
+                'targetClass' => '\common\models\User',
+                'message' => 'Такой email уже был использован.'
+            ],
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
         ];

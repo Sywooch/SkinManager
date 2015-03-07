@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-default-account">
 
-	<h1 class="page-header"><?= Html::encode($this->title) ?></h1>
+    <h1 class="page-header"><?= Html::encode($this->title) ?></h1>
 
     <?php if ($flash = Yii::$app->session->getFlash("Account-success")): ?>
 
@@ -59,9 +59,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <?php if ($user->new_email !== null): ?>
 
-                <p class="small"><?= Yii::t('user', "Pending email confirmation: [ {newEmail} ]", ["newEmail" => $user->new_email]) ?></p>
+                <p class="small"><?= Yii::t('user', "Pending email confirmation: [ {newEmail} ]",
+                        ["newEmail" => $user->new_email]) ?></p>
                 <p class="small">
-                    <?= Html::a(Yii::t("user", "Resend"), ["/user/resend-change"]) ?> / <?= Html::a(Yii::t("user", "Cancel"), ["/user/cancel"]) ?>
+                    <?= Html::a(Yii::t("user", "Resend"), ["/user/resend-change"]) ?> / <?= Html::a(Yii::t("user",
+                        "Cancel"), ["/user/cancel"]) ?>
                 </p>
 
             <?php elseif (Yii::$app->getModule("user")->emailConfirmation): ?>

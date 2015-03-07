@@ -190,13 +190,13 @@ class Module extends \yii\base\Module implements BootstrapInterface
     protected function getDefaultModelClasses()
     {
         return [
-            'User'       => 'common\modules\user\models\User',
-            'Profile'    => 'common\modules\user\models\Profile',
-            'Role'       => 'common\modules\user\models\Role',
-            'UserKey'    => 'common\modules\user\models\UserKey',
-            'UserAuth'   => 'common\modules\user\models\UserAuth',
+            'User' => 'common\modules\user\models\User',
+            'Profile' => 'common\modules\user\models\Profile',
+            'Role' => 'common\modules\user\models\Role',
+            'UserKey' => 'common\modules\user\models\UserKey',
+            'UserAuth' => 'common\modules\user\models\UserAuth',
             'ForgotForm' => 'common\modules\user\models\forms\ForgotForm',
-            'LoginForm'  => 'common\modules\user\models\forms\LoginForm',
+            'LoginForm' => 'common\modules\user\models\forms\LoginForm',
             'ResendForm' => 'common\modules\user\models\forms\ResendForm',
             'UserSearch' => 'common\modules\user\models\search\UserSearch',
         ];
@@ -206,7 +206,7 @@ class Module extends \yii\base\Module implements BootstrapInterface
      * Get object instance of model
      *
      * @param string $name
-     * @param array  $config
+     * @param array $config
      * @return ActiveRecord
      */
     public function model($name, $config = [])
@@ -223,6 +223,7 @@ class Module extends \yii\base\Module implements BootstrapInterface
         // create model and return it
         $className = $this->modelClasses[ucfirst($name)];
         $this->_models[$name] = Yii::createObject(array_merge(["class" => $className], $config));
+
         return $this->_models[$name];
     }
 
@@ -262,7 +263,7 @@ class Module extends \yii\base\Module implements BootstrapInterface
     public function createController($route)
     {
         // check valid routes
-        $validRoutes  = [$this->defaultRoute, "admin", "copy", "auth"];
+        $validRoutes = [$this->defaultRoute, "admin", "copy", "auth"];
         $isValidRoute = false;
         foreach ($validRoutes as $validRoute) {
             if (strpos($route, $validRoute) === 0) {

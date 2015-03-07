@@ -66,6 +66,7 @@ class ResendForm extends Model
                 $this->_user = $user::findOne(["new_email" => $this->email]);
             }
         }
+
         return $this->_user;
     }
 
@@ -91,7 +92,7 @@ class ResendForm extends Model
 
             // get user
             /** @var \common\modules\user\models\UserKey $userKey */
-            $user    = $this->getUser();
+            $user = $this->getUser();
             $userKey = Yii::$app->getModule("user")->model("UserKey");
 
             // calculate type

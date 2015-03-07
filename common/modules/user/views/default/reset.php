@@ -16,13 +16,14 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-default-reset">
 
-	<h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($this->title) ?></h1>
 
     <?php if (!empty($success)): ?>
 
         <div class="alert alert-success">
 
             <p><?= Yii::t("user", "Password has been reset") ?></p>
+
             <p><?= Html::a(Yii::t("user", "Log in here"), ["/user/login"]) ?></p>
 
         </div>
@@ -33,21 +34,21 @@ $this->params['breadcrumbs'][] = $this->title;
             <p><?= Yii::t("user", "Invalid key") ?></p>
         </div>
 
-	<?php else: ?>
+    <?php else: ?>
 
         <div class="row">
             <div class="col-lg-5">
                 <?php $form = ActiveForm::begin(['id' => 'reset-form']); ?>
 
-                    <?= $form->field($user, 'newPassword')->passwordInput() ?>
-                    <?= $form->field($user, 'newPasswordConfirm')->passwordInput() ?>
-                    <div class="form-group">
-                        <?= Html::submitButton(Yii::t("user", "Reset"), ['class' => 'btn btn-primary']) ?>
-                    </div>
+                <?= $form->field($user, 'newPassword')->passwordInput() ?>
+                <?= $form->field($user, 'newPasswordConfirm')->passwordInput() ?>
+                <div class="form-group">
+                    <?= Html::submitButton(Yii::t("user", "Reset"), ['class' => 'btn btn-primary']) ?>
+                </div>
                 <?php ActiveForm::end(); ?>
             </div>
         </div>
 
-	<?php endif; ?>
+    <?php endif; ?>
 
 </div>

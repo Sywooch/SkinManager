@@ -6,15 +6,20 @@ use Yii;
 use yii\base\Widget;
 use yii\helpers\Html;
 
+/**
+ * Class SkinsWidget
+ * TODO: this
+ * @package common\components\skins
+ */
 class SkinsWidget extends Widget
 {
 
-	public function init()
-	{
-		parent::init();
-	}
+    public function init()
+    {
+        parent::init();
+    }
 
-	public function run()
+    public function run()
     {
         return;
     }

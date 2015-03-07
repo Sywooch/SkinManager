@@ -19,7 +19,25 @@ class UserSearch extends User
     {
         return [
             [['id', 'role_id', 'status'], 'integer'],
-            [['email', 'new_email', 'username', 'password', 'auth_key', 'api_key', 'login_ip', 'login_time', 'create_ip', 'create_time', 'update_time', 'ban_time', 'ban_reason', 'profile.full_name'], 'safe'],
+            [
+                [
+                    'email',
+                    'new_email',
+                    'username',
+                    'password',
+                    'auth_key',
+                    'api_key',
+                    'login_ip',
+                    'login_time',
+                    'create_ip',
+                    'create_time',
+                    'update_time',
+                    'ban_time',
+                    'ban_reason',
+                    'profile.full_name'
+                ],
+                'safe'
+            ],
         ];
     }
 
@@ -53,16 +71,18 @@ class UserSearch extends User
         /** @var \common\modules\user\models\Profile $profile */
 
         // get models
-        $user         = Yii::$app->getModule("user")->model("User");
-        $profile      = Yii::$app->getModule("user")->model("Profile");
-        $userTable    = $user::tableName();
+        $user = Yii::$app->getModule("user")->model("User");
+        $profile = Yii::$app->getModule("user")->model("Profile");
+        $userTable = $user::tableName();
         $profileTable = $profile::tableName();
 
         // set up query with relation to `profile.full_name`
         $query = $user::find();
-        $query->joinWith(['profile' => function($query) use ($profileTable) {
-            $query->from(['profile' => $profileTable]);
-        }]);
+        $query->joinWith([
+            'profile' => function ($query) use ($profileTable) {
+                $query->from(['profile' => $profileTable]);
+            }
+        ]);
 
         // create data provider
         $dataProvider = new ActiveDataProvider([
@@ -73,8 +93,8 @@ class UserSearch extends User
         $addSortAttributes = ["profile.full_name"];
         foreach ($addSortAttributes as $addSortAttribute) {
             $dataProvider->sort->attributes[$addSortAttribute] = [
-                'asc'   => [$addSortAttribute => SORT_ASC],
-                'desc'  => [$addSortAttribute => SORT_DESC],
+                'asc' => [$addSortAttribute => SORT_ASC],
+                'desc' => [$addSortAttribute => SORT_DESC],
             ];
         }
 
@@ -84,8 +104,8 @@ class UserSearch extends User
 
         $query->andFilterWhere([
             "{$userTable}.id" => $this->id,
-            'role_id'         => $this->role_id,
-            'status'          => $this->status,
+            'role_id' => $this->role_id,
+            'status' => $this->status,
         ]);
 
         $query->andFilterWhere(['like', 'email', $this->email])

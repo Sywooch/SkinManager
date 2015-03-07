@@ -11,6 +11,7 @@ $this->title = Yii::t('user', 'Yii 2 User');
 <div class="user-default-index">
 
     <h1>Yii 2 User Module - <?= Yii::$app->getModule("user")->getVersion(); ?></h1>
+
     <h3>Actions in this module</h3>
 
     <p>

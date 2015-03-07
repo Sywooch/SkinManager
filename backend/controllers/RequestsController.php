@@ -21,16 +21,16 @@ class RequestsController extends Controller
     public function behaviors()
     {
         return [
-			'access' => [
-				'class' => AccessControl::className(),
-				'rules' => [
-					[
-						'actions' => ['index', 'view', 'accept', 'update', 'delete'],
-						'allow' => true,
-						'roles' => ['@'],
-					],
-				],
-			],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['index', 'view', 'accept', 'update', 'delete'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -86,52 +86,52 @@ class RequestsController extends Controller
         }
     }
 
-	public function actionAccept($id)
-	{
-		$model = $this->findModel($id);
+    public function actionAccept($id)
+    {
+        $model = $this->findModel($id);
 
-		if ($model->type === 'Скин') {
-			$skinModel = new Skins();
-			$skinModel->name = $model->name;
-			$skinModel->date = $model->date;
-			$skinModel->save();
+        if ($model->type === 'Скин') {
+            $skinModel = new Skins();
+            $skinModel->name = $model->name;
+            $skinModel->date = $model->date;
+            $skinModel->save();
 
-			// Move original skin file
-			rename($model->getPath($model->id), $skinModel->getPath($skinModel->id));
-			// Save skin images
-			Yii::$app->skins->save($skinModel);
-			// Delete old images
-			Yii::$app->skins->delete($model);
-		} elseif ($model->type === 'HD Скин') {
-			$hdskinModel = new Hdskins();
-			$hdskinModel->name = $model->name;
-			$hdskinModel->date = $model->date;
-			$hdskinModel->save();
+            // Move original skin file
+            rename($model->getPath($model->id), $skinModel->getPath($skinModel->id));
+            // Save skin images
+            Yii::$app->skins->save($skinModel);
+            // Delete old images
+            Yii::$app->skins->delete($model);
+        } elseif ($model->type === 'HD Скин') {
+            $hdskinModel = new Hdskins();
+            $hdskinModel->name = $model->name;
+            $hdskinModel->date = $model->date;
+            $hdskinModel->save();
 
-			// Move original skin file
-			rename($model->getPath($model->id), $hdskinModel->getPath($hdskinModel->id));
-			// Save skin images
-			Yii::$app->skins->save($hdskinModel);
-			// Delete old images
-			Yii::$app->skins->delete($model);
-		} elseif ($model->type === 'Плащ') {
-			$cloakModel = new Cloaks();
-			$cloakModel->name = $model->name;
-			$cloakModel->date = $model->date;
-			$cloakModel->save();
+            // Move original skin file
+            rename($model->getPath($model->id), $hdskinModel->getPath($hdskinModel->id));
+            // Save skin images
+            Yii::$app->skins->save($hdskinModel);
+            // Delete old images
+            Yii::$app->skins->delete($model);
+        } elseif ($model->type === 'Плащ') {
+            $cloakModel = new Cloaks();
+            $cloakModel->name = $model->name;
+            $cloakModel->date = $model->date;
+            $cloakModel->save();
 
-			// Move original skin file
-			rename($model->getPath($model->id), $cloakModel->getPath($cloakModel->id));
-			// Save skin images
-			Yii::$app->cloaks->save($cloakModel);
-			// Delete old images
-			Yii::$app->cloaks->delete($model);
-		}
+            // Move original skin file
+            rename($model->getPath($model->id), $cloakModel->getPath($cloakModel->id));
+            // Save skin images
+            Yii::$app->cloaks->save($cloakModel);
+            // Delete old images
+            Yii::$app->cloaks->delete($model);
+        }
 
-		$model->delete();
-		
-		return $this->redirect(['index']);
-	}
+        $model->delete();
+
+        return $this->redirect(['index']);
+    }
 
     /**
      * Deletes an existing Requests model.
@@ -143,15 +143,15 @@ class RequestsController extends Controller
     {
         $model = $this->findModel($id);
 
-		unlink($model->getPath($model->id));
+        unlink($model->getPath($model->id));
 
-		if ($model->type === 'Скин' or $model->type === 'HD Скин') {
-			Yii::$app->skins->delete($model);
-		} elseif ($model->type === 'Плащ') {
-			Yii::$app->cloaks->delete($model);
-		}
+        if ($model->type === 'Скин' or $model->type === 'HD Скин') {
+            Yii::$app->skins->delete($model);
+        } elseif ($model->type === 'Плащ') {
+            Yii::$app->cloaks->delete($model);
+        }
 
-		$model->delete();
+        $model->delete();
 
         return $this->redirect(['index']);
     }

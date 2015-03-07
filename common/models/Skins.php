@@ -18,30 +18,30 @@ use yii\db\ActiveRecord;
  */
 class Skins extends ActiveRecord
 {
-	/**
-	 * @var string Url to skins
-	 */
-	public $baseUrl;
-	/**
-	 * @var string Path to skins
-	 */
-	public $basePath;
-	/**
-	 * @var resource Skin image
-	 */
-	public $file;
+    /**
+     * @var string Url to skins
+     */
+    public $baseUrl;
+    /**
+     * @var string Path to skins
+     */
+    public $basePath;
+    /**
+     * @var resource Skin image
+     */
+    public $file;
 
-	/**
-	 * Set path and url
-	 */
-	public function init()
-	{
-		parent::init();
+    /**
+     * Set path and url
+     */
+    public function init()
+    {
+        parent::init();
 
-		// Set base paths and urls
-		$this->baseUrl = Yii::$app->params['frontendUrl'] . '/uploads/skins/';
-		$this->basePath = Yii::getAlias('@frontend/web/uploads/skins/');
-	}
+        // Set base paths and urls
+        $this->baseUrl = Yii::$app->params['frontendUrl'] . '/uploads/skins/';
+        $this->basePath = Yii::getAlias('@frontend/web/uploads/skins/');
+    }
 
     /**
      * @inheritdoc
@@ -58,11 +58,9 @@ class Skins extends ActiveRecord
     {
         return [
             [['date', 'rate', 'views', 'downloads'], 'integer'],
-
             [['name'], 'required'],
             [['name'], 'string', 'max' => 255],
-
-			[['file'], 'image', 'mimeTypes' => 'image/png', 'maxHeight' => 64, 'maxWidth' => 64],
+            [['file'], 'image', 'mimeTypes' => 'image/png', 'maxHeight' => 64, 'maxWidth' => 64],
         ];
     }
 
@@ -82,25 +80,25 @@ class Skins extends ActiveRecord
         ];
     }
 
-	/**
-	 * Get url of skin by id
-	 *
-	 * @param int $id
-	 * @return string
-	 */
-	public function getUrl($id)
-	{
-		return $this->baseUrl . $id . '.png';
-	}
+    /**
+     * Get url of skin by id
+     *
+     * @param int $id
+     * @return string
+     */
+    public function getUrl($id)
+    {
+        return $this->baseUrl . $id . '.png';
+    }
 
-	/**
-	 * Get path of skin by id
-	 *
-	 * @param int $id
-	 * @return string
-	 */
-	public function getPath($id)
-	{
-		return $this->basePath . $id . '.png';
-	}
+    /**
+     * Get path of skin by id
+     *
+     * @param int $id
+     * @return string
+     */
+    public function getPath($id)
+    {
+        return $this->basePath . $id . '.png';
+    }
 }

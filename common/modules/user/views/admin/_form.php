@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+
 $role = Yii::$app->getModule("user")->model("Role");
 
 /**
@@ -38,7 +39,8 @@ $role = Yii::$app->getModule("user")->model("Role");
     <?= $form->field($user, 'ban_reason'); ?>
 
     <div class="form-group">
-        <?= Html::submitButton($user->isNewRecord ? Yii::t('user', 'Create') : Yii::t('user', 'Update'), ['class' => $user->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($user->isNewRecord ? Yii::t('user', 'Create') : Yii::t('user', 'Update'),
+            ['class' => $user->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

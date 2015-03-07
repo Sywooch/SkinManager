@@ -45,11 +45,11 @@ class Profile extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'          => Yii::t('user', 'ID'),
-            'user_id'     => Yii::t('user', 'User ID'),
+            'id' => Yii::t('user', 'ID'),
+            'user_id' => Yii::t('user', 'User ID'),
             'create_time' => Yii::t('user', 'Create Time'),
             'update_time' => Yii::t('user', 'Update Time'),
-            'full_name'   => Yii::t('user', 'Full Name'),
+            'full_name' => Yii::t('user', 'Full Name'),
         ];
     }
 
@@ -60,8 +60,10 @@ class Profile extends ActiveRecord
     {
         return [
             'timestamp' => [
-                'class'      => 'yii\behaviors\TimestampBehavior',
-                'value'      => function () { return date("Y-m-d H:i:s"); },
+                'class' => 'yii\behaviors\TimestampBehavior',
+                'value' => function () {
+                    return date("Y-m-d H:i:s");
+                },
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => 'create_time',
                     ActiveRecord::EVENT_BEFORE_UPDATE => 'update_time',
@@ -76,6 +78,7 @@ class Profile extends ActiveRecord
     public function getUser()
     {
         $user = Yii::$app->getModule("user")->model("User");
+
         return $this->hasOne($user::className(), ['id' => 'user_id']);
     }
 
@@ -88,6 +91,7 @@ class Profile extends ActiveRecord
     public function setUser($userId)
     {
         $this->user_id = $userId;
+
         return $this;
     }
 }

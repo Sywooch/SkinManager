@@ -55,11 +55,11 @@ class Role extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'          => Yii::t('user', 'ID'),
-            'name'        => Yii::t('user', 'Name'),
+            'id' => Yii::t('user', 'ID'),
+            'name' => Yii::t('user', 'Name'),
             'create_time' => Yii::t('user', 'Create Time'),
             'update_time' => Yii::t('user', 'Update Time'),
-            'can_admin'   => Yii::t('user', 'Can Admin'),
+            'can_admin' => Yii::t('user', 'Can Admin'),
         ];
     }
 
@@ -70,8 +70,10 @@ class Role extends ActiveRecord
     {
         return [
             'timestamp' => [
-                'class'      => 'yii\behaviors\TimestampBehavior',
-                'value'      => function () { return date("Y-m-d H:i:s"); },
+                'class' => 'yii\behaviors\TimestampBehavior',
+                'value' => function () {
+                    return date("Y-m-d H:i:s");
+                },
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_INSERT => 'create_time',
                     ActiveRecord::EVENT_BEFORE_UPDATE => 'update_time',
@@ -86,6 +88,7 @@ class Role extends ActiveRecord
     public function getUsers()
     {
         $user = Yii::$app->getModule("user")->model("User");
+
         return $this->hasMany($user::className(), ['role_id' => 'id']);
     }
 
@@ -98,6 +101,7 @@ class Role extends ActiveRecord
     public function checkPermission($permission)
     {
         $roleAttribute = "can_{$permission}";
+
         return $this->$roleAttribute ? true : false;
     }
 

@@ -94,6 +94,7 @@ class AdminController extends Controller
         if ($user->load($post) && $user->validate() && $profile->load($post) && $profile->validate()) {
             $user->save(false);
             $profile->setUser($user->id)->save(false);
+
             return $this->redirect(['view', 'id' => $user->id]);
         }
 
@@ -123,6 +124,7 @@ class AdminController extends Controller
         if ($user->load($post) && $user->validate() && $profile->load($post) && $profile->validate()) {
             $user->save(false);
             $profile->setUser($user->id)->save(false);
+
             return $this->redirect(['view', 'id' => $user->id]);
         }
 

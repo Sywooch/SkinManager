@@ -8,10 +8,8 @@ return [
     'Create Time' => '创建时间',
     'Update Time' => '更新时间',
     'Full Name' => '全名',
-
     'Name' => '名称',
     'Can Admin' => '是否管理员',
-
     'Role' => '角色',
     'Role ID' => '角色 ID',
     'Status' => '状态',
@@ -30,16 +28,13 @@ return [
     'New Password' => '新密码',
     'New Password Confirm' => '确认新密码',
     'Email Confirmation' => '验证邮件',
-
     'Provider' => 'Provider',
     'Provider ID' => 'Provider ID',
     'Provider Attributes' => 'Provider Attributes',
-
     'Type' => '类型',
     'Key' => 'Key',
     'Consume Time' => '使用时间',
     'Expire Time' => '超时时间',
-
     // models/forms
     'Email not found' => '该邮箱尚未注册',
     'Email / Username' => '邮箱 / 用户名',
@@ -51,7 +46,6 @@ return [
     'Email is already active' => '该邮箱已经被激活，无需再激活',
     'Passwords do not match' => '两个密码不一致',
     '{attribute} can contain only letters, numbers, and "_"' => '{attribute} 只能包含字母、数字和下划线_',
-
     // controllers
     'Successfully registered [ {displayName} ]' => '[ {displayName} ] 注册成功！',
     ' - Please check your email to confirm your account' => '请到您的邮箱激活账户',
@@ -60,11 +54,9 @@ return [
     'Confirmation email resent' => '验证邮件已发送',
     'Email change cancelled' => '已取消更改邮箱地址得请求',
     'Instructions to reset your password have been sent' => '重置密码邮件已发送',
-
     // mail
     'Please confirm your email address by clicking the link below:' => '请点击下面链接以认证您的邮箱地址：',
     'Please use this link to reset your password:' => '请使用该链接来重置您的密码：',
-
     // admin views
     'Users' => '用户',
     'Banned' => '封号',
@@ -76,7 +68,6 @@ return [
     'Create {modelClass}' => '创建 {modelClass}',
     'Update {modelClass}: ' => '更新 {modelClass}: ',
     'Are you sure you want to delete this item?' => '确定要删除该项目吗？',
-
     // default views
     'Account' => '账号',
     'Pending email confirmation: [ {newEmail} ]' => '等待邮件验证: [ {newEmail} ]',

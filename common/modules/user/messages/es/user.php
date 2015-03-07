@@ -8,10 +8,8 @@ return [
     'Create Time' => 'Fecha de Creación',
     'Update Time' => 'Fecha de Actualización',
     'Full Name' => 'Nombre completo',
-
     'Name' => 'Nombre',
     'Can Admin' => 'Puede Administrar',
-
     'Role' => 'Rol',
     'Role ID' => 'Código de Rol',
     'Status' => 'Estado',
@@ -30,16 +28,13 @@ return [
     'New Password' => 'Nueva Contraseña',
 //    'New Password Confirm' => '',
     'Email Confirmation' => 'Confirmación de correo',
-
     'Provider' => 'Proveedor',
     'Provider ID' => 'Código de proveedor',
     'Provider Attributes' => 'Atributos de proveedor',
-
     'Type' => 'Tipo',
     'Key' => 'Clave',
     'Consume Time' => 'Fecha de Consumición',
     'Expire Time' => 'Fecha de Expiración',
-
     // models/forms
     'Email not found' => 'Correo no encontrado',
     'Email / Username' => 'Correo / Usuario',
@@ -60,11 +55,9 @@ return [
     'Confirmation email resent' => 'Correo de confirmación reenviado',
     'Email change cancelled' => 'Cambio de correo cancelado',
     'Instructions to reset your password have been sent' => 'Las instrucciones para reiniciar tu contraseña han sido enviadas',
-
     // mail
     'Please confirm your email address by clicking the link below:' => 'Por favor, confirma tu dirección de correo haciendo click en el enlace de abajo:',
     'Please use this link to reset your password:' => 'Por favor, usa este link para reiniciar tu contraseña:',
-
     // admin views
     'Users' => 'Usuarios',
     'Banned' => 'Expulsado',
@@ -76,7 +69,6 @@ return [
     'Create {modelClass}' => 'Crear {modelClass}',
     'Update {modelClass}: ' => 'Actualizar {modelClass}: ',
     'Are you sure you want to delete this item?' => '¿Está seguro de que desea eliminar este elemento?',
-
     // default views
     'Account' => 'Cuenta',
     'Pending email confirmation: [ {newEmail} ]' => 'Confirmación de correo pendiente: [ {newEmail} ]',

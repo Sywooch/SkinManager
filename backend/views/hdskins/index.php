@@ -24,21 +24,21 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             [
-				'attribute' => 'id',
-				'contentOptions' => ['style' => 'width: 8%']
-			],
-			[
-				'attribute' => 'file',
-				'format' => 'raw',
-				'value' => function ($model) {
-					return Yii::$app->skins->image($model);
-				},
-			],
+                'attribute' => 'id',
+                'contentOptions' => ['style' => 'width: 8%']
+            ],
+            [
+                'attribute' => 'file',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return Yii::$app->skins->image($model);
+                },
+            ],
             'name',
             [
-				'attribute' => 'date',
-				'format' => ['date', 'dd.MM.Y H:m'],
-			],
+                'attribute' => 'date',
+                'format' => ['date', 'dd.MM.Y H:m'],
+            ],
             'rate',
             'views',
 //            'downloads',

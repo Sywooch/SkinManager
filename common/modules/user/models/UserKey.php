@@ -67,13 +67,13 @@ class UserKey extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'           => Yii::t('user', 'ID'),
-            'user_id'      => Yii::t('user', 'User ID'),
-            'type'         => Yii::t('user', 'Type'),
-            'key'          => Yii::t('user', 'Key'),
-            'create_time'  => Yii::t('user', 'Create Time'),
+            'id' => Yii::t('user', 'ID'),
+            'user_id' => Yii::t('user', 'User ID'),
+            'type' => Yii::t('user', 'Type'),
+            'key' => Yii::t('user', 'Key'),
+            'create_time' => Yii::t('user', 'Create Time'),
             'consume_time' => Yii::t('user', 'Consume Time'),
-            'expire_time'  => Yii::t('user', 'Expire Time'),
+            'expire_time' => Yii::t('user', 'Expire Time'),
         ];
     }
 
@@ -84,8 +84,10 @@ class UserKey extends ActiveRecord
     {
         return [
             'timestamp' => [
-                'class'      => 'yii\behaviors\TimestampBehavior',
-                'value'      => function () { return date("Y-m-d H:i:s"); },
+                'class' => 'yii\behaviors\TimestampBehavior',
+                'value' => function () {
+                    return date("Y-m-d H:i:s");
+                },
                 'attributes' => [
                     // set only create_time because there is no update_time
                     ActiveRecord::EVENT_BEFORE_INSERT => ['create_time'],
@@ -100,14 +102,15 @@ class UserKey extends ActiveRecord
     public function getUser()
     {
         $user = Yii::$app->getModule("user")->model("User");
+
         return $this->hasOne($user::className(), ['id' => 'user_id']);
     }
 
     /**
      * Generate/reuse a userKey
      *
-     * @param int    $userId
-     * @param int    $type
+     * @param int $userId
+     * @param int $type
      * @param string $expireTime
      * @return static
      */
@@ -121,29 +124,31 @@ class UserKey extends ActiveRecord
         }
 
         // set/update data
-        $model->user_id     = $userId;
-        $model->type        = $type;
+        $model->user_id = $userId;
+        $model->type = $type;
         $model->create_time = date("Y-m-d H:i:s");
         $model->expire_time = $expireTime;
-        $model->key         = Yii::$app->security->generateRandomString();
+        $model->key = Yii::$app->security->generateRandomString();
         $model->save(false);
+
         return $model;
     }
 
     /**
      * Find an active userKey by userId
      *
-     * @param int       $userId
+     * @param int $userId
      * @param array|int $type
      * @return static
      */
     public static function findActiveByUser($userId, $type)
     {
         $now = date("Y-m-d H:i:s");
+
         return static::find()
             ->where([
-                "user_id"      => $userId,
-                "type"         => $type,
+                "user_id" => $userId,
+                "type" => $type,
                 "consume_time" => null,
             ])
             ->andWhere("([[expire_time]] >= '$now' or [[expire_time]] is NULL)")
@@ -153,17 +158,18 @@ class UserKey extends ActiveRecord
     /**
      * Find an active userKey by key
      *
-     * @param string    $key
+     * @param string $key
      * @param array|int $type
      * @return static
      */
     public static function findActiveByKey($key, $type)
     {
         $now = date("Y-m-d H:i:s");
+
         return static::find()
             ->where([
-                "key"          => $key,
-                "type"         => $type,
+                "key" => $key,
+                "type" => $type,
                 "consume_time" => null,
             ])
             ->andWhere("([[expire_time]] >= '$now' or [[expire_time]] is NULL)")
@@ -179,6 +185,7 @@ class UserKey extends ActiveRecord
     {
         $this->consume_time = date("Y-m-d H:i:s");
         $this->save(false);
+
         return $this;
     }
 
@@ -191,6 +198,7 @@ class UserKey extends ActiveRecord
     {
         $this->expire_time = date("Y-m-d H:i:s");
         $this->save(false);
+
         return $this;
     }
 }

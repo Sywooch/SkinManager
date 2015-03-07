@@ -8,10 +8,8 @@ return [
     'Create Time' => 'Дата створення',
     'Update Time' => 'Дата оновлення',
     'Full Name' => 'Повне ім\'я',
-
     'Name' => 'Ім\'я',
     'Can Admin' => 'Має права адміністратора',
-
     'Role' => 'Роль',
     'Role ID' => 'Номер ролі',
     'Status' => 'Статус',
@@ -30,16 +28,13 @@ return [
     'New Password' => 'Новий пароль',
 //    'New Password Confirm' => '',
     'Email Confirmation' => 'E-mail підтвердження',
-
     'Provider' => 'Запрошення',
     'Provider ID' => 'Номер користувача що запросив',
     'Provider Attributes' => 'Атрибути запрошення',
-
     'Type' => 'Тип',
     'Key' => 'Ключ',
     'Consume Time' => 'Дата видачі',
     'Expire Time' => 'Термін дії',
-
     // models/forms
     'Email not found' => 'E-mail не знайдено',
     'Email / Username' => 'E-mail / ім\'я користувача',
@@ -60,11 +55,9 @@ return [
     'Confirmation email resent' => 'Підтвердження електронною поштою надіслано повторно',
     'Email change cancelled' => 'Зміна E-mail скасована',
     'Instructions to reset your password have been sent' => 'Інструкції щодо зміни паролю, було надіслано до вашої поштової скриньки',
-
     // mail
     'Please confirm your email address by clicking the link below:' => 'Будь ласка, підтвердіть свою адресу електронної пошти, натиснувши на посилання нижче:',
     'Please use this link to reset your password:' => 'Будь ласка, скористайтесь цим посиланням для відновлення пароля:',
-
     // admin views
     'Users' => 'Користувачі',
     'Banned' => 'Заблоковано',
@@ -76,7 +69,6 @@ return [
     'Create {modelClass}' => 'Створити {modelClass}',
     'Update {modelClass}: ' => 'Змінити {modelClass}: ',
     'Are you sure you want to delete this item?' => 'Ви впевнені, що хочете видалити ваш аккаунт?',
-
     // default views
     'Account' => 'Аккаунт',
     'Pending email confirmation: [ {newEmail} ]' => 'В очікуванні підтвердження електронною поштою: [ {newEmail} ]',
