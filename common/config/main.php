@@ -25,11 +25,6 @@ return [
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
-            'useFileTransport' => true,
-            'messageConfig' => [
-                'from' => ['admin@website.com' => 'Admin'], // this is needed for sending emails
-                'charset' => 'UTF-8',
-            ]
         ],
         'i18n' => [
             'translations' => [
