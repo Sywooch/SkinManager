@@ -51,6 +51,8 @@ return [
                 '/cloaks/page/<page:\d+>' => 'cloaks/index',
                 '/cloaks/<id:\d+>' => 'cloaks/view',
                 '/cloaks/download/<id:\d+>' => 'cloaks/download',
+                '/search' => 'search/index',
+                '/requests' => 'requests/index',
                 'sitemap.xml' => 'sitemap/index',
             ],
         ],
