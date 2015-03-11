@@ -20,21 +20,5 @@ return [
         'cloaks' => [
             'class' => 'common\components\cloaks\Cloaks',
         ],
-        'user' => [
-            'class' => 'common\modules\user\components\User',
-        ],
-        'i18n' => [
-            'translations' => [
-                'user' => [
-                    'class' => 'yii\i18n\PhpMessageSource',
-                    'basePath' => '@common/modules/user/messages',
-                ]
-            ],
-        ],
-    ],
-    'modules' => [
-        'user' => [
-            'class' => 'common\modules\user\Module',
-        ],
     ],
 ];

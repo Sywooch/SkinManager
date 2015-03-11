@@ -16,6 +16,17 @@ return [
 //            'identityClass' => 'common\models\User',
 //            'enableAutoLogin' => true,
 //        ],
+        'user' => [
+            'class' => 'common\modules\user\components\User',
+        ],
+        'i18n' => [
+            'translations' => [
+                'user' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@common/modules/user/messages',
+                ]
+            ],
+        ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
@@ -40,15 +51,16 @@ return [
                 '/cloaks/page/<page:\d+>' => 'cloaks/index',
                 '/cloaks/<id:\d+>' => 'cloaks/view',
                 '/cloaks/download/<id:\d+>' => 'cloaks/download',
-                [
-                    'pattern' => 'sitemap',
-                    'route' => 'sitemap/default/index',
-                    'suffix' => '.xml'
-                ],
+                'sitemap.xml' => 'sitemap/index',
             ],
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
+        ],
+    ],
+    'modules' => [
+        'user' => [
+            'class' => 'common\modules\user\Module',
         ],
     ],
     'params' => $params,

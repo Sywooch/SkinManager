@@ -39,10 +39,10 @@ class SitemapController extends Controller
             $urls[] = Url::to(['skins/view', 'id' => $item->id], true);
         }
         foreach (Hdskins::find()->all() as $item) {
-            $urls[] = Url::to(['skins/view', 'id' => $item->id], true);
+            $urls[] = Url::to(['hdskins/view', 'id' => $item->id], true);
         }
         foreach (Cloaks::find()->all() as $item) {
-            $urls[] = Url::to(['skins/view', 'id' => $item->id], true);
+            $urls[] = Url::to(['cloaks/view', 'id' => $item->id], true);
         }
 
         return $urls;
