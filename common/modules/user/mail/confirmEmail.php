@@ -14,4 +14,8 @@ use yii\helpers\Url;
 
 <p><?= Yii::t("user", "Please confirm your email address by clicking the link below:") ?></p>
 
-<p><?= Url::toRoute(["/user/confirm", "key" => $userKey->key], true); ?></p>
+<p>
+    <a href="<?= Url::toRoute(["/user/confirm", "key" => $userKey->key], true) ?>">
+        <?= Url::toRoute(["/user/confirm", "key" => $userKey->key], true) ?>
+    </a>
+</p>

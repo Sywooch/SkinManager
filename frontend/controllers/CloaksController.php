@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use Yii;
 use yii\web\Controller;
+use yii\web\Cookie;
 use yii\web\NotFoundHttpException;
 use yii\data\Pagination;
 use yii\data\Sort;
@@ -67,8 +68,7 @@ class CloaksController extends Controller
     }
 
     /**
-     * Renders single skins and +1 view for it
-     *
+     * Render single model and +1 view for it
      * @param int $id
      * @return mixed
      */
@@ -84,27 +84,39 @@ class CloaksController extends Controller
     }
 
     /**
-     * Adds +1 to the skin rate
-     *
+     * Add +1 to the model rate
      * @param int $id
-     * @param bool $up
+     * @param boolean $up
      * @return mixed
      */
     public function actionRate($id, $up = true)
     {
-        $session = Yii::$app->session;
-        $session->open();
-
         $model = $this->findModel($id);
+        $session = Yii::$app->session;
+        $cookies = Yii::$app->request->cookies;
 
-        if ($_SESSION['voted']['cloaks'][$model->id] == $model->id) {
-            $session->setFlash('danger', 'Вы уже голосовали за этот плаш. Больше нельзя :(');
+        $name = 'cloaks_' . $model->id;
+
+        if (!$session->isActive) {
+            $session->open();
+        }
+
+        if ($session->has($name) or $cookies->has($name)) {
+            $session->setFlash('danger', 'Ваш голос уже был учтен ранее.');
         } else {
-            $model->rate = ($up) ? ($model->rate + 1) : ($model->rate - 1);
+            $model->rate = $up ? ($model->rate + 1) : ($model->rate - 1);
+
+            $session->set($name, $model->id);
+
+            Yii::$app->response->cookies->add(new Cookie([
+                'name' => $name,
+                'value' => $model->id,
+                'expire' => 365,
+            ]));
+
             $model->save();
 
-            $_SESSION['voted']['cloaks'][$model->id] = $model->id;
-            $session->setFlash('success', 'Вы успешно проголосовали.');
+            $session->setFlash('success', 'Голос защитан. Текущий рейтинг: ' . $model->rate);
         }
 
         return $this->redirect(['view', 'id' => $model->id]);
@@ -114,7 +126,7 @@ class CloaksController extends Controller
      * Download cloak file
      *
      * @param int $id ID of cloaks
-     * @return image/png
+     * @return mixed
      */
     public function actionDownload($id)
     {

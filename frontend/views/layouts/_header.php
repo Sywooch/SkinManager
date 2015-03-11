@@ -20,6 +20,7 @@ use yii\bootstrap\NavBar;
         ['label' => 'Скины', 'url' => ['/skins/index']],
         ['label' => 'HD Скины', 'url' => ['/hdskins/index']],
         ['label' => 'Плащи', 'url' => ['/cloaks/index']],
+        ['label' => 'Поиск', 'url' => ['/search/index']],
     ];
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav'],

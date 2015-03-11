@@ -23,9 +23,6 @@ return [
         'user' => [
             'class' => 'common\modules\user\components\User',
         ],
-        'mailer' => [
-            'class' => 'yii\swiftmailer\Mailer',
-        ],
         'i18n' => [
             'translations' => [
                 'user' => [

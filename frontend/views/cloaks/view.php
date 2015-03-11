@@ -60,10 +60,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 </li>
                 <li class="list-group-item">
                     <div class="pull-right rate-bar">
-                        <?= Html::a(FA::icon('thumbs-up'), ['rate', 'id' => $model->id, 'type' => 'up'],
+                        <?= Html::a(FA::icon('thumbs-up'), ['rate', 'id' => $model->id, 'up' => true],
                             ['class' => 'btn btn-success btn-xs btn-rate']) ?>
                         <div class="badge"><?= $model->rate ?></div>
-                        <?= Html::a(FA::icon('thumbs-down'), ['rate', 'id' => $model->id, 'type' => 'down'],
+                        <?= Html::a(FA::icon('thumbs-down'), ['rate', 'id' => $model->id, 'up' => false],
                             ['class' => 'btn btn-danger btn-xs btn-rate']) ?>
                     </div>
                     Рейтинг

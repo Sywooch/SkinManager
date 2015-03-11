@@ -13,6 +13,8 @@ AppAsset::register($this);
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="На данном сайте вы можете скачать скины для minecraft, HD скины minecraft, пдащи minecraft, скины minecraft бесплатно">
+    <meta name="keywords" content="Скины minecraft, скины для minecraft, minecraft skins, hd скины minecraft">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode(Yii::$app->params['title_prepend'] . $this->title . Yii::$app->params['title_append']) ?></title>
     <?php $this->head() ?>

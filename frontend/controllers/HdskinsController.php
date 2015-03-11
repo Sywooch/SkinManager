@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\Cookie;
 use yii\data\Pagination;
 use yii\data\Sort;
 use common\models\Hdskins;
@@ -84,27 +85,39 @@ class HdskinsController extends Controller
     }
 
     /**
-     * Adds +1 to the skin rate
-     *
+     * Add +1 to the model rate
      * @param int $id
-     * @param bool $up
+     * @param boolean $up
      * @return mixed
      */
     public function actionRate($id, $up = true)
     {
-        $session = Yii::$app->session;
-        $session->open();
-
         $model = $this->findModel($id);
+        $session = Yii::$app->session;
+        $cookies = Yii::$app->request->cookies;
 
-        if ($_SESSION['voted']['hdskins'][$model->id] == $model->id) {
-            $session->setFlash('danger', 'Вы уже голосовали за этот скин. Больше нельзя :(');
+        $name = 'cloaks_' . $model->id;
+
+        if (!$session->isActive) {
+            $session->open();
+        }
+
+        if ($session->has($name) or $cookies->has($name)) {
+            $session->setFlash('danger', 'Ваш голос уже был учтен ранее.');
         } else {
-            $model->rate = ($up) ? ($model->rate + 1) : ($model->rate - 1);
+            $model->rate = $up ? ($model->rate + 1) : ($model->rate - 1);
+
+            $session->set($name, $model->id);
+
+            Yii::$app->response->cookies->add(new Cookie([
+                'name' => $name,
+                'value' => $model->id,
+                'expire' => 365,
+            ]));
+
             $model->save();
 
-            $_SESSION['voted']['hdskins'][$model->id] = $model->id;
-            $session->setFlash('success', 'Вы успешно проголосовали.');
+            $session->setFlash('success', 'Голос защитан. Текущий рейтинг: ' . $model->rate);
         }
 
         return $this->redirect(['view', 'id' => $model->id]);
@@ -114,7 +127,7 @@ class HdskinsController extends Controller
      * Download skin file
      *
      * @param int $id ID of skin
-     * @return image/png
+     * @return mixed
      */
     public function actionDownload($id)
     {
