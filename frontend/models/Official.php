@@ -24,8 +24,9 @@ class Official extends Model
 
         $baseUrl = 'http://skins.minecraft.net/MinecraftSkins/';
         $url = $baseUrl . $this->name . '.png';
+        $image = @getimagesize($url);
 
-        if (is_array(getimagesize($url))) {
+        if (is_array($image)) {
             return $url;
         }
 

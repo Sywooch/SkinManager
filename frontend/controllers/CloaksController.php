@@ -54,7 +54,7 @@ class CloaksController extends Controller
             'totalCount' => $count,
         ]);
 
-        $models = $query->orderBy('date')
+        $models = $query->orderBy($sort->orders)
             ->offset($pagination->offset)
             ->limit($pagination->limit)
             ->all();

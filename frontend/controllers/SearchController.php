@@ -31,8 +31,19 @@ class SearchController extends Controller
                 case 3:
                     $searchModel = new Official();
                     $searchModel->name = $model->name;
-                    return $this->render('official', [
-                        'model' => $searchModel,
+
+                    if ($searchModel->getUrl()) {
+                        return $this->render('official', [
+                            'model' => $searchModel,
+                        ]);
+                    }
+
+                    Yii::$app->session->setFlash('danger', 'Ничего не найдено');
+
+                    return $this->render('index', [
+                        'model' => $model,
+                        'dataProvider' => false,
+                        'itemView' => false,
                     ]);
             }
 
@@ -42,16 +53,13 @@ class SearchController extends Controller
                 ],
             ]);
 
-            return $this->render('result', [
-                'model' => $model,
-                'dataProvider' => $dataProvider,
-                'itemView' => $itemView,
-            ]);
-        } else {
-            return $this->render('index', [
-                'model' => $model,
-            ]);
         }
+
+        return $this->render('index', [
+            'model' => $model,
+            'dataProvider' => $dataProvider ? $dataProvider : false,
+            'itemView' => $itemView ? $itemView : false,
+        ]);
     }
 
 }
