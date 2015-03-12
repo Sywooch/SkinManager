@@ -5,12 +5,11 @@ namespace common\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\HDSkins;
 
 /**
  * HDSkinsSearch represents the model behind the search form about `common\models\HDSkins`.
  */
-class HdskinsSearch extends HDSkins
+class HdskinsSearch extends Hdskins
 {
     /**
      * @inheritdoc
@@ -41,7 +40,7 @@ class HdskinsSearch extends HDSkins
      */
     public function search($params)
     {
-        $query = HDSkins::find();
+        $query = Hdskins::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

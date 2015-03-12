@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "requests".
@@ -13,7 +14,7 @@ use Yii;
  * @property string $name
  * @property string $type
  */
-class Requests extends \yii\db\ActiveRecord
+class Requests extends ActiveRecord
 {
     /**
      * @var string Url to skins

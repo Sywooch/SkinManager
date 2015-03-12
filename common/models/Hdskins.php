@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "hdskins".
@@ -15,7 +16,7 @@ use Yii;
  * @property integer $views
  * @property integer $downloads
  */
-class Hdskins extends \yii\db\ActiveRecord
+class Hdskins extends ActiveRecord
 {
     /**
      * @var string Url to hdskins

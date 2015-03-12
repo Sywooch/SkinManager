@@ -15,6 +15,9 @@ class SearchController extends Controller
     {
         $model = new SearchForm();
 
+        $dataProvider = false;
+        $itemView = false;
+
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             switch ($model->type) {
                 case 1:
@@ -57,8 +60,8 @@ class SearchController extends Controller
 
         return $this->render('index', [
             'model' => $model,
-            'dataProvider' => $dataProvider ? $dataProvider : false,
-            'itemView' => $itemView ? $itemView : false,
+            'dataProvider' => $dataProvider,
+            'itemView' => $itemView,
         ]);
     }
 
