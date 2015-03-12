@@ -76,9 +76,9 @@ class SiteController extends Controller
     public function actionIndex()
     {
         return $this->render('index', [
-            'skins' => Skins::find()->orderBy('date')->limit(12)->all(),
-            'hdskins' => Hdskins::find()->orderBy('date')->limit(12)->all(),
-            'cloaks' => Cloaks::find()->orderBy('date')->limit(12)->all(),
+            'skins' => Skins::find()->orderBy('date DESC')->limit(12)->all(),
+            'hdskins' => Hdskins::find()->orderBy('date DESC')->limit(12)->all(),
+            'cloaks' => Cloaks::find()->orderBy('date DESC')->limit(12)->all(),
         ]);
     }
 
