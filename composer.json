@@ -11,16 +11,13 @@
         "yiisoft/yii2": "2.0.3",
         "yiisoft/yii2-bootstrap": "2.0.3",
         "yiisoft/yii2-swiftmailer": "2.0.3",
-        "rmrevin/yii2-fontawesome": "2.7.*",
-        "amnah/yii2-user": "dev-master"
+        "rmrevin/yii2-fontawesome": "2.7.*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
         "yiisoft/yii2-debug": "*",
         "yiisoft/yii2-gii": "*",
-        "yiisoft/yii2-faker": "*",
-        "rmrevin/yii2-fontawesome": "*",
-        "amnah/yii2-user": "*"
+        "yiisoft/yii2-faker": "*"
     },
     "config": {
         "process-timeout": 1800

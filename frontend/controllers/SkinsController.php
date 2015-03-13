@@ -76,8 +76,37 @@ class SkinsController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
-        $model->views = $model->views + 1;
-        $model->save();
+
+        $name = md5('viewskin_' . $model->id);
+
+        $session = Yii::$app->session;
+        $cookies = Yii::$app->request->cookies;
+
+        if (!$session->has($name) and $cookies->has($name)) {
+            $session->set($name, $model->id);
+        }
+
+        if (!$cookies->has($name) and $session->has($name)) {
+            Yii::$app->response->cookies->add(new Cookie([
+                'name' => $name,
+                'value' => $model->id,
+                'expire' => time() + 31556926,
+            ]));
+        }
+
+        if (!$session->has($name) and !$cookies->has($name)) {
+            $model->views = $model->views + 1;
+
+            $session->set($name, $model->id);
+
+            Yii::$app->response->cookies->add(new Cookie([
+                'name' => $name,
+                'value' => $model->id,
+                'expire' => time() + 31556926,
+            ]));
+
+            $model->save();
+        }
 
         return $this->render('view', [
             'model' => $model,
@@ -93,16 +122,26 @@ class SkinsController extends Controller
     public function actionRate($id, $up = true)
     {
         $model = $this->findModel($id);
+
+        $name = md5('skins_' . $model->id);
+
         $session = Yii::$app->session;
         $cookies = Yii::$app->request->cookies;
 
-        $name = 'cloaks_' . $model->id;
 
-        if (!$session->isActive) {
-            $session->open();
+        if (!$session->has($name) and $cookies->has($name)) {
+            $session->set($name, $model->id);
         }
 
-        if ($session->has($name) or $cookies->has($name)) {
+        if (!$cookies->has($name) and $session->has($name)) {
+            Yii::$app->response->cookies->add(new Cookie([
+                'name' => $name,
+                'value' => $model->id,
+                'expire' => time() + 31556926,
+            ]));
+        }
+
+        if ($session->has($name) and $cookies->has($name)) {
             $session->setFlash('danger', 'Ваш голос уже был учтен ранее.');
         } else {
             $model->rate = $up ? ($model->rate + 1) : ($model->rate - 1);
@@ -112,7 +151,7 @@ class SkinsController extends Controller
             Yii::$app->response->cookies->add(new Cookie([
                 'name' => $name,
                 'value' => $model->id,
-                'expire' => 365,
+                'expire' => time() + 31556926,
             ]));
 
             $model->save();

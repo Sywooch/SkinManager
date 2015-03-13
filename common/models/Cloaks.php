@@ -44,7 +44,7 @@ class Cloaks extends ActiveRecord
      */
     public static function tableName()
     {
-        return 'cloaks';
+        return '{{%cloaks}}';
     }
 
     /**

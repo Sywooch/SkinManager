@@ -3,7 +3,7 @@
 use yii\widgets\LinkPager;
 
 /* @var $this yii\web\View */
-/* @var $cloaks common\models\Cloaks */
+/* @var $models common\models\Cloaks */
 
 $this->title = 'Плащи';
 $this->params['breadcrumbs'][] = $this->title;
@@ -45,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     <?php else: ?>
         <div class="alert alert-info col-sm-12">
-            Пока что пусто :(
+            Записи не найдены
         </div>
     <?php endif ?>
 

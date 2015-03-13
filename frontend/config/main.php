@@ -7,15 +7,12 @@ $params = array_merge(
 );
 
 return [
-    'id' => 'app-frontend',
+    'id' => 'frontend',
+    'name' => 'Каталог скинов',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
-//        'user' => [
-//            'identityClass' => 'common\models\User',
-//            'enableAutoLogin' => true,
-//        ],
         'user' => [
             'class' => 'common\modules\user\components\User',
         ],

@@ -48,7 +48,7 @@ class Skins extends ActiveRecord
      */
     public static function tableName()
     {
-        return 'skins';
+        return '{{%skins}}';
     }
 
     /**

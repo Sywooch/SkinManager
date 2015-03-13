@@ -44,9 +44,13 @@ main {
     margin: 0 0 0 0;
 }
 
+.form-control {
+    background: #f5f5f5;
+}
+
 /* add sorting icons to gridview sort links */
 a.asc:after, a.desc:after {
-    font-family: 'FontAwesome';
+    font-family: 'FontAwesome', serif;
     font-style: normal;
     line-height: 1;
     padding-left: 5px;

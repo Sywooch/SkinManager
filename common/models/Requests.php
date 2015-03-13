@@ -46,7 +46,7 @@ class Requests extends ActiveRecord
      */
     public static function tableName()
     {
-        return 'requests';
+        return '{{%requests}}';
     }
 
     /**

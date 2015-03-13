@@ -47,7 +47,7 @@ class Hdskins extends ActiveRecord
      */
     public static function tableName()
     {
-        return 'hdskins';
+        return '{{%hdskins}}';
     }
 
     /**
