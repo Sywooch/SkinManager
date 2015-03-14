@@ -2,103 +2,137 @@
 
 namespace console\controllers;
 
+use Yii;
 use common\models\Cloaks;
 use common\models\Hdskins;
 use common\models\Skins;
-use \Yii;
-use \yii\console\Controller;
+use yii\console\Controller;
 
 class RenameController extends Controller
 {
-    public function actionDo($type)
+    public function actionIndex($type, $debug = false)
     {
         if ($type === 'skins') {
-            echo 'Starting renaming skins...' . "\n\n\n";
-
-            $fp = fopen(Yii::getAlias('@runtime/unrenamed.txt'), 'a+');
-            fwrite($fp, 'Скины:' . "\r\n\r\n");
-
-            foreach (Skins::find()->all() as $item) {
-                $dir = Yii::getAlias('@frontend/web/uploads/skins/');
-                $file = $dir . $item->name . '.png';
-                $newFile = $dir . $item->id . '.png';
-
-                echo 'Renaming (' . $file . ') to (' . $newFile . ")\n";
-
-                if (!file_exists($file) and file_exists($newFile)) {
-                    echo 'Already renamed' . "\n\n";
-                    continue;
-                } elseif (!file_exists($file) and !file_exists($newFile)) {
-                    echo 'Original file (' . $file . ') doesn\'t exist' . "\n\n";
-                    fwrite($fp, 'Не переименованный скин: id - ' . $item->id . ', название - ' . $item->name . "\r\n");
-                    continue;
-                }
-
-                rename($file, $newFile);
-
-                echo 'Successfully renamed' . "\n\n";
-            }
-
-            echo 'Job done!' . "\n\n\n";
-            return 0;
+            $this->renameSkins($debug);
         } elseif ($type === 'hdskins') {
-            echo 'Starting renaming hdskins...' . "\n\n\n";
-
-            $fp = fopen(Yii::getAlias('@runtime/unrenamed.txt'), 'a+');
-            fwrite($fp, 'HD Скины:' . "\r\n\r\n");
-
-            foreach (Hdskins::find()->all() as $item) {
-                $dir = Yii::getAlias('@frontend/web/uploads/hdskins/');
-                $file = $dir . $item->name . '.png';
-                $newFile = $dir . $item->id . '.png';
-
-                echo 'Renaming (' . $file . ') to (' . $newFile . ")\n";
-
-                if (!file_exists($file) and file_exists($newFile)) {
-                    echo 'Already renamed' . "\n\n";
-                    continue;
-                } elseif (!file_exists($file) and !file_exists($newFile)) {
-                    echo 'Original file (' . $file . ') doesn\'t exist' . "\n\n";
-                    fwrite($fp, 'Не переименованный HD скин: id - ' . $item->id . ', название - ' . $item->name . "\r\n");
-                    continue;
-                }
-
-                rename($file, $newFile);
-
-                echo 'Successfully renamed' . "\n\n";
-            }
-
-            echo 'Job done!' . "\n\n\n";
-            return 0;
+            $this->renameHdskins($debug);
         } elseif ($type === 'cloaks') {
-            echo 'Starting renaming cloaks...' . "\n\n\n";
+            $this->renameCloaks($debug);
+        }
 
-            $fp = fopen(Yii::getAlias('@runtime/unrenamed.txt'), 'a+');
-            fwrite($fp, 'Плащи:' . "\r\n\r\n");
+        mkdir(Yii::getAlias('@runtime') . '/rename');
+    }
 
-            foreach (Cloaks::find()->all() as $item) {
-                $dir = Yii::getAlias('@frontend/web/uploads/cloaks/');
-                $file = $dir . $item->name . '.png';
-                $newFile = $dir . $item->id . '.png';
+    protected function renameSkins($debug)
+    {
+        echo 'Renaming skins...' . "\n";
 
-                echo 'Renaming (' . $file . ') to (' . $newFile . ")\n";
+        $fp = fopen(Yii::getAlias('@runtime/skins.txt'), 'a+');
+        fwrite($fp, 'Непереименованные скины:' . "\r\n\r\n");
 
-                if (!file_exists($file) and file_exists($newFile)) {
-                    echo 'Already renamed' . "\n\n";
-                    continue;
-                } elseif (!file_exists($file) and !file_exists($newFile)) {
-                    echo 'Original file (' . $file . ') doesn\'t exist' . "\n\n";
-                    fwrite($fp, 'Не переименованный плащ: id - ' . $item->id . ', название - ' . $item->name . "\r\n");
-                    continue;
-                }
+        foreach (Skins::find()->all() as $item) {
+            $dir = Yii::getAlias('@frontend/web/uploads/skins/');
+            $file = $dir . trim($item->name) . '.png';
+            $newFile = $dir . $item->id . '.png';
 
-                rename($file, $newFile);
+            if ($debug) echo 'Renaming (' . $file . ') to (' . $newFile . ")\n";
 
-                echo 'Successfully renamed' . "\n\n";
+            if (!file_exists($file) and file_exists($newFile)) {
+                if ($debug) echo 'Already renamed' . "\n\n";
+
+                continue;
+            } elseif (!file_exists($file) and !file_exists($newFile)) {
+                echo 'Error: Original file (' . $file . ') doesn\'t exist' . "\n\n";
+
+                fwrite($fp, 'ID: ' . $item->id . ' | Название: ' . $item->name . ' | Причина: старый файл не найден' . "\r\n");
+
+                continue;
             }
 
-            echo 'Job done!' . "\n\n\n";
-            return 0;
+            rename($file, $newFile);
+
+            if ($debug) echo 'Successfully renamed' . "\n\n";
         }
+
+        fwrite($fp, "\r\n\r\n");
+        fclose($fp);
+
+        echo 'Renaming ended' . "\n";
+        return 0;
+    }
+
+    protected function renameHdskins($debug)
+    {
+        echo 'Renaming hdskins...' . "\n";
+
+        $fp = fopen(Yii::getAlias('@runtime/hdskins.txt'), 'a+');
+        fwrite($fp, 'Непереименованные HD Скины:' . "\r\n\r\n");
+
+        foreach (Hdskins::find()->all() as $item) {
+            $dir = Yii::getAlias('@frontend/web/uploads/hdskins/');
+            $file = $dir . trim($item->name) . '.png';
+            $newFile = $dir . $item->id . '.png';
+
+            if ($debug) echo 'Renaming (' . $file . ') to (' . $newFile . ")\n";
+
+            if (!file_exists($file) and file_exists($newFile)) {
+                if ($debug) echo 'Already renamed' . "\n\n";
+                continue;
+            } elseif (!file_exists($file) and !file_exists($newFile)) {
+                echo 'Error: Original file (' . $file . ') doesn\'t exist' . "\n\n";
+
+                fwrite($fp, 'ID: ' . $item->id . ' | Название: ' . $item->name . ' | Причина: старый файл не найден' . "\r\n");
+
+                continue;
+            }
+
+            rename($file, $newFile);
+
+            if ($debug) echo 'Successfully renamed' . "\n\n";
+        }
+
+        fwrite($fp, "\r\n\r\n");
+        fclose($fp);
+
+        echo 'Renaming ended' . "\n";
+        return 0;
+    }
+
+    protected function renameCloaks($debug)
+    {
+        echo 'Renaming cloaks...' . "\n";
+
+        $fp = fopen(Yii::getAlias('@runtime/cloaks.txt'), 'a+');
+        fwrite($fp, 'Непереименованные Плащи:' . "\r\n\r\n");
+
+        foreach (Cloaks::find()->all() as $item) {
+            $dir = Yii::getAlias('@frontend/web/uploads/cloaks/');
+            $file = $dir . trim($item->name) . '.png';
+            $newFile = $dir . $item->id . '.png';
+
+            if ($debug) echo 'Renaming (' . $file . ') to (' . $newFile . ")\n";
+
+            if (!file_exists($file) and file_exists($newFile)) {
+                if ($debug) echo 'Already renamed' . "\n\n";
+                continue;
+            } elseif (!file_exists($file) and !file_exists($newFile)) {
+                echo 'Error: Original file (' . $file . ') doesn\'t exist' . "\n\n";
+
+
+                fwrite($fp, 'ID: ' . $item->id . ' | Название: ' . $item->name . ' | Причина: старый файл не найден' . "\r\n");
+
+                continue;
+            }
+
+            rename($file, $newFile);
+
+            if ($debug) echo 'Successfully renamed' . "\n\n";
+        }
+
+        fwrite($fp, "\r\n\r\n");
+        fclose($fp);
+
+        echo 'Renaming ended' . "\n";
+        return 0;
     }
 }
