@@ -57,7 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </li>
                 <li class="list-group-item">
                     <span class="badge"><?= date('d.m.Y H:m', $model->date) ?></span>
-                    Дата
+                    Дата добавления
                 </li>
                 <li class="list-group-item">
                     <div class="pull-right rate-bar">

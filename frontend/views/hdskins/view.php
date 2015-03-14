@@ -9,7 +9,7 @@ use rmrevin\yii\fontawesome\FA;
 /* @var $model common\models\Skins */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Скины', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'HD Скины', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <?php Modal::begin([
@@ -57,7 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </li>
                 <li class="list-group-item">
                     <span class="badge"><?= date('d.m.Y H:m', $model->date) ?></span>
-                    Дата
+                    Дата добавления
                 </li>
                 <li class="list-group-item">
                     <div class="pull-right rate-bar">
