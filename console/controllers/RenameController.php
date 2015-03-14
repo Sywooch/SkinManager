@@ -19,8 +19,6 @@ class RenameController extends Controller
         } elseif ($type === 'cloaks') {
             $this->renameCloaks($debug);
         }
-
-        mkdir(Yii::getAlias('@runtime') . '/rename');
     }
 
     protected function renameSkins($debug)
