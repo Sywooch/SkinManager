@@ -15,6 +15,9 @@ class RenameController extends Controller
         if ($type === 'skins') {
             echo 'Starting renaming skins...' . "\n\n\n";
 
+            $fp = fopen(Yii::getAlias('@runtime/unrenamed.txt'), 'a+');
+            fwrite($fp, 'Скины:' . "\r\n\r\n");
+
             foreach (Skins::find()->all() as $item) {
                 $dir = Yii::getAlias('@frontend/web/uploads/skins/');
                 $file = $dir . $item->name . '.png';
@@ -27,6 +30,7 @@ class RenameController extends Controller
                     continue;
                 } elseif (!file_exists($file) and !file_exists($newFile)) {
                     echo 'Original file (' . $file . ') doesn\'t exist' . "\n\n";
+                    fwrite($fp, 'Не переименованный скин: id - ' . $item->id . ', название - ' . $item->name . "\r\n");
                     continue;
                 }
 
@@ -40,6 +44,9 @@ class RenameController extends Controller
         } elseif ($type === 'hdskins') {
             echo 'Starting renaming hdskins...' . "\n\n\n";
 
+            $fp = fopen(Yii::getAlias('@runtime/unrenamed.txt'), 'a+');
+            fwrite($fp, 'HD Скины:' . "\r\n\r\n");
+
             foreach (Hdskins::find()->all() as $item) {
                 $dir = Yii::getAlias('@frontend/web/uploads/hdskins/');
                 $file = $dir . $item->name . '.png';
@@ -52,6 +59,7 @@ class RenameController extends Controller
                     continue;
                 } elseif (!file_exists($file) and !file_exists($newFile)) {
                     echo 'Original file (' . $file . ') doesn\'t exist' . "\n\n";
+                    fwrite($fp, 'Не переименованный HD скин: id - ' . $item->id . ', название - ' . $item->name . "\r\n");
                     continue;
                 }
 
@@ -65,6 +73,9 @@ class RenameController extends Controller
         } elseif ($type === 'cloaks') {
             echo 'Starting renaming cloaks...' . "\n\n\n";
 
+            $fp = fopen(Yii::getAlias('@runtime/unrenamed.txt'), 'a+');
+            fwrite($fp, 'Плащи:' . "\r\n\r\n");
+
             foreach (Cloaks::find()->all() as $item) {
                 $dir = Yii::getAlias('@frontend/web/uploads/cloaks/');
                 $file = $dir . $item->name . '.png';
@@ -77,6 +88,7 @@ class RenameController extends Controller
                     continue;
                 } elseif (!file_exists($file) and !file_exists($newFile)) {
                     echo 'Original file (' . $file . ') doesn\'t exist' . "\n\n";
+                    fwrite($fp, 'Не переименованный плащ: id - ' . $item->id . ', название - ' . $item->name . "\r\n");
                     continue;
                 }
 
