@@ -8,6 +8,7 @@ $params = array_merge(
 
 return [
     'id' => 'app-console',
+    'language' => 'en',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log', 'gii'],
     'controllerNamespace' => 'console\controllers',

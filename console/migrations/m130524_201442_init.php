@@ -5,7 +5,7 @@ use yii\db\Migration;
 
 class m130524_201442_init extends Migration
 {
-    public function up()
+    public function safeUp()
     {
         $tableOptions = null;
         if ($this->db->driverName === 'mysql') {
@@ -13,6 +13,7 @@ class m130524_201442_init extends Migration
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
 
+        // Create tables
         $this->createTable('{{%admin}}', [
             'id' => Schema::TYPE_PK,
             'username' => Schema::TYPE_STRING . ' NOT NULL',
@@ -25,6 +26,42 @@ class m130524_201442_init extends Migration
             'updated_at' => Schema::TYPE_INTEGER . ' NOT NULL',
         ], $tableOptions);
 
+        $this->createTable('{{%skins}}', [
+            'id' => Schema::TYPE_PK,
+            'name' => Schema::TYPE_STRING . '(255) NOT NULL',
+            'date' => Schema::TYPE_INTEGER . ' NOT NULL',
+            'rate' => Schema::TYPE_INTEGER . ' NOT NULL DEFAULT 0',
+            'views' => Schema::TYPE_INTEGER . ' NOT NULL DEFAULT 0',
+            'downloads' => Schema::TYPE_INTEGER . ' NOT NULL DEFAULT 0',
+        ], $tableOptions);
+
+        $this->createTable('{{%hdskins}}', [
+            'id' => Schema::TYPE_PK,
+            'name' => Schema::TYPE_STRING . '(255) NOT NULL',
+            'date' => Schema::TYPE_INTEGER . ' NOT NULL',
+            'rate' => Schema::TYPE_INTEGER . ' NOT NULL DEFAULT 0',
+            'views' => Schema::TYPE_INTEGER . ' NOT NULL DEFAULT 0',
+            'downloads' => Schema::TYPE_INTEGER . ' NOT NULL DEFAULT 0',
+        ], $tableOptions);
+
+        $this->createTable('{{%cloaks}}', [
+            'id' => Schema::TYPE_PK,
+            'name' => Schema::TYPE_STRING . '(255) NOT NULL',
+            'date' => Schema::TYPE_INTEGER . ' NOT NULL',
+            'rate' => Schema::TYPE_INTEGER . ' NOT NULL DEFAULT 0',
+            'views' => Schema::TYPE_INTEGER . ' NOT NULL DEFAULT 0',
+            'downloads' => Schema::TYPE_INTEGER . ' NOT NULL DEFAULT 0',
+        ], $tableOptions);
+
+        $this->createTable('{{%requests}}', [
+            'id' => Schema::TYPE_PK,
+            'user_id' => Schema::TYPE_INTEGER . ' NOT NULL',
+            'date' => Schema::TYPE_INTEGER . ' NOT NULL',
+            'name' => Schema::TYPE_STRING . '(255) NOT NULL',
+            'type' => "enum('Скин','HD Скин','Плащ') NOT NULL",
+        ], $tableOptions);
+
+        // Insert data
         $this->insert('{{%admin}}', [
             'username' => 'admin',
             'auth_key' => Yii::$app->security->generateRandomString(),
@@ -36,8 +73,12 @@ class m130524_201442_init extends Migration
         ]);
     }
 
-    public function down()
+    public function safeDown()
     {
         $this->dropTable('{{%admin}}');
+        $this->dropTable('{{%skins}}');
+        $this->dropTable('{{%hdskins}}');
+        $this->dropTable('{{%cloaks}}');
+        $this->dropTable('{{%requests}}');
     }
 }
