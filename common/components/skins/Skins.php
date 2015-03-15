@@ -73,9 +73,9 @@ class Skins extends Component
     }
 
     /**
-     * Check if images of the skin exists. If no - generetes it.
+     * Check if images of the skin exists. If no - generates it.
      *
-     * @param mixed $model Model with required inforamtion
+     * @param mixed $model Model with required information
      * @param bool $overwrite If files exists - will overwrite them
      */
     public function check($model, $overwrite = false)
@@ -117,7 +117,7 @@ class Skins extends Component
     /**
      * Save frontside of skin in full mode
      *
-     * @param str $dest Path to result image
+     * @param string $dest Path to result image
      */
     public function saveFullFront($dest)
     {
@@ -141,7 +141,7 @@ class Skins extends Component
     /**
      * Save frontside of skin in mini mode
      *
-     * @param str $dest Path to result image
+     * @param string $dest Path to result image
      */
     public function saveMiniFront($dest)
     {
@@ -165,7 +165,7 @@ class Skins extends Component
     /**
      * Save backside of skin in full mode
      *
-     * @param str $dest Path to result image
+     * @param string $dest Path to result image
      */
     public function saveFullBack($dest)
     {
@@ -189,7 +189,7 @@ class Skins extends Component
     /**
      * Save backside of skin in mini mode
      *
-     * @param str $dest Path to result image
+     * @param string $dest Path to result image
      */
     public function saveMiniBack($dest)
     {

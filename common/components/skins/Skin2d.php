@@ -5,6 +5,7 @@ namespace common\components\skins;
 /**
  * Exception class
  */
+use Yii;
 use yii\base\Exception;
 
 /**
@@ -21,7 +22,7 @@ class Skin2d
     public $image = null;
 
     /**
-     * @var's int Image information about skin
+     * @vars int Image information about skin
      */
     public $ratio = null;
     public $height = null;
@@ -47,7 +48,8 @@ class Skin2d
     public function setFile($file)
     {
         if (!file_exists($file)) {
-            throw new Exception('Skin file doesn\'t exist (' . $file . ')');
+            //throw new Exception('Skin file doesn\'t exist (' . $file . ')');
+            $file = Yii::getAlias('@frontend/web/uploads/char.png');
         }
 
         $this->__destruct();
