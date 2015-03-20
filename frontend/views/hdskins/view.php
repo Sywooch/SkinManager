@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <h2><?= $model->name ?></h2>
                 </li>
                 <a href="<?= Url::to(['index']) ?>" class="list-group-item">
-                    <span class="badge">Простые скины</span>
+                    <span class="badge">HD скины</span>
                     Тип
                 </a>
                 <li class="list-group-item">

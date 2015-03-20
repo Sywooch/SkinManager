@@ -9,4 +9,13 @@ return [
     'title_prepend' => '',
     'title_append' => ' - skins.mmods.ru',
     'per_page' => 24,
+    'users' => [
+        '1' => [
+            'id' => '1',
+            'username' => 'admin',
+            'password' => 'admin',
+            'authKey' => 'asdfA#$ASDf k;d',
+            'accessToken' => 'asdfASDFLJKKLN@3L,vd',
+        ],
+    ]
 ];

@@ -15,6 +15,7 @@ class SitemapController extends Controller
 
     public function actionIndex()
     {
+        return false;
         $this->urls = $this->getUrls();
 
         Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
